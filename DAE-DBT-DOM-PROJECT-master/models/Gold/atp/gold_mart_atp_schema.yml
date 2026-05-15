@@ -1,0 +1,14 @@
+version: 2
+
+models:
+  - name: fct_mao_inv_network_atp_t
+    description: "Gold Fact table for Network Atp"
+    config:
+      alias: fct_mao_inv_network_atp_t
+      tags: ["load_atp_silver_to_gold_tag"]
+
+  - name: fct_mao_inv_location_atp_t
+    description: "Gold Fact table for location Atp"
+    config:
+      alias: fct_mao_inv_location_atp_t
+      tags: ["load_atp_silver_to_gold_tag"]

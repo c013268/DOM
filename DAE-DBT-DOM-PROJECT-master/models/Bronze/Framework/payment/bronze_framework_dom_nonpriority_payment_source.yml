@@ -1,0 +1,94 @@
+version: 2
+
+sources:
+  - name: nonpriority_1_payment_bronze
+    database: "{{ env_var('DBT_BRONZE_DATABASE') | as_text }}"
+    schema: "{{ env_var('DBT_BRONZE_SCHEMA') | as_text }}"
+    config:
+      meta:
+        pipeline_name: dom
+        src_type: mysql
+        src_name: mao
+        src_module: mao
+        tgt_layer: bronze
+        mysql_connector_db: "{{ env_var('DBT_DOM_CONNECTOR_DB')| as_text }}.PUBLIC.connector_stats"
+        t_minus_interval: "{{ env_var('DBT_T_MINUS_INTERVAL_BRONZE')| as_text }}"
+    tables:
+      - name: pay_parent_transaction
+        config:
+          loaded_at_field: seen_at
+          meta:
+            src_tbl: '{{ env_var("DBT_DOM_CONNECTOR_DB") | as_text }}.journals.PAY_PARENT_TRANSACTION'
+            tgt_tbl: '{{ env_var("DBT_BRONZE_DATABASE") | as_text }}.{{ env_var("DBT_BRONZE_SCHEMA") | as_text }}.pay_parent_transaction_archive'
+            load_type: incremental
+      - name: pay_payment_tran_detail_group
+        config:
+          loaded_at_field: seen_at
+          meta:
+            src_tbl: '{{ env_var("DBT_DOM_CONNECTOR_DB") | as_text }}.journals.PAY_PAYMENT_TRAN_DETAIL_GROUP'
+            tgt_tbl: '{{ env_var("DBT_BRONZE_DATABASE") | as_text }}.{{ env_var("DBT_BRONZE_SCHEMA") | as_text }}.pay_payment_tran_detail_group_archive'
+            load_type: incremental
+      - name: pay_parent_ord_pay_method
+        config:
+          loaded_at_field: seen_at
+          meta:
+            src_tbl: '{{ env_var("DBT_DOM_CONNECTOR_DB") | as_text }}.journals.PAY_PARENT_ORD_PAY_METHOD'
+            tgt_tbl: '{{ env_var("DBT_BRONZE_DATABASE") | as_text }}.{{ env_var("DBT_BRONZE_SCHEMA") | as_text }}.pay_parent_ord_pay_method_archive'
+            load_type: incremental
+      - name: pay_payment_response_status
+        config:
+          loaded_at_field: seen_at
+          meta:
+            src_tbl: '{{ env_var("DBT_DOM_CONNECTOR_DB") | as_text }}.journals.pay_payment_response_status'
+            tgt_tbl: '{{ env_var("DBT_BRONZE_DATABASE") | as_text }}.{{ env_var("DBT_BRONZE_SCHEMA") | as_text }}.pay_payment_response_status_archive'
+            load_type: incremental
+      - name: fw_process_type
+        config:
+          loaded_at_field: seen_at
+          meta:
+            src_tbl: '{{ env_var("DBT_DOM_CONNECTOR_DB") | as_text }}.journals.fw_process_type'
+            tgt_tbl: '{{ env_var("DBT_BRONZE_DATABASE") | as_text }}.{{ env_var("DBT_BRONZE_SCHEMA") | as_text }}.fw_process_type_archive'
+            load_type: incremental
+
+
+  - name: nonpriority_2_payment_bronze
+    database: "{{ env_var('DBT_BRONZE_DATABASE') | as_text }}"
+    schema: "{{ env_var('DBT_BRONZE_SCHEMA') | as_text }}"
+    config:
+      meta:
+        pipeline_name: dom
+        src_type: mysql
+        src_name: mao
+        src_module: mao
+        tgt_layer: bronze
+        mysql_connector_db: "{{ env_var('DBT_DOM_CONNECTOR_DB')| as_text }}.PUBLIC.connector_stats"
+        t_minus_interval: "{{ env_var('DBT_T_MINUS_INTERVAL_BRONZE')| as_text }}"
+    tables:
+      - name: pay_eligible_refund_paym
+        config:
+          loaded_at_field: seen_at
+          meta:
+            src_tbl: '{{ env_var("DBT_DOM_CONNECTOR_DB") | as_text }}.journals.pay_eligible_refund_paym'
+            tgt_tbl: '{{ env_var("DBT_BRONZE_DATABASE") | as_text }}.{{ env_var("DBT_BRONZE_SCHEMA") | as_text }}.pay_eligible_refund_paym_archive'
+            load_type: incremental
+      - name: pay_processing_mode
+        config:
+          loaded_at_field: seen_at
+          meta:
+            src_tbl: '{{ env_var("DBT_DOM_CONNECTOR_DB") | as_text }}.journals.pay_processing_mode'
+            tgt_tbl: '{{ env_var("DBT_BRONZE_DATABASE") | as_text }}.{{ env_var("DBT_BRONZE_SCHEMA") | as_text }}.pay_processing_mode_archive'
+            load_type: incremental
+      - name: pay_payment_transaction_type
+        config:
+          loaded_at_field: seen_at
+          meta:
+            src_tbl: '{{ env_var("DBT_DOM_CONNECTOR_DB") | as_text }}.journals.pay_payment_transaction_type'
+            tgt_tbl: '{{ env_var("DBT_BRONZE_DATABASE") | as_text }}.{{ env_var("DBT_BRONZE_SCHEMA") | as_text }}.pay_payment_transaction_type_archive'
+            load_type: incremental
+      - name: pay_refund_pay_type
+        config:
+          loaded_at_field: seen_at
+          meta:
+            src_tbl: '{{ env_var("DBT_DOM_CONNECTOR_DB") | as_text }}.journals.pay_refund_pay_type'
+            tgt_tbl: '{{ env_var("DBT_BRONZE_DATABASE") | as_text }}.{{ env_var("DBT_BRONZE_SCHEMA") | as_text }}.pay_refund_pay_type_archive'
+            load_type: incremental

@@ -1,0 +1,27 @@
+version: 2
+
+sources:
+  - name: src_atp_silver
+    database: "{{ env_var('DBT_SILVER_DATABASE') | as_text }}"
+    schema: "{{ env_var('DBT_SILVER_SCHEMA') | as_text }}"
+    tables:
+      - name: mao_network_atp_v
+        config:
+          meta:
+            description: "This is a silver view for network_atp"
+
+      - name: mao_location_atp_delta_v
+        config:
+          meta:
+            description: "Silver incremental table delta location ATP."
+      
+      - name: mao_network_alerts_v
+        config:
+          meta:
+            description: "Silver incremental for alerts."
+
+      - name: mao_location_atp_fullsync_v
+        config:
+          meta:
+            description: "Silver incremental for location full-sync."
+      

@@ -1,0 +1,94 @@
+version: 2
+
+sources:
+  - name: nonpriority_1_inv_mgmt_bronze
+    database: "{{ env_var('DBT_BRONZE_DATABASE') | as_text }}"
+    schema: "{{ env_var('DBT_BRONZE_SCHEMA') | as_text }}"
+    config:
+      meta:
+        pipeline_name: dom
+        src_type: mysql
+        src_name: mao
+        src_module: mao
+        tgt_layer: bronze
+        mysql_connector_db: "{{ env_var('DBT_DOM_CONNECTOR_DB')| as_text }}.PUBLIC.connector_stats"
+        t_minus_interval: "{{ env_var('DBT_T_MINUS_INTERVAL_BRONZE')| as_text }}"
+    tables:
+      - name: inv_reservation_detail_segment
+        config:
+          loaded_at_field: seen_at
+          meta:
+            src_tbl: '{{ env_var("DBT_DOM_CONNECTOR_DB") | as_text }}.journals.INV_RESERVATION_DETAIL_SEGMENT'
+            tgt_tbl: '{{ env_var("DBT_BRONZE_DATABASE") | as_text }}.{{ env_var("DBT_BRONZE_SCHEMA") | as_text }}.inv_reservation_detail_segment_archive'
+            load_type: incremental
+      - name: inv_reason_code
+        config:
+          loaded_at_field: seen_at
+          meta:
+            src_tbl: '{{ env_var("DBT_DOM_CONNECTOR_DB") | as_text }}.journals.inv_reason_code'
+            tgt_tbl: '{{ env_var("DBT_BRONZE_DATABASE") | as_text }}.{{ env_var("DBT_BRONZE_SCHEMA") | as_text }}.inv_reason_code_archive'
+            load_type: incremental
+      - name: inv_reservation_request_detail
+        config:
+          loaded_at_field: seen_at
+          meta:
+            src_tbl: '{{ env_var("DBT_DOM_CONNECTOR_DB") | as_text }}.journals.inv_reservation_request_detail'
+            tgt_tbl: '{{ env_var("DBT_BRONZE_DATABASE") | as_text }}.{{ env_var("DBT_BRONZE_SCHEMA") | as_text }}.inv_reservation_request_detail_archive'
+            load_type: incremental
+      - name: fw_drop_status_determination
+        config:
+          loaded_at_field: seen_at
+          meta:
+            src_tbl: '{{ env_var("DBT_DOM_CONNECTOR_DB") | as_text }}.journals.fw_drop_status_determination'
+            tgt_tbl: '{{ env_var("DBT_BRONZE_DATABASE") | as_text }}.{{ env_var("DBT_BRONZE_SCHEMA") | as_text }}.fw_drop_status_determination_archive'
+            load_type: incremental
+      - name: inv_supply_change_event
+        config:
+          loaded_at_field: seen_at
+          meta:
+            src_tbl: '{{ env_var("DBT_DOM_CONNECTOR_DB") | as_text }}.journals.inv_supply_change_event'
+            tgt_tbl: '{{ env_var("DBT_BRONZE_DATABASE") | as_text }}.{{ env_var("DBT_BRONZE_SCHEMA") | as_text }}.inv_supply_change_event_archive'
+            load_type: incremental
+
+
+  - name: nonpriority_2_inv_mgmt_bronze
+    database: "{{ env_var('DBT_BRONZE_DATABASE') | as_text }}"
+    schema: "{{ env_var('DBT_BRONZE_SCHEMA') | as_text }}"
+    config:
+      meta:
+        pipeline_name: dom
+        src_type: mysql
+        src_name: mao
+        src_module: mao
+        tgt_layer: bronze
+        mysql_connector_db: "{{ env_var('DBT_DOM_CONNECTOR_DB')| as_text }}.PUBLIC.connector_stats"
+        t_minus_interval: "{{ env_var('DBT_T_MINUS_INTERVAL_BRONZE')| as_text }}"
+    tables:
+      - name: inv_demand_supply_mapping
+        config:
+          loaded_at_field: seen_at
+          meta:
+            src_tbl: '{{ env_var("DBT_DOM_CONNECTOR_DB") | as_text }}.journals.inv_demand_supply_mapping'
+            tgt_tbl: '{{ env_var("DBT_BRONZE_DATABASE") | as_text }}.{{ env_var("DBT_BRONZE_SCHEMA") | as_text }}.inv_demand_supply_mapping_archive'
+            load_type: incremental
+      - name: inv_demand_supply_match
+        config:
+          loaded_at_field: seen_at
+          meta:
+            src_tbl: '{{ env_var("DBT_DOM_CONNECTOR_DB") | as_text }}.journals.inv_demand_supply_match'
+            tgt_tbl: '{{ env_var("DBT_BRONZE_DATABASE") | as_text }}.{{ env_var("DBT_BRONZE_SCHEMA") | as_text }}.inv_demand_supply_match_archive'
+            load_type: incremental
+      - name: inv_reservation_request_match
+        config:
+          loaded_at_field: seen_at
+          meta:
+            src_tbl: '{{ env_var("DBT_DOM_CONNECTOR_DB") | as_text }}.journals.inv_reservation_request_match'
+            tgt_tbl: '{{ env_var("DBT_BRONZE_DATABASE") | as_text }}.{{ env_var("DBT_BRONZE_SCHEMA") | as_text }}.inv_reservation_request_match_archive'
+            load_type: incremental
+      - name: inv_segment
+        config:
+          loaded_at_field: seen_at
+          meta:
+            src_tbl: '{{ env_var("DBT_DOM_CONNECTOR_DB") | as_text }}.journals.inv_segment'
+            tgt_tbl: '{{ env_var("DBT_BRONZE_DATABASE") | as_text }}.{{ env_var("DBT_BRONZE_SCHEMA") | as_text }}.inv_segment_archive'
+            load_type: incremental

@@ -1,0 +1,97 @@
+# Name your project! Project names should contain only lowercase characters
+# and underscores. A good package name should reflect your organization's
+# name or the intended use of these models
+name: 'dom'
+version: '1.0.0'
+config-version: 2
+
+# This setting configures which "profile" dbt uses for this project.
+profile: 'default'
+
+# These configurations specify where dbt should look for different types of files.
+# The `source-paths` config, for example, states that models in this project can be
+# found in the "models/" directory. You probably won't need to change these!
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+clean-targets:         # directories to be removed by `dbt clean`
+  - "target"
+  - "dbt_packages"
+
+# Configuring models
+
+# Variable section is being used for two concepts
+# disable out of box elementary runtime model compilation ( e.g. autoupload )
+# to feed the ingestion framework 
+
+vars:
+  elementary:
+    disable_dbt_artifacts_autoupload: true
+  p_model_grp: mao
+  p_full_model_name: ALL
+  p_manual_batch_id: 20991231
+  p_pipeline_name: dom
+  p_atp_pipeline_name: atp
+  p_src_name: dom
+  p_is_backfill: N
+  atp_run_type: delta
+  network_alerts_model_id: "mao_network_alerts_t"
+  network_atp_model_id: "mao_network_atp_t"
+
+flags:
+  enable_iceberg_materializations: true
+  require_generic_test_arguments_property: true
+
+on-run-start:
+  - "USE WAREHOUSE {{ env_var('DBT_DOM_WAREHOUSE') }}"
+
+models:
+  dom:
+    # Applies to all files under models/
+    Bronze:
+      +materialized: table
+      +database: "{{ env_var('DBT_BRONZE_DATABASE')| as_text }}"
+      +schema: "{{ env_var('DBT_BRONZE_SCHEMA') | as_text }}"
+      +snowflake_warehouse: "{{ env_var('DBT_DOM_WAREHOUSE') | as_text }}"
+    # Applies to all files under models/
+    Silver:
+      +materialized: table
+      +database: "{{ env_var('DBT_SILVER_DATABASE')| as_text }}"
+      +schema: "{{ env_var('DBT_SILVER_SCHEMA') | as_text }}"
+      +snowflake_warehouse: "{{ env_var('DBT_DOM_WAREHOUSE') | as_text }}"
+        # Applies to all files under models/
+    Gold:
+      +materialized: table
+      +database: "{{ env_var('DBT_GOLD_DATABASE')| as_text }}"
+      +schema: "{{ env_var('DBT_GOLD_SCHEMA') | as_text }}"
+      +snowflake_warehouse: "{{ env_var('DBT_DOM_WAREHOUSE') | as_text }}"
+      +table_format: "iceberg"
+
+    Refactored:
+      +materialized: table
+      +database: "{{ env_var('DBT_REFACTORED_DATABASE')| as_text }}"
+      +schema: "{{ env_var('DBT_REFACTORED_SCHEMA') | as_text }}"
+      +snowflake_warehouse: "{{ env_var('DBT_DOM_WAREHOUSE') | as_text }}"
+
+  elementary:
+    +database: "{{ env_var('DBT_SILVER_DATABASE') | as_text }}"
+    +schema: "{{ env_var('DBT_MONITOR_SCHEMA') | as_text }}"
+    edr:
+      dbt_artifacts:
+        dbt_models:
+          +enabled: false
+        dbt_exposures:
+          +enabled: false
+        dbt_seeds:
+          +enabled: false
+        dbt_snapshots:
+          +enabled: false
+        dbt_sources:
+          +enabled: false
+        dbt_tests:
+          +enabled: false
+        dbt_metrics:
+          +enabled: false

@@ -1,0 +1,2173 @@
+[{
+    "order" : {
+      "orderRequest" : {
+        "requestType" : "",
+        "requester" : "",
+        "requestID" : "00816091",
+        "requestDate" : "2019-12-15T21:12:56.399Z",
+        "flRequestId" : "00816091",
+        "relateCustomerId" : "",
+        "affiliateId" : "",
+        "affiliateIdTime" : "2019-09-19T15:00:00Z"
+      },
+      "orderHeader" : {
+        "migratedOrder" : "",
+        "exchangeOrder" : "",
+        "overRideRequestReason": "",
+        "companyNumber" : "27",
+        "channel" : "automation",
+        "source" : "",
+        "vendorId" : "27",
+        "vendorName" : "",
+        "webOrderNumber" : "A1446925086",
+        "coupons" : ["xyz","yzx"],
+        "orderDateTime" : "2019-12-15T21:12:56.399Z",
+        "salesPersonID" : "5555",
+        "shipMethod" : "Z",
+        "shipMethodDesc" : "5-6 Business Days",
+        "payAuthorized": "",
+        "rushFlag" : "false",
+        "giftOrderFlag" : "false",
+        "giftBoxFlag" : "false",
+        "phoneNumber" : "2233221787",
+        "orderPricing" : {
+          "currencyIso" : "USD",
+          "gateway" : "Adyen",
+          "couponAmount" : "",
+          "giftBoxPrice" : "",
+          "baseShippingAmount" : "6",
+          "shippingAmount" : "17.99",
+          "subTotalAmount" : "100",
+          "taxAmount" : "0",
+          "totalAmount" : "117.99",
+          "discountAmount" : "0",
+          "discountedTotalAmount" : "117.99",
+          "settledAmount" : ""
+        },
+        "userIPAddress" : "127.0.0.1",
+        "deviceID" : "123",
+        "shippingAddress" : {
+          "firstName" : "Chetan",
+          "lastName" : "Chorawala",
+          "email" : "flomschetan@gmail.com",
+          "companyName" : "",
+          "phoneNumber" : "8474015443",
+          "addressLine1" : "159 N Sangamon St",
+          "addressLine2" : "",
+          "city" : "Chicago",
+          "state" : "IL",
+          "stateCode" : "",
+          "country" : "US",
+          "countryCode": "",
+          "postalCode" : "60607"
+        },
+        "billingAddress" : {
+          "firstName" : "Chetan",
+          "lastName" : "Chorawala",
+          "email" : "flomschetan@gmail.com",
+          "companyName" : "",
+          "phoneNumber" : "2233221787",
+          "addressLine1" : "159 N Sangamon St",
+          "addressLine2" : "",
+          "city" : "Chicago",
+          "state" : "IL",
+          "stateCode" : "",
+          "country" : "US",
+          "countryCode": "",
+          "postalCode" : "60607"
+        },
+        "division" : "",
+        "langID" : "E",
+        "shoppingCartId": "",
+        "placedBy" : ""
+      },
+      "user" : {
+        "firstName" : "Chetan",
+        "lastName" : "Chorawala",
+        "email" : "flomschetan@gmail.com",
+        "type" : "GUEST",
+        "id" : "APIDAFFY01",
+        "controllerCustomerId": "",
+        "relateCustomerId": "",
+        "flxId": ""
+      },
+      "fullfillmentGrouping" : [ {
+        "fullfillmentType" : "DC",
+        "shippingAmount" : {
+          "currencyIso" : "USD",
+          "value" : "0"
+        },
+        "orderLines" : [ {
+          "lineNumber" : "1",
+          "saleCode" : "",
+          "taxCode" : "PCLO-01",
+          "giftMessage": "",
+          "giftReceipientEmail": "",
+          "giftFrom": "",
+          "giftTo": "",
+          "giftCardNum": "",
+          "shipMethod" : "Z",
+          "freeShipping" : "false",
+          "quantity" : "1",
+          "product" : {
+            "name" : "Greenhouse Test Model Dept 5",
+            "image" : "https://images.footlocker.com/pi/GRN-0063/small/GRN-0063.jpeg",
+            "sku" : "GRN-0063",
+            "size" : "08.5",
+            "color" : "Purple",
+            "brand" : "",
+            "category": "",
+            "description" : "Purple",
+            "isCollectUpFront" : "false",
+            "backorderFlag" : "false",
+            "launchSkuFlag" : "false",
+            "taxCode" : "PCLO-01",
+            "productDesignator" : "0",
+            "productNumber" : "1004906",
+            "productType" : "REGULAR"
+          },
+          "storeFulfillment" : {
+            "shipMethod" : "",
+            "storeNumber" : "",
+            "fulfillmentType" : "",
+            "pickupPersonEmail" : "",
+            "pickupPersonMobile" : "",
+            "storeCostOfGoods" : "",
+            "deliveryEstimateID" : "",
+            "deliveryInstructions" : "",
+            "deliveryCustomerPhone" : "",
+            "storeAddress" : {
+                "firstName" : "",
+                "lastName" : "",
+                "email" : "",
+                "companyName" : "",
+                "phoneNumber" : "",
+                "addressLine1" : "",
+                "addressLine2" : "",
+                "city" : "",
+                "state" : "",
+                "stateCode" : "",
+                "country" : "",
+                "countryCode" : "",
+                "postalCode" : ""
+
+            }
+          },
+          "orderLinePricing" : {
+            "currencyIso" : "USD",
+            "originalRetailPrice" : "100",
+            "unitPrice" : "50",
+            "subTotalAmount" : "50",
+            "taxAmount" : "0",
+            "shippingAmount" : "1",
+            "totalAmount" : "51",
+            "discountedTotalAmount" : "51"
+          }
+        }, {
+          "lineNumber" : "2",
+          "taxCode" : "PCLO-01",
+          "shipMethod" : "Z",
+          "freeShipping" : "false",
+          "quantity" : "1",
+          "product" : {
+            "name" : "Greenhouse Test Model Dept 5",
+            "image" : "https://images.footlocker.com/pi/GRN-0064/small/GRN-0064.jpeg",
+            "sku" : "GRN-0064",
+            "size" : "08.5",
+            "color" : "Orange",
+            "brand" : "",
+            "description" : "Orange",
+            "isCollectUpFront" : "false",
+            "backorderFlag" : "false",
+            "launchSkuFlag" : "true",
+            "taxCode" : "PCLO-01",
+            "productDesignator" : "0",
+            "productNumber" : "1004919",
+            "productType" : "REGULAR"
+          },
+          "storeFulfillment" : {
+            "shipMethod" : "",
+            "storeNumber" : "",
+            "fulfillmentType" : "",
+            "pickupPersonEmail" : "",
+            "pickupPersonMobile" : "",
+            "storeCostOfGoods" : "",
+            "deliveryEstimateID" : "",
+            "deliveryInstructions" : "",
+            "deliveryCustomerPhone" : "",
+            "storeAddress" : {
+                "firstName" : "",
+                "lastName" : "",
+                "email" : "",
+                "companyName" : "",
+                "phoneNumber" : "",
+                "addressLine1" : "",
+                "addressLine2" : "",
+                "city" : "",
+                "state" : "",
+                "stateCode" : "",
+                "country" : "",
+                "countryCode" : "",
+                "postalCode" : ""
+
+            }
+          },
+          "orderLinePricing" : {
+            "currencyIso" : "USD",
+            "originalRetailPrice" : "100",
+            "unitPrice" : "50",
+            "subTotalAmount" : "50",
+            "taxAmount" : "0",
+            "shippingAmount" : "10",
+            "shippingTaxAmount": "",
+            "totalAmount" : "60",
+            "discountAmount": "",
+            "discountedTotalAmount" : "60"
+          }
+        } ]
+      } ],
+      "orderStatusHistory" : [ {
+          "companyNumber" : "",
+        "description" : "SUBMITTED",
+        "orderNumber" : "A1446925086",
+        "orderStatus" : "SUBMITTED",
+        "modifiedDate" : "2019-12-15T21:12:57.247Z",
+        "cancelCode" : ""
+      }, {
+        "companyNumber" : "27",
+        "orderNumber" : "A1446925086",
+        "orderStatus" : "WAIT_FRAUD_SYSTEM_CHECK",
+        "modifiedDate" : "2019-12-15T21:12:57.79Z"
+      } ]
+    },
+    "messageType" : "ORDER",
+    "orderId" : "A1446925086",
+    "omsOrderId" : "17043",
+    "companyNumber" : "27",
+    "orderStatus" : "FULFILMENT_PROCESSING",
+    "cancelCode":"string",
+    "postedAt" : "2019-12-15T21:12:58.596Z",
+    "postedBy" : "oms-order-service"
+  },
+
+
+
+
+
+
+
+
+
+
+
+
+  {
+    "order" : {
+      "orderRequest" : {
+        "requestType" : "",
+        "requester" : "",
+        "requestID" : "00816091",
+        "requestDate" : "2019-12-15T21:12:56.399Z",
+        "flRequestId" : "00816091",
+        "relateCustomerId" : "",
+        "affiliateId" : "",
+        "affiliateIdTime" : "2019-09-19T15:00:00Z"
+      },
+      "orderHeader" : {
+        "migratedOrder" : "",
+        "exchangeOrder" : "",
+        "overRideRequestReason": "",
+        "companyNumber" : "27",
+        "channel" : "automation",
+        "source" : "",
+        "vendorId" : "27",
+        "vendorName" : "",
+        "webOrderNumber" : "A1446925086",
+        "coupons" : ["xyz","yzx"],
+        "orderDateTime" : "2019-12-15T21:12:56.399Z",
+        "salesPersonID" : "5555",
+        "shipMethod" : "Z",
+        "shipMethodDesc" : "5-6 Business Days",
+        "payAuthorized": "",
+        "rushFlag" : "false",
+        "giftOrderFlag" : "false",
+        "giftBoxFlag" : "false",
+        "phoneNumber" : "2233221787",
+        "orderPricing" : {
+          "currencyIso" : "USD",
+          "gateway" : "Adyen",
+          "couponAmount" : "",
+          "giftBoxPrice" : "",
+          "baseShippingAmount" : "6",
+          "shippingAmount" : "17.99",
+          "subTotalAmount" : "100",
+          "taxAmount" : "0",
+          "totalAmount" : "117.99",
+          "discountAmount" : "0",
+          "discountedTotalAmount" : "117.99",
+          "settledAmount" : ""
+        },
+        "userIPAddress" : "127.0.0.1",
+        "deviceID" : "123",
+        "shippingAddress" : {
+          "firstName" : "Chetan",
+          "lastName" : "Chorawala",
+          "email" : "flomschetan@gmail.com",
+          "companyName" : "",
+          "phoneNumber" : "8474015443",
+          "addressLine1" : "159 N Sangamon St",
+          "addressLine2" : "",
+          "city" : "Chicago",
+          "state" : "IL",
+          "stateCode" : "",
+          "country" : "US",
+          "countryCode": "",
+          "postalCode" : "60607"
+        },
+        "billingAddress" : {
+          "firstName" : "Chetan",
+          "lastName" : "Chorawala",
+          "email" : "flomschetan@gmail.com",
+          "companyName" : "",
+          "phoneNumber" : "2233221787",
+          "addressLine1" : "159 N Sangamon St",
+          "addressLine2" : "",
+          "city" : "Chicago",
+          "state" : "IL",
+          "stateCode" : "",
+          "country" : "US",
+          "countryCode": "",
+          "postalCode" : "60607"
+        },
+        "division" : "",
+        "langID" : "E",
+        "shoppingCartId": "",
+        "placedBy" : ""
+      },
+      "user" : {
+        "firstName" : "Chetan",
+        "lastName" : "Chorawala",
+        "email" : "flomschetan@gmail.com",
+        "type" : "GUEST",
+        "id" : "APIDAFFY01",
+        "controllerCustomerId": "",
+        "relateCustomerId": "",
+        "flxId": ""
+      },
+      "fullfillmentGrouping" : [ {
+        "fullfillmentType" : "DC",
+        "shippingAmount" : {
+          "currencyIso" : "USD",
+          "value" : "0"
+        },
+        "orderLines" : [ {
+          "lineNumber" : "1",
+          "saleCode" : "",
+          "taxCode" : "PCLO-01",
+          "giftMessage": "",
+          "giftReceipientEmail": "",
+          "giftFrom": "",
+          "giftTo": "",
+          "giftCardNum": "",
+          "shipMethod" : "Z",
+          "freeShipping" : "false",
+          "quantity" : "1",
+          "product" : {
+            "name" : "Greenhouse Test Model Dept 5",
+            "image" : "https://images.footlocker.com/pi/GRN-0063/small/GRN-0063.jpeg",
+            "sku" : "GRN-0063",
+            "size" : "08.5",
+            "color" : "Purple",
+            "brand" : "",
+            "category": "",
+            "description" : "Purple",
+            "isCollectUpFront" : "false",
+            "backorderFlag" : "false",
+            "launchSkuFlag" : "false",
+            "taxCode" : "PCLO-01",
+            "productDesignator" : "0",
+            "productNumber" : "1004906",
+            "productType" : "REGULAR"
+          },
+          "storeFulfillment" : {
+            "shipMethod" : "",
+            "storeNumber" : "",
+            "fulfillmentType" : "",
+            "pickupPersonEmail" : "",
+            "pickupPersonMobile" : "",
+            "storeCostOfGoods" : "",
+            "deliveryEstimateID" : "",
+            "deliveryInstructions" : "",
+            "deliveryCustomerPhone" : "",
+            "storeAddress" : {
+              "firstName" : "",
+              "lastName" : "",
+              "email" : "",
+              "companyName" : "",
+              "phoneNumber" : "",
+              "addressLine1" : "",
+              "addressLine2" : "",
+              "city" : "",
+              "state" : "",
+              "stateCode" : "",
+              "country" : "",
+              "countryCode" : "",
+              "postalCode" : ""
+
+            }
+          },
+          "orderLinePricing" : {
+            "currencyIso" : "USD",
+            "originalRetailPrice" : "100",
+            "unitPrice" : "50",
+            "subTotalAmount" : "50",
+            "taxAmount" : "0",
+            "shippingAmount" : "1",
+            "totalAmount" : "51",
+            "discountedTotalAmount" : "51"
+          }
+        }, {
+          "lineNumber" : "2",
+          "taxCode" : "PCLO-01",
+          "shipMethod" : "Z",
+          "freeShipping" : "false",
+          "quantity" : "1",
+          "product" : {
+            "name" : "Greenhouse Test Model Dept 5",
+            "image" : "https://images.footlocker.com/pi/GRN-0064/small/GRN-0064.jpeg",
+            "sku" : "GRN-0064",
+            "size" : "08.5",
+            "color" : "Orange",
+            "brand" : "",
+            "description" : "Orange",
+            "isCollectUpFront" : "false",
+            "backorderFlag" : "false",
+            "launchSkuFlag" : "true",
+            "taxCode" : "PCLO-01",
+            "productDesignator" : "0",
+            "productNumber" : "1004919",
+            "productType" : "REGULAR"
+          },
+          "storeFulfillment" : {
+            "shipMethod" : "",
+            "storeNumber" : "",
+            "fulfillmentType" : "",
+            "pickupPersonEmail" : "",
+            "pickupPersonMobile" : "",
+            "storeCostOfGoods" : "",
+            "deliveryEstimateID" : "",
+            "deliveryInstructions" : "",
+            "deliveryCustomerPhone" : "",
+            "storeAddress" : {
+              "firstName" : "",
+              "lastName" : "",
+              "email" : "",
+              "companyName" : "",
+              "phoneNumber" : "",
+              "addressLine1" : "",
+              "addressLine2" : "",
+              "city" : "",
+              "state" : "",
+              "stateCode" : "",
+              "country" : "",
+              "countryCode" : "",
+              "postalCode" : ""
+
+            }
+          },
+          "orderLinePricing" : {
+            "currencyIso" : "USD",
+            "originalRetailPrice" : "100",
+            "unitPrice" : "50",
+            "subTotalAmount" : "50",
+            "taxAmount" : "0",
+            "shippingAmount" : "10",
+            "shippingTaxAmount": "",
+            "totalAmount" : "60",
+            "discountAmount": "",
+            "discountedTotalAmount" : "60"
+          }
+        } ]
+      } ],
+      "orderStatusHistory" : [ {
+        "companyNumber" : "",
+        "description" : "SUBMITTED",
+        "orderNumber" : "A1446925086",
+        "orderStatus" : "SUBMITTED",
+        "modifiedDate" : "2019-12-15T21:12:57.247Z",
+        "cancelCode" : ""
+      }, {
+        "companyNumber" : "27",
+        "orderNumber" : "A1446925086",
+        "orderStatus" : "WAIT_FRAUD_SYSTEM_CHECK",
+        "modifiedDate" : "2019-12-15T21:12:57.79Z"
+      } ]
+    },
+    "messageType" : "CONSIGNMENT",
+    "orderId" : "A7843384706",
+    "consignment" : {
+      "consignmentId" : "DCT0009628",
+      "invoiceNum" : "DCT0009628",
+      "consignmentStatus" : "CONSIGNMENT_PAYMENT_SETTLED",
+      "fullfillmentSystem" : "WMS",
+      "fulfillmentSystemRequestId":"",
+      "fulfillmentSystemResponseId":"",
+      "fullfillmentType" : "DC",
+      "storeNumber" : "",
+      "shippingTax" : "",
+      "consignmentEntries" : [ {
+        "entryId" : "",
+        "requestingSystemLineNo": "",
+        "entryStatus" : "SHIPPED",
+        "sku" : "16403411",
+        "productCode" : "2781898",
+        "productType": "",
+        "metadata": "",
+        "size" : "16.0",
+        "requestedQty":"",
+        "cancelledQty": "",
+        "fulfilledQty" : "1",
+        "pricing" : {
+          "currencyIso": "",
+          "priceOverrideReason":"",
+          "originalRetailPrice" : "40.00",
+          "unitPrice" : "20.00",
+          "subTotalAmount" : "20.00",
+          "taxAmount" : "1.25",
+          "shippingAmount" : "7.99",
+          "shippingTaxAmount" : "0.50",
+          "giftBoxAmount" : "",
+          "giftBoxTaxAmount" : "",
+          "totalAmount" : "29.24",
+          "discountAmount": "",
+          "discountedTotalAmount" : "29.24"
+        },
+        "shippedDate" : "2019-12-18T18:27:13Z",
+        "carrier" : "UPSP",
+        "cegrRefId" : "DCS3195",
+        "trackingId" : "TR21407377235076380177763",
+        "cartonNum" : "CR8EBD3617015251959166003",
+        "storeNumber":"",
+        "cancelCode" : "",
+        "cancelReason": "",
+        "requestSystem":"",
+        "requestedBy": "",
+        "baseShippingCharged":"",
+        "updated" : "true",
+        "modifiedDate" : "2019-12-18T13:28:05.917Z"
+      }],
+      "paymentsInfo" : [ {
+        "paymentType" : "CREDITCARD",
+        "paymentTransactionType" : "CAPTURE",
+        "authCode" : "62718",
+        "creditCardType" : "DISCOVER",
+        "amount" : "110",
+        "shippingTaxAmount" : "0.24",
+        "taxAmount" : "6.5",
+        "cegrRefId" : "DCS3198",
+        "paymentTransactionId" : "852576675685899F",
+        "cardLast4" : "6611",
+        "date" : "2019-12-18T13:28:05.807Z"
+      } ]
+    },
+    "cancelCode":"string",
+    "postedAt" : "2019-12-18T13:28:06.279Z",
+    "postedBy" : "oms-order-service"
+  },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  {
+    "messageType" : "RETURN",
+    "orderId" : "T2000054163",
+    "returnId" : "RTN1586",
+    "returnStatus" : "RETURN_GIFT_CARD_ACTIVATED",
+    "cancelCode":"string",
+    "order" : {
+      "orderRequest" : {
+        "requestType" : "",
+        "requestID" : "00865854",
+        "requestDate" : "2019-12-18T17:26:50Z",
+        "flRequestId" : "00865854",
+        "relateCustomerId" : "",
+        "affiliateId" : "footlocker",
+        "affiliateIdTime" : "2019-05-29T13:19:12Z"
+      },
+      "orderHeader" : {
+        "companyNumber" : "04",
+        "vendorId" : "04",
+        "webOrderNumber" : "T2000054163",
+        "coupons" : ["xyz","yzx"],
+        "orderDateTime" : "2019-12-18T17:26:50Z",
+        "shipMethod" : "Z",
+        "shipMethodDesc" : "5-6 Business Days",
+        "rushFlag" : "false",
+        "giftOrderFlag" : "false",
+        "giftBoxFlag" : "false",
+        "orderPricing" : {
+            "currencyIso" : "USD",
+            "gateway" : "Adyen",
+            "couponAmount" : "",
+            "giftBoxPrice" : "",
+            "baseShippingAmount" : "6",
+            "shippingAmount" : "17.99",
+            "subTotalAmount" : "100",
+            "taxAmount" : "0",
+            "totalAmount" : "117.99",
+            "discountAmount" : "0",
+            "discountedTotalAmount" : "117.99",
+            "settledAmount" : ""
+          },
+        "userIPAddress" : "127.0.0.1",
+        "deviceID" : "123",
+        "shippingAddress" : {
+          "firstName" : "vikas",
+          "lastName" : "tirumalla",
+          "email" : "john.doe1@mail.com",
+          "companyName" : "",
+          "addressLine1" : "2951 S King Drive",
+          "addressLine2" : "APT 407",
+          "city" : "Chicago",
+          "state" : "IL",
+          "country" : "US",
+          "postalCode" : "60616"
+        },
+        "billingAddress" : {
+          "firstName" : "john",
+          "lastName" : "doe",
+          "email" : "john.doe1@mail.com",
+          "companyName" : "",
+          "addressLine1" : "111 random street",
+          "addressLine2" : "",
+          "city" : "Chicago",
+          "state" : "TX",
+          "country" : "US",
+          "postalCode" : "60607"
+        },
+        "division" : "",
+        "langID" : "E",
+        "shoppingCartId": "",
+        "placedBy" : ""
+      },
+      "user" : {
+        "firstName" : "john",
+        "lastName" : "doe",
+        "email" : "gchukka@deloitte.com",
+        "type" : "GUEST",
+        "id" : "OYXAA1ETCI",
+        "controllerCustomerId": "",
+        "relateCustomerId": "",
+        "flxId": ""
+      },
+      "fullfillmentGrouping" : [ {
+        "fullfillmentType" : "DC",
+        "shippingAmount" : {
+          "currencyIso" : "USD",
+          "value" : "0"
+        },
+        "orderLines" : [ {
+          "lineNumber" : "1",
+          "taxCode" : "PCLO-01",
+          "freeShipping" : "false",
+          "quantity" : "1",
+          "product" : {
+            "name" : "Nike Freek - Men's",
+            "image" : "https://images.final-score.com/pi/16403411/small/16403411.jpeg",
+            "sku" : "16403411",
+            "size" : "14.0",
+            "color" : "Navy/White",
+            "brand" : "Nike",
+            "category" : "Wrestling Shoes",
+            "description" : "",
+            "isCollectUpFront" : "false",
+            "backorderFlag" : "false",
+            "launchSkuFlag" : "false",
+            "taxCode" : "PCLO-01",
+            "productNumber" : "2781896",
+            "productType" : "REGULAR"
+          },
+          "orderLinePricing" : {
+            "currencyIso" : "USD",
+            "originalRetailPrice" : "124.99",
+            "unitPrice" : "89.99",
+            "subTotalAmount" : "89.99",
+            "taxAmount" : "5.63",
+            "shippingAmount" : "3.5",
+            "totalAmount" : "99.11",
+            "discountedTotalAmount" : "99.11"
+          }
+        } ]
+      } ],
+      "returns" : [ {
+        "agent" : "Prabhat Kumar - v002629",
+        "companyNumber" : "04",
+        "returnNum" : "RTN1586",
+        "returnLocation" : "WAUSAU",
+        "exchangeOrderNumber":"",
+        "date" : "2019-12-18T17:32:49.304Z",
+        "lines" : [ {
+          "taxInvoiceNum" : "DCS3218",
+          "quantity" : "1",
+          "product" : {
+            "name" : "Nike Freek - Men's",
+            "image" : "https://images.final-score.com/pi/16403411/small/16403411.jpeg",
+            "sku" : "16403411",
+            "size" : "14.0",
+            "color" : "Navy/White",
+            "brand" : "Nike",
+            "category" : "Wrestling Shoes",
+            "description" : "",
+            "isCollectUpFront" : "false",
+            "backorderFlag" : "false",
+            "launchSkuFlag" : "false",
+            "taxCode" : "PCLO-01",
+            "productNumber" : "2781896",
+            "productType" : "REGULAR"
+          },
+          "restockable" : "true",
+          "reasonCode" : "DQ",
+          "reasonCodeId" : "167",
+          "requestedLinePrice" : {
+            "currencyIso": "",
+            "originalRetailPrice" : "124.99",
+            "unitPrice" : "89.99",
+            "subTotalAmount" : "89.99",
+            "taxAmount" : "5.62",
+            "shippingAmount" : "0.00",
+            "shippingTaxAmount" : "0.00",
+            "totalAmount" : "95.61",
+            "discountAmount" : "0.00",
+            "discountedTotalAmount" : "95.61"
+          },
+          "actualLinePrice" : {
+            "currencyIso": "",
+            "originalRetailPrice" : "124.99",
+            "unitPrice" : "89.99",
+            "subTotalAmount" : "89.99",
+            "taxAmount" : "5.62",
+            "shippingAmount" : "0.00",
+            "shippingTaxAmount" : "0.00",
+            "totalAmount" : "95.61",
+            "discountAmount" : "0.00",
+            "discountedTotalAmount" : "95.61"
+          }
+        } ],
+        "adjustments" : [{
+            "adjustmentType" : "",
+            "adjustmentTypeDesc": "",
+            "adjustmentTypeId" : "",
+            "amount" : "",
+            "override": ""
+        } ],
+        "credits" : [ {
+            "adjustmentType" : "",
+            "adjustmentTypeDesc": "",
+            "adjustmentTypeId" : "",
+            "amount" : "",
+            "override": ""
+        }],
+        "requestedTotals" : {
+          "subTotalAmount" : "89.99",
+          "taxAmount" : "5.62",
+          "shippingAmount" : "0.00",
+          "discountAmount" : "0.00",
+          "discountedTotalAmount" : "95.61",
+          "adjustmentAmount" : "0.00",
+          "creditsAmount" : "0.00",
+          "refundTotalAmount" : "95.61"
+        },
+        "actualTotals" : {
+          "subTotalAmount" : "89.99",
+          "taxAmount" : "5.62",
+          "shippingAmount" : "0.00",
+          "shippingTaxAmount" : "0",
+          "discountAmount" : "0.00",
+          "discountedTotalAmount" : "95.61",
+          "adjustmentAmount" : "0.00",
+          "creditsAmount" : "0.00",
+          "refundTotalAmount" : "95.61"
+        },
+        "refundMethod" : "ORIGINAL",
+        "status" : "RETURN_GIFT_CARD_ACTIVATED",
+        "statusHistory" : [ {
+          "returnStatus" : "CREATED",
+          "timestamp" : "2019-12-18T17:32:56.983Z"
+        }, {
+          "returnStatus" : "TAX_REVERSAL_COMPLETED",
+          "timestamp" : "2019-12-18T17:42:06.531Z"
+        }, {
+          "returnStatus" : "RETURN_GIFT_CARD_ACTIVATED",
+          "timestamp" : "2019-12-18T17:42:07.481Z"
+        }, {
+          "returnStatus" : "REFUND_INITIATED",
+          "timestamp" : "2019-12-18T17:42:07.658Z"
+        }, {
+          "returnStatus" : "RETURN_GIFT_CARD_ACTIVATED",
+          "timestamp" : "2019-12-18T17:42:09.353Z"
+        } ],
+        "paymentsInfo" : [ {
+          "paymentType" : "GIFTCARD",
+          "paymentTransactionType" : "REFUND",
+          "creditCardType": "",
+          "amount" : "95.61",
+          "date" : "2019-12-18T17:42:07.067Z",
+          "paymentTransactionId":""
+        } ]
+      } ],
+      "orderStatusHistory" : [ {
+        "description" : "SUBMITTED",
+        "orderNumber" : "T2000054163",
+        "orderStatus" : "SUBMITTED",
+        "modifiedDate" : "2019-12-18T17:27:31.849Z"
+      }, {
+        "companyNumber" : "04",
+        "orderNumber" : "T2000054163",
+        "orderStatus" : "WAIT_FRAUD_SYSTEM_CHECK",
+        "modifiedDate" : "2019-12-18T17:27:32.585Z"
+      }, {
+        "companyNumber" : "04",
+        "orderNumber" : "T2000054163",
+        "orderStatus" : "FRAUD_CHECKED",
+        "modifiedDate" : "2019-12-18T17:27:33.827Z"
+      }, {
+        "companyNumber" : "04",
+        "orderNumber" : "T2000054163",
+        "orderStatus" : "FULFILMENT_PROCESSING",
+        "modifiedDate" : "2019-12-18T17:27:34.411Z"
+      }, {
+        "companyNumber" : "04",
+        "orderNumber" : "T2000054163",
+        "orderStatus" : "FULFILMENT_PROCESSING",
+        "consignments" : [ {
+          "consignmentId" : "DCT0009648",
+          "consignmentStatus" : "CONSIGNMENT_PROCESSING_START",
+          "fullfillmentSystem" : "WMS",
+          "fullfillmentType" : "DC",
+          "consignmentEntries" : [ {
+            "sku" : "16403411",
+            "size" : "14.0",
+            "requestedQty" : "1",
+            "updated" : "true",
+            "modifiedDate" : "2019-12-18T17:30:01.617Z"
+          } ]
+        } ],
+        "modifiedDate" : "2019-12-18T17:30:01.883Z"
+      }, {
+        "companyNumber" : "04",
+        "orderNumber" : "T2000054163",
+        "orderStatus" : "FULFILMENT_PROCESSING",
+        "consignments" : [ {
+          "consignmentId" : "DCT0009648",
+          "consignmentStatus" : "CONSIGNMENT_PROCESSING",
+          "fullfillmentSystem" : "WMS",
+          "fullfillmentType" : "DC",
+          "consignmentEntries" : [ {
+            "entryStatus" : "SUBMITTED",
+            "sku" : "16403411",
+            "size" : "14.0",
+            "requestedQty" : "1",
+            "updated" : "true",
+            "modifiedDate" : "2019-12-18T17:30:02.611Z"
+          } ]
+        } ],
+        "modifiedDate" : "2019-12-18T17:30:02.676Z"
+      }, {
+        "companyNumber" : "04",
+        "orderNumber" : "T2000054163",
+        "orderStatus" : "FULFILMENT_PROCESSING",
+        "consignments" : [ {
+          "consignmentId" : "DCT0009648",
+          "invoiceNum" : "DCT0009648",
+          "consignmentStatus" : "CONSIGNMENT_PROCESSING",
+          "fullfillmentSystem" : "WMS",
+          "fullfillmentType" : "DC",
+          "consignmentEntries" : [ {
+            "entryStatus" : "SHIPPED",
+            "sku" : "16403411",
+            "productCode" : "2781896",
+            "size" : "14.0",
+            "fulfilledQty" : "1",
+            "pricing" : {
+              "originalRetailPrice" : "124.99",
+              "unitPrice" : "89.99",
+              "subTotalAmount" : "89.99",
+              "shippingTaxAmount" : "0"
+            },
+            "shippedDate" : "2019-12-18T22:30:38Z",
+            "carrier" : "UPSP",
+            "trackingId" : "TRG3883544669568597516848",
+            "cartonNum" : "CRF75A7003153742131704677",
+            "updated" : "true",
+            "modifiedDate" : "2019-12-18T17:31:06.222Z"
+          } ]
+        } ],
+        "modifiedDate" : "2019-12-18T17:31:06.493Z"
+      }, {
+        "companyNumber" : "04",
+        "orderNumber" : "T2000054163",
+        "orderStatus" : "FULFILMENT_PROCESSING",
+        "consignments" : [ {
+          "consignmentId" : "DCT0009648",
+          "invoiceNum" : "DCT0009648",
+          "consignmentStatus" : "CONSIGNMENT_PAYMENT_SETTLED",
+          "fullfillmentSystem" : "WMS",
+          "fullfillmentType" : "DC",
+          "shippingTax" : "0.53",
+          "consignmentEntries" : [ {
+            "entryStatus" : "SHIPPED",
+            "sku" : "16403411",
+            "productCode" : "2781896",
+            "size" : "14.0",
+            "fulfilledQty" : "1",
+            "pricing" : {
+              "originalRetailPrice" : "124.99",
+              "unitPrice" : "89.99",
+              "subTotalAmount" : "89.99",
+              "taxAmount" : "5.63",
+              "shippingAmount" : "8.50",
+              "shippingTaxAmount" : "0.53",
+              "totalAmount" : "104.12",
+              "discountedTotalAmount" : "104.12"
+            },
+            "shippedDate" : "2019-12-18T22:30:38Z",
+            "carrier" : "UPSP",
+            "cegrRefId" : "DCS3218",
+            "trackingId" : "TRG3883544669568597516848",
+            "cartonNum" : "CRF75A7003153742131704677",
+            "updated" : "true",
+            "modifiedDate" : "2019-12-18T17:31:09.038Z"
+          } ],
+          "paymentsInfo" : [ {
+            "paymentType" : "GIFTCARD",
+            "paymentTransactionType" : "CAPTURE",
+            "amount" : "93.51",
+            "shippingTaxAmount" : "0.53",
+            "taxAmount" : "6.16",
+            "cegrRefId" : "DCS3218",
+            "date" : "2019-12-18T17:31:07.687Z"
+          }, {
+            "paymentType" : "CREDITCARD",
+            "paymentTransactionType" : "CAPTURE",
+            "authCode" : "76490",
+            "creditCardType" : "VISA",
+            "amount" : "11.14",
+            "shippingTaxAmount" : "0.53",
+            "taxAmount" : "6.16",
+            "cegrRefId" : "DCS3218",
+            "paymentTransactionId" : "882576690268527D",
+            "cardLast4" : "1111",
+            "date" : "2019-12-18T17:31:08.943Z"
+          } ]
+        } ],
+        "modifiedDate" : "2019-12-18T17:31:09.225Z"
+      }, {
+        "companyNumber" : "04",
+        "orderNumber" : "T2000054163",
+        "orderStatus" : "FULFILMENT_PROCESSING",
+        "consignments" : [ {
+          "consignmentId" : "DCT0009648",
+          "invoiceNum" : "DCT0009648",
+          "consignmentStatus" : "CONSIGNMENT_PROCESSING_END",
+          "fullfillmentSystem" : "WMS",
+          "fullfillmentType" : "DC",
+          "shippingTax" : "0.53",
+          "consignmentEntries" : [ {
+            "entryStatus" : "SHIPPED",
+            "sku" : "16403411",
+            "productCode" : "2781896",
+            "size" : "14.0",
+            "fulfilledQty" : "1",
+            "pricing" : {
+              "originalRetailPrice" : "124.99",
+              "unitPrice" : "89.99",
+              "subTotalAmount" : "89.99",
+              "taxAmount" : "5.63",
+              "shippingAmount" : "8.50",
+              "shippingTaxAmount" : "0.53",
+              "totalAmount" : "104.12",
+              "discountedTotalAmount" : "104.12"
+            },
+            "shippedDate" : "2019-12-18T22:30:38Z",
+            "carrier" : "UPSP",
+            "cegrRefId" : "DCS3218",
+            "trackingId" : "TRG3883544669568597516848",
+            "cartonNum" : "CRF75A7003153742131704677",
+            "updated" : "true",
+            "modifiedDate" : "2019-12-18T17:31:09.544Z"
+          } ]
+        } ],
+        "modifiedDate" : "2019-12-18T17:31:09.586Z"
+      }, {
+        "companyNumber" : "04",
+        "orderNumber" : "T2000054163",
+        "orderStatus" : "FULFILMENT_COMPLETE",
+        "modifiedDate" : "2019-12-18T17:31:09.653Z"
+      } ],
+      "consignments" : [ {
+        "consignmentId" : "DCT0009648",
+        "invoiceNum" : "",
+        "consignmentStatus" : "CONSIGNMENT_PROCESSING_END",
+        "fullfillmentSystem" : "WMS",
+        "fullfillmentType" : "DC",
+        "storeNumber" : "",
+        "shippingTax" : "0.53",
+        "consignmentEntries" : [ {
+          "entryStatus" : "SHIPPED",
+          "sku" : "16403411",
+          "productCode" : "2781896",
+          "productType" : "",
+          "size" : "14.0",
+          "requestedQty": "",
+          "fulfilledQty" : "1",
+          "cancelledQty" : "",
+          "pricing" : {
+            "originalRetailPrice" : "124.99",
+            "unitPrice" : "89.99",
+            "subTotalAmount" : "89.99",
+            "taxAmount" : "5.63",
+            "shippingAmount" : "8.50",
+            "shippingTaxAmount" : "0.53",
+            "totalAmount" : "104.12",
+            "discountedTotalAmount" : "104.12"
+          },
+          "shippedDate" : "2019-12-18T22:30:38Z",
+          "carrier" : "UPSP",
+          "cegrRefId" : "DCS3218",
+          "trackingId" : "TRG3883544669568597516848",
+          "cartonNum" : "CRF75A7003153742131704677",
+          "cancelCode": "",
+          "cancelReason": "",
+          "requestSystem": "",
+          "requestedBy" : "",
+          "updated" : "true",
+          "modifiedDate" : "2019-12-18T17:31:09.544Z"
+        } ],
+        "modifiedDate" : "2019-12-18T17:31:09.572Z"
+      } ]
+    },
+    "postedAt" : "2019-12-18T17:42:09.386Z",
+    "postedBy" : "oms-order-service"
+  },
+
+
+
+  
+  {
+    "messageType" : "REFUND",
+    "orderId" : "A2704465376",
+    "refundId" : "R3226667195",
+    "refundStatus" : "REFUNDED",
+    "cancelCode":"string",
+    "order" : {
+      "orderRequest" : {
+        "requestType" : "",
+        "requester" : "",
+        "requestID" : "00816091",
+        "requestDate" : "2019-12-15T21:12:56.399Z",
+        "flRequestId" : "00816091",
+        "relateCustomerId" : "",
+        "affiliateId" : "",
+        "affiliateIdTime" : "2019-09-19T15:00:00Z"
+      },
+      "orderHeader" : {
+        "migratedOrder" : "",
+        "exchangeOrder" : "",
+        "overRideRequestReason": "",
+        "companyNumber" : "27",
+        "channel" : "automation",
+        "source" : "",
+        "vendorId" : "27",
+        "vendorName" : "",
+        "webOrderNumber" : "A1446925086",
+        "coupons" : ["xyz","yzx"],
+        "orderDateTime" : "2019-12-15T21:12:56.399Z",
+        "salesPersonID" : "5555",
+        "shipMethod" : "Z",
+        "shipMethodDesc" : "5-6 Business Days",
+        "payAuthorized": "",
+        "rushFlag" : "false",
+        "giftOrderFlag" : "false",
+        "giftBoxFlag" : "false",
+        "phoneNumber" : "2233221787",
+        "orderPricing" : {
+          "currencyIso" : "USD",
+          "gateway" : "Adyen",
+          "couponAmount" : "",
+          "giftBoxPrice" : "",
+          "baseShippingAmount" : "6",
+          "shippingAmount" : "17.99",
+          "subTotalAmount" : "100",
+          "taxAmount" : "0",
+          "totalAmount" : "117.99",
+          "discountAmount" : "0",
+          "discountedTotalAmount" : "117.99",
+          "settledAmount" : ""
+        },
+        "userIPAddress" : "127.0.0.1",
+        "deviceID" : "123",
+        "shippingAddress" : {
+          "firstName" : "Chetan",
+          "lastName" : "Chorawala",
+          "email" : "flomschetan@gmail.com",
+          "companyName" : "",
+          "phoneNumber" : "8474015443",
+          "addressLine1" : "159 N Sangamon St",
+          "addressLine2" : "",
+          "city" : "Chicago",
+          "state" : "IL",
+          "stateCode" : "",
+          "country" : "US",
+          "countryCode": "",
+          "postalCode" : "60607"
+        },
+        "billingAddress" : {
+          "firstName" : "Chetan",
+          "lastName" : "Chorawala",
+          "email" : "flomschetan@gmail.com",
+          "companyName" : "",
+          "phoneNumber" : "2233221787",
+          "addressLine1" : "159 N Sangamon St",
+          "addressLine2" : "",
+          "city" : "Chicago",
+          "state" : "IL",
+          "stateCode" : "",
+          "country" : "US",
+          "countryCode": "",
+          "postalCode" : "60607"
+        },
+        "division" : "",
+        "langID" : "E",
+        "shoppingCartId": "",
+        "placedBy" : ""
+      },
+      "user" : {
+        "firstName" : "Chetan",
+        "lastName" : "Chorawala",
+        "email" : "flomschetan@gmail.com",
+        "type" : "GUEST",
+        "id" : "APIDAFFY01",
+        "controllerCustomerId": "",
+        "relateCustomerId": "",
+        "flxId": ""
+      },
+      "fullfillmentGrouping" : [ {
+        "fullfillmentType" : "DC",
+        "shippingAmount" : {
+          "currencyIso" : "USD",
+          "value" : "0"
+        },
+        "orderLines" : [ {
+          "lineNumber" : "1",
+          "saleCode" : "",
+          "taxCode" : "PCLO-01",
+          "giftMessage": "",
+          "giftReceipientEmail": "",
+          "giftFrom": "",
+          "giftTo": "",
+          "giftCardNum": "",
+          "shipMethod" : "Z",
+          "freeShipping" : "false",
+          "quantity" : "1",
+          "product" : {
+            "name" : "Greenhouse Test Model Dept 5",
+            "image" : "https://images.footlocker.com/pi/GRN-0063/small/GRN-0063.jpeg",
+            "sku" : "GRN-0063",
+            "size" : "08.5",
+            "color" : "Purple",
+            "brand" : "",
+            "category": "",
+            "description" : "Purple",
+            "isCollectUpFront" : "false",
+            "backorderFlag" : "false",
+            "launchSkuFlag" : "false",
+            "taxCode" : "PCLO-01",
+            "productDesignator" : "0",
+            "productNumber" : "1004906",
+            "productType" : "REGULAR"
+          },
+          "storeFulfillment" : {
+            "shipMethod" : "",
+            "storeNumber" : "",
+            "fulfillmentType" : "",
+            "pickupPersonEmail" : "",
+            "pickupPersonMobile" : "",
+            "storeCostOfGoods" : "",
+            "deliveryEstimateID" : "",
+            "deliveryInstructions" : "",
+            "deliveryCustomerPhone" : "",
+            "storeAddress" : {
+                "firstName" : "",
+                "lastName" : "",
+                "email" : "",
+                "companyName" : "",
+                "phoneNumber" : "",
+                "addressLine1" : "",
+                "addressLine2" : "",
+                "city" : "",
+                "state" : "",
+                "stateCode" : "",
+                "country" : "",
+                "countryCode" : "",
+                "postalCode" : ""
+
+            }
+          },
+          "orderLinePricing" : {
+            "currencyIso" : "USD",
+            "originalRetailPrice" : "100",
+            "unitPrice" : "50",
+            "subTotalAmount" : "50",
+            "taxAmount" : "0",
+            "shippingAmount" : "1",
+            "totalAmount" : "51",
+            "discountedTotalAmount" : "51"
+          }
+        }, {
+          "lineNumber" : "2",
+          "taxCode" : "PCLO-01",
+          "shipMethod" : "Z",
+          "freeShipping" : "false",
+          "quantity" : "1",
+          "product" : {
+            "name" : "Greenhouse Test Model Dept 5",
+            "image" : "https://images.footlocker.com/pi/GRN-0064/small/GRN-0064.jpeg",
+            "sku" : "GRN-0064",
+            "size" : "08.5",
+            "color" : "Orange",
+            "brand" : "",
+            "description" : "Orange",
+            "isCollectUpFront" : "false",
+            "backorderFlag" : "false",
+            "launchSkuFlag" : "true",
+            "taxCode" : "PCLO-01",
+            "productDesignator" : "0",
+            "productNumber" : "1004919",
+            "productType" : "REGULAR"
+          },
+          "storeFulfillment" : {
+            "shipMethod" : "",
+            "storeNumber" : "",
+            "fulfillmentType" : "",
+            "pickupPersonEmail" : "",
+            "pickupPersonMobile" : "",
+            "storeCostOfGoods" : "",
+            "deliveryEstimateID" : "",
+            "deliveryInstructions" : "",
+            "deliveryCustomerPhone" : "",
+            "storeAddress" : {
+                "firstName" : "",
+                "lastName" : "",
+                "email" : "",
+                "companyName" : "",
+                "phoneNumber" : "",
+                "addressLine1" : "",
+                "addressLine2" : "",
+                "city" : "",
+                "state" : "",
+                "stateCode" : "",
+                "country" : "",
+                "countryCode" : "",
+                "postalCode" : ""
+
+            }
+          },
+          "orderLinePricing" : {
+            "currencyIso" : "USD",
+            "originalRetailPrice" : "100",
+            "unitPrice" : "50",
+            "subTotalAmount" : "50",
+            "taxAmount" : "0",
+            "shippingAmount" : "10",
+            "shippingTaxAmount": "",
+            "totalAmount" : "60",
+            "discountAmount": "",
+            "discountedTotalAmount" : "60"
+          }
+        } ]
+      } ],
+      "refunds" : [ {
+        "createdBy" : "Automation",
+        "userId" : "automation",
+        "source" : "CUSTOMER_SVC",
+        "companyNumber" : "04",
+        "refundNum" : "R3226667195",
+        "date" : "2019-12-20T18:23:28.796Z",
+        "lines" : [ {
+          "quantity" : "1",
+          "product" : {
+            "name" : "Greenhouse Test Non-Sized SKU",
+            "image" : "https://images.footlocker.com/pi/GRN-0070/small/GRN-0070.jpeg",
+            "sku" : "16403411",
+            "size" : "16.0",
+            "color" : "Black",
+            "brand" : "",
+            "category": "",
+            "description" : "GREEN HOUSE TEST NON SIZED SKU",
+            "isCollectUpFront" : "false",
+            "backorderFlag" : "false",
+            "launchSkuFlag" : "false",
+            "taxCode" : "PCLO-01",
+            "productDesignator" : "0",
+            "productNumber" : "2781898",
+            "productType" : "REGULAR"
+          },
+          "cegrRefId" : "DCS3331",
+          "requestedLinePrice" : {
+            "originalRetailPrice" : "40",
+            "originalUnitPrice" : "20",
+            "originalUnitDiscountAmount" : "23",
+            "lineRefundSubTotal" : "20",
+            "taxAmount" : "1.25",
+            "shippingAmount" : "1.99",
+            "shippingTaxAmount" : "0.12",
+            "inboundShippingAmount" : "0.00",
+            "totalAmount" : "23.36"
+          },
+          "returnExpected" : "true",
+          "returned" : "false",
+          "quantityReturned" : "0",
+          "returnDate" : "2019-12-20T18:23:28.796Z",
+          "reasonCode" : "108"
+        } ],
+        "requestedTotals" : {
+          "originalRetailPrice":"",
+          "originalUnitPrice" : "",
+          "originalUnitDiscountAmount" : "",
+          "lineRefundSubTotal" : "20",
+          "taxAmount" : "1.25",
+          "shippingAmount" : "1.99",
+          "shippingTaxAmount" : "0.12",
+          "inboundShippingAmount" : "0",
+          "totalAmount" : "23.36"
+        },
+        "refundMethods" : [ {
+          "type" : "ORIGINAL",
+          "amount" : "23.36"
+        } ],
+        "status" : "REFUNDED",
+        "statusHistory" : [ {
+          "refundStatus" : "REFUND_INITIATED",
+          "timestamp" : "2019-12-20T18:24:41.322Z"
+        }, {
+          "refundStatus" : "REFUND_PROCESSING",
+          "timestamp" : "2019-12-20T18:24:41.595Z"
+        }, {
+          "refundStatus" : "REFUNDED",
+          "timestamp" : "2019-12-20T18:24:43.349Z"
+        } ],
+        "paymentsInfo" : [ {
+          "paymentType" : "CREDITCARD",
+          "paymentTransactionType" : "REFUND",
+          "authCode" : "62718",
+          "creditCardType" : "DISCOVER",
+          "amount" : "23.36",
+          "paymentTransactionId" : "882576866283064E",
+          "cardLast4" : "6611",
+          "date" : "2019-12-20T18:24:43.247Z"
+        } ]
+      } ],
+      "orderStatusHistory" : [ {
+          "companyNumber" : "",
+        "description" : "SUBMITTED",
+        "orderNumber" : "A1446925086",
+        "orderStatus" : "SUBMITTED",
+        "modifiedDate" : "2019-12-15T21:12:57.247Z",
+        "cancelCode" : ""
+      }, {
+        "companyNumber" : "27",
+        "orderNumber" : "A1446925086",
+        "orderStatus" : "WAIT_FRAUD_SYSTEM_CHECK",
+        "modifiedDate" : "2019-12-15T21:12:57.79Z"
+      } ],
+      "consignments" : [ {
+        "consignmentId" : "DCT0009648",
+        "invoiceNum" : "",
+        "consignmentStatus" : "CONSIGNMENT_PROCESSING_END",
+        "fullfillmentSystem" : "WMS",
+        "fullfillmentType" : "DC",
+        "storeNumber" : "",
+        "shippingTax" : "0.53",
+        "consignmentEntries" : [ {
+          "entryStatus" : "SHIPPED",
+          "sku" : "16403411",
+          "productCode" : "2781896",
+          "productType" : "",
+          "size" : "14.0",
+          "requestedQty": "",
+          "fulfilledQty" : "1",
+          "cancelledQty" : "",
+          "pricing" : {
+            "originalRetailPrice" : "124.99",
+            "unitPrice" : "89.99",
+            "subTotalAmount" : "89.99",
+            "taxAmount" : "5.63",
+            "shippingAmount" : "8.50",
+            "shippingTaxAmount" : "0.53",
+            "totalAmount" : "104.12",
+            "discountedTotalAmount" : "104.12"
+          },
+          "shippedDate" : "2019-12-18T22:30:38Z",
+          "carrier" : "UPSP",
+          "cegrRefId" : "DCS3218",
+          "trackingId" : "TRG3883544669568597516848",
+          "cartonNum" : "CRF75A7003153742131704677",
+          "cancelCode": "",
+          "cancelReason": "",
+          "requestSystem": "",
+          "requestedBy" : "",
+          "updated" : "true",
+          "modifiedDate" : "2019-12-18T17:31:09.544Z"
+        } ],
+        "modifiedDate" : "2019-12-18T17:31:09.572Z"
+      } ]
+    },
+    "postedAt" : "2019-12-15T21:12:58.596Z",
+    "postedBy" : "oms-order-service"
+  },
+
+
+
+  {
+    "messageType" : "EXCHANGE",
+    "orderId" : "T2000054069",
+    "exchangeId" : "EXG1107",
+    "exchangeStatus" : "EXCHANGE_ORDER_CREATED",
+    "cancelCode":"string",
+    "order" : {
+      "orderRequest" : {
+        "requestType" : "",
+        "requester" : "",
+        "requestID" : "00816091",
+        "requestDate" : "2019-12-15T21:12:56.399Z",
+        "flRequestId" : "00816091",
+        "relateCustomerId" : "",
+        "affiliateId" : "",
+        "affiliateIdTime" : "2019-09-19T15:00:00Z"
+      },
+      "orderHeader" : {
+        "migratedOrder" : "",
+        "exchangeOrder" : "",
+        "overRideRequestReason": "",
+        "companyNumber" : "27",
+        "channel" : "automation",
+        "source" : "",
+        "vendorId" : "27",
+        "vendorName" : "",
+        "webOrderNumber" : "A1446925086",
+        "coupons" : ["xyz","yzx"],
+        "orderDateTime" : "2019-12-15T21:12:56.399Z",
+        "salesPersonID" : "5555",
+        "shipMethod" : "Z",
+        "shipMethodDesc" : "5-6 Business Days",
+        "payAuthorized": "",
+        "rushFlag" : "false",
+        "giftOrderFlag" : "false",
+        "giftBoxFlag" : "false",
+        "phoneNumber" : "2233221787",
+        "orderPricing" : {
+          "currencyIso" : "USD",
+          "gateway" : "Adyen",
+          "couponAmount" : "",
+          "giftBoxPrice" : "",
+          "baseShippingAmount" : "6",
+          "shippingAmount" : "17.99",
+          "subTotalAmount" : "100",
+          "taxAmount" : "0",
+          "totalAmount" : "117.99",
+          "discountAmount" : "0",
+          "discountedTotalAmount" : "117.99",
+          "settledAmount" : ""
+        },
+        "userIPAddress" : "127.0.0.1",
+        "deviceID" : "123",
+        "shippingAddress" : {
+          "firstName" : "Chetan",
+          "lastName" : "Chorawala",
+          "email" : "flomschetan@gmail.com",
+          "companyName" : "",
+          "phoneNumber" : "8474015443",
+          "addressLine1" : "159 N Sangamon St",
+          "addressLine2" : "",
+          "city" : "Chicago",
+          "state" : "IL",
+          "stateCode" : "",
+          "country" : "US",
+          "countryCode": "",
+          "postalCode" : "60607"
+        },
+        "billingAddress" : {
+          "firstName" : "Chetan",
+          "lastName" : "Chorawala",
+          "email" : "flomschetan@gmail.com",
+          "companyName" : "",
+          "phoneNumber" : "2233221787",
+          "addressLine1" : "159 N Sangamon St",
+          "addressLine2" : "",
+          "city" : "Chicago",
+          "state" : "IL",
+          "stateCode" : "",
+          "country" : "US",
+          "countryCode": "",
+          "postalCode" : "60607"
+        },
+        "division" : "",
+        "langID" : "E",
+        "shoppingCartId": "",
+        "placedBy" : ""
+      },
+      "user" : {
+        "firstName" : "Chetan",
+        "lastName" : "Chorawala",
+        "email" : "flomschetan@gmail.com",
+        "type" : "GUEST",
+        "id" : "APIDAFFY01",
+        "controllerCustomerId": "",
+        "relateCustomerId": "",
+        "flxId": ""
+      },
+      "fullfillmentGrouping" : [ {
+        "fullfillmentType" : "DC",
+        "shippingAmount" : {
+          "currencyIso" : "USD",
+          "value" : "0"
+        },
+        "orderLines" : [ {
+          "lineNumber" : "1",
+          "saleCode" : "",
+          "taxCode" : "PCLO-01",
+          "giftMessage": "",
+          "giftReceipientEmail": "",
+          "giftFrom": "",
+          "giftTo": "",
+          "giftCardNum": "",
+          "shipMethod" : "Z",
+          "freeShipping" : "false",
+          "quantity" : "1",
+          "product" : {
+            "name" : "Greenhouse Test Model Dept 5",
+            "image" : "https://images.footlocker.com/pi/GRN-0063/small/GRN-0063.jpeg",
+            "sku" : "GRN-0063",
+            "size" : "08.5",
+            "color" : "Purple",
+            "brand" : "",
+            "category": "",
+            "description" : "Purple",
+            "isCollectUpFront" : "false",
+            "backorderFlag" : "false",
+            "launchSkuFlag" : "false",
+            "taxCode" : "PCLO-01",
+            "productDesignator" : "0",
+            "productNumber" : "1004906",
+            "productType" : "REGULAR"
+          },
+          "storeFulfillment" : {
+            "shipMethod" : "",
+            "storeNumber" : "",
+            "fulfillmentType" : "",
+            "pickupPersonEmail" : "",
+            "pickupPersonMobile" : "",
+            "storeCostOfGoods" : "",
+            "deliveryEstimateID" : "",
+            "deliveryInstructions" : "",
+            "deliveryCustomerPhone" : "",
+            "storeAddress" : {
+                "firstName" : "",
+                "lastName" : "",
+                "email" : "",
+                "companyName" : "",
+                "phoneNumber" : "",
+                "addressLine1" : "",
+                "addressLine2" : "",
+                "city" : "",
+                "state" : "",
+                "stateCode" : "",
+                "country" : "",
+                "countryCode" : "",
+                "postalCode" : ""
+
+            }
+          },
+          "orderLinePricing" : {
+            "currencyIso" : "USD",
+            "originalRetailPrice" : "100",
+            "unitPrice" : "50",
+            "subTotalAmount" : "50",
+            "taxAmount" : "0",
+            "shippingAmount" : "1",
+            "totalAmount" : "51",
+            "discountedTotalAmount" : "51"
+          }
+        }, {
+          "lineNumber" : "2",
+          "taxCode" : "PCLO-01",
+          "shipMethod" : "Z",
+          "freeShipping" : "false",
+          "quantity" : "1",
+          "product" : {
+            "name" : "Greenhouse Test Model Dept 5",
+            "image" : "https://images.footlocker.com/pi/GRN-0064/small/GRN-0064.jpeg",
+            "sku" : "GRN-0064",
+            "size" : "08.5",
+            "color" : "Orange",
+            "brand" : "",
+            "description" : "Orange",
+            "isCollectUpFront" : "false",
+            "backorderFlag" : "false",
+            "launchSkuFlag" : "true",
+            "taxCode" : "PCLO-01",
+            "productDesignator" : "0",
+            "productNumber" : "1004919",
+            "productType" : "REGULAR"
+          },
+          "storeFulfillment" : {
+            "shipMethod" : "",
+            "storeNumber" : "",
+            "fulfillmentType" : "",
+            "pickupPersonEmail" : "",
+            "pickupPersonMobile" : "",
+            "storeCostOfGoods" : "",
+            "deliveryEstimateID" : "",
+            "deliveryInstructions" : "",
+            "deliveryCustomerPhone" : "",
+            "storeAddress" : {
+                "firstName" : "",
+                "lastName" : "",
+                "email" : "",
+                "companyName" : "",
+                "phoneNumber" : "",
+                "addressLine1" : "",
+                "addressLine2" : "",
+                "city" : "",
+                "state" : "",
+                "stateCode" : "",
+                "country" : "",
+                "countryCode" : "",
+                "postalCode" : ""
+
+            }
+          },
+          "orderLinePricing" : {
+            "currencyIso" : "USD",
+            "originalRetailPrice" : "100",
+            "unitPrice" : "50",
+            "subTotalAmount" : "50",
+            "taxAmount" : "0",
+            "shippingAmount" : "10",
+            "shippingTaxAmount": "",
+            "totalAmount" : "60",
+            "discountAmount": "",
+            "discountedTotalAmount" : "60"
+          }
+        } ]
+      } ],
+      "exchanges" : [ {
+        "createdBy" : "Prem Reddy Padakanti",
+        "userId" : "u829090@footlocker.com",
+        "exchangeNum" : "EXG1681",
+        "date" : "2020-04-03T15:53:54.326Z",
+        "exchangeOrderNum" : "EX000000685",
+        "fullfillmentGrouping" : [ {
+          "fullfillmentType" : "BOSS",
+          "shipMethod" : "Z",
+          "shipMethodDesc" : "5-6 Business Days",
+          "orderLines" : [ {
+            "lineNumber" : "1",
+            "taxCode" : "PCLO-01",
+            "freeShipping" : "true",
+            "quantity" : "1",
+            "product" : {
+              "name" : "Nike Benassi JDI Slide - Women's",
+              "image" : "https://images.footlocker.com/is/image/EBFL2/3438811_a1",
+              "sku" : "3438811",
+              "size" : "05.0",
+              "color" : "Black/Vivid Pink",
+              "brand" : "Nike",
+              "category" : "Sandals",
+              "description" : "Nike Benassi JDI Slide - Women's",
+              "launchSkuFlag" : "true",
+              "taxCode" : "PCLO-01",
+              "isCollectUpFront": "",
+              "backorderFlag": "",
+              "productNumber" : "2923176",
+              "productType" : "REGULAR"
+            },
+            "orderLinePricing" : {
+              "currencyIso" : "USD",
+              "priceOverrideReason" : "RC - RETURN CODE",
+              "originalRetailPrice" : "25",
+              "unitPrice" : "0",
+              "subTotalAmount" : "0.00",
+              "taxAmount" : "0",
+              "shippingAmount" : "0",
+              "shippingTaxAmount":"",
+              "giftBoxAmount":"",
+              "giftBoxTaxAmount":"",
+              "totalAmount" : "0.00",
+              "discountAmount" : "0",
+              "discountedTotalAmount" : "0.00"
+            }
+          } ],
+          "shippingLine" : [{"price":"","code":""}]
+        } ],
+        "paymentRequest" : {
+          "orderId" : "T2000158029",
+          "companyNumber" : "23",
+          "totalAmount" : "0.00",
+          "totalrefundAmount" : "0.00"
+        },
+        "paymentsInfo" : [ {
+          "creditCard" : {
+            "type" : "4",
+            "cardBin" : "601160",
+            "cardLast4" : "6611",
+            "cardToken" : "8315766482187721",
+            "expirationDate" : "1020",
+            "authInfo" : {
+              "transactionId" : "883585145138787D",
+              "authCode" : "088140",
+              "avsCode" : "4 AVS not supported for this card type",
+              "authResponse" : "true",
+              "cvvResponse" : "1 Matches",
+              "authAmount" : "0",
+              "preSettled" : "true",
+              "originalOrderNumber" : "T2000158029"
+            }
+          }
+        } ],
+        "alternateShippingAddress" : {
+          "firstName" : "Dnyaneshwar",
+          "lastName" : "Daphal",
+          "email" : "footlocker.daffy@gmail.com",
+          "companyName" : "",
+          "phoneNumber" : "9999999999",
+          "addressLine1" : "1620 worcester Rd",
+          "addressLine2" : "",
+          "city" : "Framingham",
+          "state" : "MA",
+          "country" : "US",
+          "postalCode" : "01702"
+        },
+        "status" : "EXCHANGE_ORDER_CREATED"
+      }, {
+        "createdBy" : "Prem Reddy Padakanti",
+        "userId" : "u829090@footlocker.com",
+        "exchangeNum" : "EXG1682",
+        "date" : "2020-04-03T15:54:39.544Z",
+        "exchangeOrderNum" : "EX000000686",
+        "fullfillmentGrouping" : [ {
+          "fullfillmentType" : "BOSS",
+          "shipMethod" : "Z",
+          "shipMethodDesc" : "5-6 Business Days",
+          "orderLines" : [ {
+            "lineNumber" : "1",
+            "taxCode" : "PCLO-01",
+            "freeShipping" : "true",
+            "quantity" : "1",
+            "product" : {
+              "name" : "Nike Benassi JDI Slide - Women's",
+              "image" : "https://images.footlocker.com/is/image/EBFL2/3438811_a1",
+              "sku" : "3438811",
+              "size" : "05.0",
+              "color" : "Black/Vivid Pink",
+              "brand" : "Nike",
+              "category" : "Sandals",
+              "description" : "Nike Benassi JDI Slide - Women's",
+              "launchSkuFlag" : "true",
+              "taxCode" : "PCLO-01",
+              "productNumber" : "2923176",
+              "productType" : "REGULAR"
+            },
+            "orderLinePricing" : {
+              "currencyIso" : "USD",
+              "priceOverrideReason" : "RC - RETURN CODE",
+              "originalRetailPrice" : "25",
+              "unitPrice" : "0",
+              "subTotalAmount" : "0.00",
+              "taxAmount" : "0",
+              "shippingAmount" : "0",
+              "totalAmount" : "0.00",
+              "discountAmount" : "0",
+              "discountedTotalAmount" : "0.00"
+            }
+          } ]
+        } ],
+        "paymentRequest" : {
+          "orderId" : "T2000158029",
+          "companyNumber" : "23",
+          "totalAmount" : "0.00",
+          "totalrefundAmount" : "0.00"
+        },
+        "paymentsInfo" : [ {
+          "creditCard" : {
+            "type" : "4",
+            "cardBin" : "601160",
+            "cardLast4" : "6611",
+            "cardToken" : "8315766482187721",
+            "expirationDate" : "1020",
+            "authInfo" : {
+              "transactionId" : "883585145138787D",
+              "authCode" : "088140",
+              "avsCode" : "4 AVS not supported for this card type",
+              "authResponse" : "true",
+              "cvvResponse" : "1 Matches",
+              "authAmount" : "0",
+              "preSettled" : "true",
+              "originalOrderNumber" : "T2000158029"
+            }
+          }
+        } ],
+        "alternateShippingAddress" : {
+          "firstName" : "Dnyaneshwar",
+          "lastName" : "Daphal",
+          "email" : "footlocker.daffy@gmail.com",
+          "companyName" : "",
+          "phoneNumber" : "9999999999",
+          "addressLine1" : "1620 worcester Rd",
+          "addressLine2" : "",
+          "city" : "Framingham",
+          "state" : "MA",
+          "country" : "US",
+          "postalCode" : "01702"
+        },
+        "status" : "EXCHANGE_ORDER_CREATED"
+      }, {
+        "createdBy" : "Prem Reddy Padakanti",
+        "userId" : "u829090@footlocker.com",
+        "exchangeNum" : "EXG1683",
+        "date" : "2020-04-03T15:57:31.566Z",
+        "exchangeOrderNum" : "EX000000687",
+        "fullfillmentGrouping" : [ {
+          "fullfillmentType" : "BOSS",
+          "shipMethod" : "Z",
+          "shipMethodDesc" : "5-6 Business Days",
+          "orderLines" : [ {
+            "lineNumber" : "1",
+            "taxCode" : "PCLO-01",
+            "freeShipping" : "true",
+            "quantity" : "1",
+            "product" : {
+              "name" : "Nike Benassi JDI Slide - Women's",
+              "image" : "https://images.footlocker.com/is/image/EBFL2/3438811_a1",
+              "sku" : "3438811",
+              "size" : "05.0",
+              "color" : "Black/Vivid Pink",
+              "brand" : "Nike",
+              "category" : "Sandals",
+              "description" : "Nike Benassi JDI Slide - Women's",
+              "launchSkuFlag" : "true",
+              "taxCode" : "PCLO-01",
+              "productNumber" : "2923176",
+              "productType" : "REGULAR"
+            },
+            "orderLinePricing" : {
+              "currencyIso" : "USD",
+              "priceOverrideReason" : "RC - RETURN CODE",
+              "originalRetailPrice" : "25",
+              "unitPrice" : "0",
+              "subTotalAmount" : "0.00",
+              "taxAmount" : "0",
+              "shippingAmount" : "0",
+              "totalAmount" : "0.00",
+              "discountAmount" : "0",
+              "discountedTotalAmount" : "0.00"
+            }
+          } ]
+        } ],
+        "paymentRequest" : {
+          "orderId" : "T2000158029",
+          "companyNumber" : "23",
+          "totalAmount" : "0.00",
+          "totalrefundAmount" : "0.00"
+        },
+        "paymentsInfo" : [ {
+          "creditCard" : {
+            "type" : "4",
+            "cardBin" : "601160",
+            "cardLast4" : "6611",
+            "cardToken" : "8315766482187721",
+            "expirationDate" : "1020",
+            "authInfo" : {
+              "transactionId" : "883585145138787D",
+              "authCode" : "088140",
+              "avsCode" : "4 AVS not supported for this card type",
+              "authResponse" : "true",
+              "cvvResponse" : "1 Matches",
+              "authAmount" : "0",
+              "preSettled" : "true",
+              "originalOrderNumber" : "T2000158029"
+            }
+          }
+        } ],
+        "alternateShippingAddress" : {
+          "firstName" : "Dnyaneshwar",
+          "lastName" : "Daphal",
+          "email" : "footlocker.daffy@gmail.com",
+          "companyName" : "",
+          "phoneNumber" : "9999999999",
+          "addressLine1" : "1620 worcester Rd",
+          "addressLine2" : "",
+          "city" : "Framingham",
+          "state" : "MA",
+          "country" : "US",
+          "postalCode" : "01702"
+        },
+        "status" : "EXCHANGE_ORDER_CREATED"
+      }, {
+        "createdBy" : "Prem Reddy Padakanti",
+        "userId" : "u829090@footlocker.com",
+        "exchangeNum" : "EXG1684",
+        "returnNum" : "RTN1980",
+        "date" : "2020-04-03T15:58:22.545Z",
+        "exchangeOrderNum" : "EX000000688",
+        "fullfillmentGrouping" : [ {
+          "fullfillmentType" : "BOSS",
+          "shipMethod" : "Z",
+          "shipMethodDesc" : "5-6 Business Days",
+          "orderLines" : [ {
+            "lineNumber" : "1",
+            "taxCode" : "PCLO-01",
+            "freeShipping" : "true",
+            "quantity" : "1",
+            "product" : {
+              "name" : "Nike Benassi JDI Slide - Women's",
+              "image" : "https://images.footlocker.com/is/image/EBFL2/3438811_a1",
+              "sku" : "3438811",
+              "size" : "05.0",
+              "color" : "Black/Vivid Pink",
+              "brand" : "Nike",
+              "category" : "Sandals",
+              "description" : "Nike Benassi JDI Slide - Women's",
+              "launchSkuFlag" : "true",
+              "taxCode" : "PCLO-01",
+              "productNumber" : "2923176",
+              "productType" : "REGULAR"
+            },
+            "orderLinePricing" : {
+              "currencyIso" : "USD",
+              "priceOverrideReason" : "RC - RETURN CODE",
+              "originalRetailPrice" : "25",
+              "unitPrice" : "0",
+              "subTotalAmount" : "0.00",
+              "taxAmount" : "0",
+              "shippingAmount" : "0",
+              "totalAmount" : "0.00",
+              "discountAmount" : "0",
+              "discountedTotalAmount" : "0.00"
+            }
+          } ]
+        } ],
+        "paymentRequest" : {
+          "orderId" : "T2000158029",
+          "companyNumber" : "23",
+          "totalAmount" : "0.00",
+          "totalrefundAmount" : "0.00"
+        },
+        "paymentsInfo" : [ {
+          "creditCard" : {
+            "type" : "4",
+            "cardBin" : "601160",
+            "cardLast4" : "6611",
+            "cardToken" : "8315766482187721",
+            "expirationDate" : "1020",
+            "authInfo" : {
+              "transactionId" : "883585145138787D",
+              "authCode" : "088140",
+              "avsCode" : "4 AVS not supported for this card type",
+              "authResponse" : "true",
+              "cvvResponse" : "1 Matches",
+              "authAmount" : "0",
+              "preSettled" : "true",
+              "originalOrderNumber" : "T2000158029"
+            }
+          }
+        } ],
+        "alternateShippingAddress" : {
+          "firstName" : "Dnyaneshwar",
+          "lastName" : "Daphal",
+          "email" : "footlocker.daffy@gmail.com",
+          "companyName" : "",
+          "phoneNumber" : "9999999999",
+          "addressLine1" : "1620 worcester Rd",
+          "addressLine2" : "",
+          "city" : "Framingham",
+          "state" : "MA",
+          "country" : "US",
+          "postalCode" : "01702"
+        },
+        "status" : "EXCHANGE_ORDER_CREATED"
+      }, {
+        "createdBy" : "Prem Reddy Padakanti",
+        "userId" : "u829090@footlocker.com",
+        "exchangeNum" : "EXG1685",
+        "returnNum" : "RTN1981",
+        "date" : "2020-04-03T16:07:53.691Z",
+        "exchangeOrderNum" : "EX000000689",
+        "fullfillmentGrouping" : [ {
+          "fullfillmentType" : "DC",
+          "shipMethod" : "Z",
+          "shipMethodDesc" : "5-6 Business Days",
+          "orderLines" : [ {
+            "lineNumber" : "1",
+            "taxCode" : "PCLO-01",
+            "freeShipping" : "true",
+            "quantity" : "1",
+            "product" : {
+              "name" : "Nike Benassi JDI Slide - Women's",
+              "image" : "https://images.footlocker.com/is/image/EBFL2/3438811_a1",
+              "sku" : "3438811",
+              "size" : "06.0",
+              "color" : "Black/Vivid Pink",
+              "brand" : "Nike",
+              "category" : "Sandals",
+              "description" : "Nike Benassi JDI Slide - Women's",
+              "launchSkuFlag" : "true",
+              "taxCode" : "PCLO-01",
+              "productNumber" : "2905095",
+              "productType" : "REGULAR"
+            },
+            "orderLinePricing" : {
+              "currencyIso" : "USD",
+              "priceOverrideReason" : "RC - RETURN CODE",
+              "originalRetailPrice" : "25",
+              "unitPrice" : "19.99",
+              "subTotalAmount" : "19.99",
+              "taxAmount" : "0",
+              "shippingAmount" : "0",
+              "totalAmount" : "19.99",
+              "discountAmount" : "0",
+              "discountedTotalAmount" : "19.99"
+            }
+          } ]
+        } ],
+        "paymentRequest" : {
+          "orderId" : "T2000158029",
+          "companyNumber" : "23",
+          "totalAmount" : "19.99",
+          "totalrefundAmount" : "19.99"
+        },
+        "paymentsInfo" : [ {
+          "giftCard" : {
+            "transactionId" : "7343003731287819290",
+            "authCode" : "877333",
+            "giftCardNumber" : "7777065385725975",
+            "preSettled" : "true",
+            "originalOrderNumber" : "T2000158029",
+            "amount" : "4.00",
+            "transactionDate" : "Wed Mar 25 10:05:37 EDT 2020"
+          }
+        }, {
+          "giftCard" : {
+            "transactionId" : "9033644210942528665",
+            "authCode" : "113744",
+            "giftCardNumber" : "7777065385718557",
+            "preSettled" : "true",
+            "originalOrderNumber" : "T2000158029",
+            "amount" : "3.00",
+            "transactionDate" : "Wed Mar 25 10:05:38 EDT 2020"
+          }
+        }, {
+          "creditCard" : {
+            "type" : "4",
+            "cardBin" : "601160",
+            "cardLast4" : "6611",
+            "cardToken" : "8315766482187721",
+            "expirationDate" : "1020",
+            "authInfo" : {
+              "transactionId" : "883585145138787D",
+              "authCode" : "088140",
+              "avsCode" : "4 AVS not supported for this card type",
+              "authResponse" : "true",
+              "cvvResponse" : "1 Matches",
+              "authAmount" : "12.99",
+              "preSettled" : "true",
+              "originalOrderNumber" : "T2000158029"
+            }
+          }
+        } ],
+        "alternateShippingAddress" : {
+          "firstName" : "Dnyaneshwar",
+          "lastName" : "Daphal",
+          "email" : "footlocker.daffy@gmail.com",
+          "companyName" : "",
+          "phoneNumber" : "9999999999",
+          "addressLine1" : "1620 worcester Rd",
+          "addressLine2" : "",
+          "city" : "Framingham",
+          "state" : "MA",
+          "country" : "US",
+          "postalCode" : "01702"
+        },
+        "status" : "EXCHANGE_ORDER_CREATED"
+      } ],
+      "orderStatusHistory" : [ {
+          "companyNumber" : "",
+        "description" : "SUBMITTED",
+        "orderNumber" : "A1446925086",
+        "orderStatus" : "SUBMITTED",
+        "modifiedDate" : "2019-12-15T21:12:57.247Z",
+        "cancelCode" : ""
+      }, {
+        "companyNumber" : "27",
+        "orderNumber" : "A1446925086",
+        "orderStatus" : "WAIT_FRAUD_SYSTEM_CHECK",
+        "modifiedDate" : "2019-12-15T21:12:57.79Z"
+      } ],
+      "consignments" : [ {
+        "consignmentId" : "DCT0009648",
+        "invoiceNum" : "",
+        "consignmentStatus" : "CONSIGNMENT_PROCESSING_END",
+        "fullfillmentSystem" : "WMS",
+        "fullfillmentType" : "DC",
+        "storeNumber" : "",
+        "shippingTax" : "0.53",
+        "consignmentEntries" : [ {
+          "entryStatus" : "SHIPPED",
+          "sku" : "16403411",
+          "productCode" : "2781896",
+          "productType" : "",
+          "size" : "14.0",
+          "requestedQty": "",
+          "fulfilledQty" : "1",
+          "cancelledQty" : "",
+          "pricing" : {
+            "originalRetailPrice" : "124.99",
+            "unitPrice" : "89.99",
+            "subTotalAmount" : "89.99",
+            "taxAmount" : "5.63",
+            "shippingAmount" : "8.50",
+            "shippingTaxAmount" : "0.53",
+            "totalAmount" : "104.12",
+            "discountedTotalAmount" : "104.12"
+          },
+          "shippedDate" : "2019-12-18T22:30:38Z",
+          "carrier" : "UPSP",
+          "cegrRefId" : "DCS3218",
+          "trackingId" : "TRG3883544669568597516848",
+          "cartonNum" : "CRF75A7003153742131704677",
+          "cancelCode": "",
+          "cancelReason": "",
+          "requestSystem": "",
+          "requestedBy" : "",
+          "updated" : "true",
+          "modifiedDate" : "2019-12-18T17:31:09.544Z"
+        } ],
+        "modifiedDate" : "2019-12-18T17:31:09.572Z"
+      } ]
+    },
+    "postedAt" : "2019-12-20T18:09:54.426Z"	,
+  "postedBy" : "oms-order-service"
+  }
+
+]
+

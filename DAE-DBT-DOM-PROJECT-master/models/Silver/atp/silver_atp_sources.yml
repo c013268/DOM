@@ -1,0 +1,15 @@
+version: 2
+
+sources:
+  - name: src_atp_bronze
+    database: "{{ env_var('DBT_BRONZE_DATABASE') }}"
+    schema: "{{ env_var('DBT_BRONZE_SCHEMA') }}"
+    tables:
+      - name: MAO_NETWORK_ATP_V
+        description: "Bronze view for MAO Network ATP data, flattened from raw JSON."
+      - name: MAO_NW_AVAILABILITY_ALERT_V
+        description: "Bronze view for MAO Network Availability Alert data, flattened from raw JSON."
+      - name: MAO_LOCATION_ATP_DELTA_V
+        description: "Bronze view for Location ATP delta updates, flattened from raw JSON."
+      - name: MAO_LOCATION_ATP_FULL_SYNC_V
+        description: "Bronze view for Location ATP full sync data, flattened from raw JSON."

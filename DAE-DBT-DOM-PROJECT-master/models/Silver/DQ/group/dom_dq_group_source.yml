@@ -1,0 +1,21 @@
+version: 2
+
+sources:
+  - name: dom_dq_group
+    tables:
+      - name: dummy
+    config:
+      meta:
+        group:
+          GDOMS001:
+            group_name: "DOM Pre Silver Validation"
+            project_id: "PDOM001"
+          GDOMS002:
+            group_name: "DOM Post Silver Validation"
+            project_id: "PDOM001"
+          GDOMG001:
+            group_name: "DOM Pre Gold Validation"
+            project_id: "PDOM001"
+          GDOMG002:
+            group_name: "DOM Post Gold Validation"
+            project_id: "PDOM001"

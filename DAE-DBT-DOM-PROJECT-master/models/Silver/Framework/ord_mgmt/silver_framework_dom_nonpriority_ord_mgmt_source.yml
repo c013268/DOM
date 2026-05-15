@@ -1,0 +1,314 @@
+version: 2
+
+sources:
+  - name: nonpriority_1_ord_mgmt_silver
+    database: "{{ env_var('DBT_SILVER_DATABASE') | as_text }}"
+    schema: "{{ env_var('DBT_SILVER_SCHEMA') | as_text }}"
+    config:
+      meta:
+        pipeline_name: dom
+        src_type: mysql
+        src_name: mao
+        src_module: mao
+        tgt_layer: silver
+        mysql_connector_db: "{{ env_var('DBT_DOM_CONNECTOR_DB')| as_text }}.PUBLIC.connector_stats"
+        t_minus_interval: "{{ env_var('DBT_T_MINUS_INTERVAL_SILVER')| as_text }}"
+        merge_predicate_interval: "{{ env_var('DBT_MERGE_PREDICATE_INTERVAL_SILVER')| as_text }}"
+    tables:
+      - name: ord_invoice_charge_detail
+        config:
+          loaded_at_field: updated_timestamp
+          meta:
+            src_tbl: "{{ env_var('DBT_STAGE_DATABASE') | as_text }}.{{ env_var('DBT_DOM_STAGE_ORD_MGMT_SCHEMA') | as_text }}.ord_invoice_charge_detail"
+            tgt_tbl: "{{ env_var('DBT_SILVER_DATABASE') | as_text }}.{{ env_var('DBT_SILVER_SCHEMA') | as_text }}.mao_ord_invoice_charge_detail_t"
+            src_archive_tbl: "{{ env_var('DBT_BRONZE_DATABASE') | as_text }}.{{ env_var('DBT_BRONZE_SCHEMA') | as_text }}.ord_invoice_charge_detail_archive_v"
+            load_type: incremental
+      - name: ord_invoice_tax_detail
+        config:
+          loaded_at_field: updated_timestamp
+          meta:
+            src_tbl: "{{ env_var('DBT_STAGE_DATABASE') | as_text }}.{{ env_var('DBT_DOM_STAGE_ORD_MGMT_SCHEMA') | as_text }}.ord_invoice_tax_detail"
+            tgt_tbl: "{{ env_var('DBT_SILVER_DATABASE') | as_text }}.{{ env_var('DBT_SILVER_SCHEMA') | as_text }}.mao_ord_invoice_tax_detail_t"
+            src_archive_tbl: "{{ env_var('DBT_BRONZE_DATABASE') | as_text }}.{{ env_var('DBT_BRONZE_SCHEMA') | as_text }}.ord_invoice_tax_detail_archive_v"
+            load_type: incremental
+      - name: ord_invoice_line_charge_detail
+        config:
+          loaded_at_field: updated_timestamp
+          meta:
+            src_tbl: "{{ env_var('DBT_STAGE_DATABASE') | as_text }}.{{ env_var('DBT_DOM_STAGE_ORD_MGMT_SCHEMA') | as_text }}.ord_invoice_line_charge_detail"
+            tgt_tbl: "{{ env_var('DBT_SILVER_DATABASE') | as_text }}.{{ env_var('DBT_SILVER_SCHEMA') | as_text }}.mao_ord_invoice_line_charge_detail_t"
+            src_archive_tbl: "{{ env_var('DBT_BRONZE_DATABASE') | as_text }}.{{ env_var('DBT_BRONZE_SCHEMA') | as_text }}.ord_invoice_line_charge_detail_archive_v"
+            load_type: incremental
+      - name: ord_invoice_line_tax_detail
+        config:
+          loaded_at_field: updated_timestamp
+          meta:
+            src_tbl: "{{ env_var('DBT_STAGE_DATABASE') | as_text }}.{{ env_var('DBT_DOM_STAGE_ORD_MGMT_SCHEMA') | as_text }}.ord_invoice_line_tax_detail"
+            tgt_tbl: "{{ env_var('DBT_SILVER_DATABASE') | as_text }}.{{ env_var('DBT_SILVER_SCHEMA') | as_text }}.mao_ord_invoice_line_tax_detail_t"
+            src_archive_tbl: "{{ env_var('DBT_BRONZE_DATABASE') | as_text }}.{{ env_var('DBT_BRONZE_SCHEMA') | as_text }}.ord_invoice_line_tax_detail_archive_v"
+            load_type: incremental
+      - name: ord_line_process_info
+        config:
+          loaded_at_field: updated_timestamp
+          meta:
+            src_tbl: "{{ env_var('DBT_STAGE_DATABASE') | as_text }}.{{ env_var('DBT_DOM_STAGE_ORD_MGMT_SCHEMA') | as_text }}.ord_line_process_info"
+            tgt_tbl: "{{ env_var('DBT_SILVER_DATABASE') | as_text }}.{{ env_var('DBT_SILVER_SCHEMA') | as_text }}.mao_ord_line_process_info_t"
+            src_archive_tbl: "{{ env_var('DBT_BRONZE_DATABASE') | as_text }}.{{ env_var('DBT_BRONZE_SCHEMA') | as_text }}.ord_line_process_info_archive_v"
+            load_type: incremental
+      - name: ord_order_attribute
+        config:
+          loaded_at_field: updated_timestamp
+          meta:
+            src_tbl: "{{ env_var('DBT_STAGE_DATABASE') | as_text }}.{{ env_var('DBT_DOM_STAGE_ORD_MGMT_SCHEMA') | as_text }}.ord_order_attribute"
+            tgt_tbl: "{{ env_var('DBT_SILVER_DATABASE') | as_text }}.{{ env_var('DBT_SILVER_SCHEMA') | as_text }}.mao_ord_order_attribute_t"
+            src_archive_tbl: "{{ env_var('DBT_BRONZE_DATABASE') | as_text }}.{{ env_var('DBT_BRONZE_SCHEMA') | as_text }}.ord_order_attribute_archive_v"
+            load_type: incremental
+      - name: ord_order_discount_request
+        config:
+          loaded_at_field: updated_timestamp
+          meta:
+            src_tbl: "{{ env_var('DBT_STAGE_DATABASE') | as_text }}.{{ env_var('DBT_DOM_STAGE_ORD_MGMT_SCHEMA') | as_text }}.ord_order_discount_request"
+            tgt_tbl: "{{ env_var('DBT_SILVER_DATABASE') | as_text }}.{{ env_var('DBT_SILVER_SCHEMA') | as_text }}.mao_ord_order_discount_request_t"
+            src_archive_tbl: "{{ env_var('DBT_BRONZE_DATABASE') | as_text }}.{{ env_var('DBT_BRONZE_SCHEMA') | as_text }}.ord_order_discount_request_archive_v"
+            load_type: incremental
+      - name: ord_order_line_hold
+        config:
+          loaded_at_field: updated_timestamp
+          meta:
+            src_tbl: "{{ env_var('DBT_STAGE_DATABASE') | as_text }}.{{ env_var('DBT_DOM_STAGE_ORD_MGMT_SCHEMA') | as_text }}.ord_order_line_hold"
+            tgt_tbl: "{{ env_var('DBT_SILVER_DATABASE') | as_text }}.{{ env_var('DBT_SILVER_SCHEMA') | as_text }}.mao_ord_order_line_hold_t"
+            src_archive_tbl: "{{ env_var('DBT_BRONZE_DATABASE') | as_text }}.{{ env_var('DBT_BRONZE_SCHEMA') | as_text }}.ord_order_line_hold_archive_v"
+            load_type: incremental
+
+
+  - name: nonpriority_2_ord_mgmt_silver
+    database: "{{ env_var('DBT_SILVER_DATABASE') | as_text }}"
+    schema: "{{ env_var('DBT_SILVER_SCHEMA') | as_text }}"
+    config:
+      meta:
+        pipeline_name: dom
+        src_type: mysql
+        src_name: mao
+        src_module: mao
+        tgt_layer: silver
+        mysql_connector_db: "{{ env_var('DBT_DOM_CONNECTOR_DB')| as_text }}.PUBLIC.connector_stats"
+        t_minus_interval: "{{ env_var('DBT_T_MINUS_INTERVAL_SILVER')| as_text }}"
+        merge_predicate_interval: "{{ env_var('DBT_MERGE_PREDICATE_INTERVAL_SILVER')| as_text }}"
+    tables:
+      - name: ord_order_line_sales_associate
+        config:
+          loaded_at_field: updated_timestamp
+          meta:
+            src_tbl: "{{ env_var('DBT_STAGE_DATABASE') | as_text }}.{{ env_var('DBT_DOM_STAGE_ORD_MGMT_SCHEMA') | as_text }}.ord_order_line_sales_associate"
+            tgt_tbl: "{{ env_var('DBT_SILVER_DATABASE') | as_text }}.{{ env_var('DBT_SILVER_SCHEMA') | as_text }}.mao_ord_order_line_sales_associate_t"
+            src_archive_tbl: "{{ env_var('DBT_BRONZE_DATABASE') | as_text }}.{{ env_var('DBT_BRONZE_SCHEMA') | as_text }}.ord_order_line_sales_associate_archive_v"
+            load_type: incremental
+      - name: ord_order_promotion_request
+        config:
+          loaded_at_field: updated_timestamp
+          meta:
+            src_tbl: "{{ env_var('DBT_STAGE_DATABASE') | as_text }}.{{ env_var('DBT_DOM_STAGE_ORD_MGMT_SCHEMA') | as_text }}.ord_order_promotion_request"
+            tgt_tbl: "{{ env_var('DBT_SILVER_DATABASE') | as_text }}.{{ env_var('DBT_SILVER_SCHEMA') | as_text }}.mao_ord_order_promotion_request_t"
+            src_archive_tbl: "{{ env_var('DBT_BRONZE_DATABASE') | as_text }}.{{ env_var('DBT_BRONZE_SCHEMA') | as_text }}.ord_order_promotion_request_archive_v"
+            load_type: incremental
+      - name: ord_order_tracking_detail
+        config:
+          loaded_at_field: updated_timestamp
+          meta:
+            src_tbl: "{{ env_var('DBT_STAGE_DATABASE') | as_text }}.{{ env_var('DBT_DOM_STAGE_ORD_MGMT_SCHEMA') | as_text }}.ord_order_tracking_detail"
+            tgt_tbl: "{{ env_var('DBT_SILVER_DATABASE') | as_text }}.{{ env_var('DBT_SILVER_SCHEMA') | as_text }}.mao_ord_order_tracking_detail_t"
+            src_archive_tbl: "{{ env_var('DBT_BRONZE_DATABASE') | as_text }}.{{ env_var('DBT_BRONZE_SCHEMA') | as_text }}.ord_order_tracking_detail_archive_v"
+            load_type: incremental
+      - name: ord_quantity_detail
+        config:
+          loaded_at_field: updated_timestamp
+          meta:
+            src_tbl: "{{ env_var('DBT_STAGE_DATABASE') | as_text }}.{{ env_var('DBT_DOM_STAGE_ORD_MGMT_SCHEMA') | as_text }}.ord_quantity_detail"
+            tgt_tbl: "{{ env_var('DBT_SILVER_DATABASE') | as_text }}.{{ env_var('DBT_SILVER_SCHEMA') | as_text }}.mao_ord_quantity_detail_t"
+            src_archive_tbl: "{{ env_var('DBT_BRONZE_DATABASE') | as_text }}.{{ env_var('DBT_BRONZE_SCHEMA') | as_text }}.ord_quantity_detail_archive_v"
+            load_type: incremental
+      - name: ord_allocation_status
+        config:
+          loaded_at_field: updated_timestamp
+          meta:
+            src_tbl: "{{ env_var('DBT_STAGE_DATABASE') | as_text }}.{{ env_var('DBT_DOM_STAGE_ORD_MGMT_SCHEMA') | as_text }}.ord_allocation_status"
+            tgt_tbl: "{{ env_var('DBT_SILVER_DATABASE') | as_text }}.{{ env_var('DBT_SILVER_SCHEMA') | as_text }}.mao_ord_allocation_status_t"
+            src_archive_tbl: "{{ env_var('DBT_BRONZE_DATABASE') | as_text }}.{{ env_var('DBT_BRONZE_SCHEMA') | as_text }}.ord_allocation_status_archive_v"
+            load_type: incremental
+      - name: ord_refund_payment_method
+        config:
+          loaded_at_field: updated_timestamp
+          meta:
+            src_tbl: "{{ env_var('DBT_STAGE_DATABASE') | as_text }}.{{ env_var('DBT_DOM_STAGE_ORD_MGMT_SCHEMA') | as_text }}.ord_refund_payment_method"
+            tgt_tbl: "{{ env_var('DBT_SILVER_DATABASE') | as_text }}.{{ env_var('DBT_SILVER_SCHEMA') | as_text }}.mao_ord_refund_payment_method_t"
+            src_archive_tbl: "{{ env_var('DBT_BRONZE_DATABASE') | as_text }}.{{ env_var('DBT_BRONZE_SCHEMA') | as_text }}.ord_refund_payment_method_archive_v"
+            load_type: incremental
+      - name: ord_invoice_status
+        config:
+          loaded_at_field: updated_timestamp
+          meta:
+            src_tbl: "{{ env_var('DBT_STAGE_DATABASE') | as_text }}.{{ env_var('DBT_DOM_STAGE_ORD_MGMT_SCHEMA') | as_text }}.ord_invoice_status"
+            tgt_tbl: "{{ env_var('DBT_SILVER_DATABASE') | as_text }}.{{ env_var('DBT_SILVER_SCHEMA') | as_text }}.mao_ord_invoice_status_t"
+            src_archive_tbl: "{{ env_var('DBT_BRONZE_DATABASE') | as_text }}.{{ env_var('DBT_BRONZE_SCHEMA') | as_text }}.ord_invoice_status_archive_v"
+            load_type: incremental
+      - name: ord_e_adjustment
+        config:
+          loaded_at_field: updated_timestamp
+          meta:
+            src_tbl: "{{ env_var('DBT_STAGE_DATABASE') | as_text }}.{{ env_var('DBT_DOM_STAGE_ORD_MGMT_SCHEMA') | as_text }}.ord_e_adjustment"
+            tgt_tbl: "{{ env_var('DBT_SILVER_DATABASE') | as_text }}.{{ env_var('DBT_SILVER_SCHEMA') | as_text }}.mao_ord_e_adjustment_t"
+            src_archive_tbl: "{{ env_var('DBT_BRONZE_DATABASE') | as_text }}.{{ env_var('DBT_BRONZE_SCHEMA') | as_text }}.ord_e_adjustment_archive_v"
+            load_type: incremental
+
+
+
+  - name: nonpriority_3_ord_mgmt_silver
+    database: "{{ env_var('DBT_SILVER_DATABASE') | as_text }}"
+    schema: "{{ env_var('DBT_SILVER_SCHEMA') | as_text }}"
+    config:
+      meta:
+        pipeline_name: dom
+        src_type: mysql
+        src_name: mao
+        src_module: mao
+        tgt_layer: silver
+        mysql_connector_db: "{{ env_var('DBT_DOM_CONNECTOR_DB')| as_text }}.PUBLIC.connector_stats"
+        t_minus_interval: "{{ env_var('DBT_T_MINUS_INTERVAL_SILVER')| as_text }}"
+        merge_predicate_interval: "{{ env_var('DBT_MERGE_PREDICATE_INTERVAL_SILVER')| as_text }}"
+    tables:
+      - name: ord_refund_recipient
+        config:
+          loaded_at_field: updated_timestamp
+          meta:
+            src_tbl: "{{ env_var('DBT_STAGE_DATABASE') | as_text }}.{{ env_var('DBT_DOM_STAGE_ORD_MGMT_SCHEMA') | as_text }}.ord_refund_recipient"
+            tgt_tbl: "{{ env_var('DBT_SILVER_DATABASE') | as_text }}.{{ env_var('DBT_SILVER_SCHEMA') | as_text }}.mao_ord_refund_recipient_t"
+            src_archive_tbl: "{{ env_var('DBT_BRONZE_DATABASE') | as_text }}.{{ env_var('DBT_BRONZE_SCHEMA') | as_text }}.ord_refund_recipient_archive_v"
+            load_type: incremental
+      - name: ord_return_type
+        config:
+          loaded_at_field: updated_timestamp
+          meta:
+            src_tbl: "{{ env_var('DBT_STAGE_DATABASE') | as_text }}.{{ env_var('DBT_DOM_STAGE_ORD_MGMT_SCHEMA') | as_text }}.ord_return_type"
+            tgt_tbl: "{{ env_var('DBT_SILVER_DATABASE') | as_text }}.{{ env_var('DBT_SILVER_SCHEMA') | as_text }}.mao_ord_return_type_t"
+            src_archive_tbl: "{{ env_var('DBT_BRONZE_DATABASE') | as_text }}.{{ env_var('DBT_BRONZE_SCHEMA') | as_text }}.ord_return_type_archive_v"
+            load_type: incremental
+      - name: ord_order_line_pickup_detail
+        config:
+          loaded_at_field: updated_timestamp
+          meta:
+            src_tbl: "{{ env_var('DBT_STAGE_DATABASE') | as_text }}.{{ env_var('DBT_DOM_STAGE_ORD_MGMT_SCHEMA') | as_text }}.ord_order_line_pickup_detail"
+            tgt_tbl: "{{ env_var('DBT_SILVER_DATABASE') | as_text }}.{{ env_var('DBT_SILVER_SCHEMA') | as_text }}.mao_ord_order_line_pickup_detail_t"
+            src_archive_tbl: "{{ env_var('DBT_BRONZE_DATABASE') | as_text }}.{{ env_var('DBT_BRONZE_SCHEMA') | as_text }}.ord_order_line_pickup_detail_archive_v"
+            load_type: incremental
+      - name: ord_order_milestone_event
+        config:
+          loaded_at_field: updated_timestamp
+          meta:
+            src_tbl: "{{ env_var('DBT_STAGE_DATABASE') | as_text }}.{{ env_var('DBT_DOM_STAGE_ORD_MGMT_SCHEMA') | as_text }}.ord_order_milestone_event"
+            tgt_tbl: "{{ env_var('DBT_SILVER_DATABASE') | as_text }}.{{ env_var('DBT_SILVER_SCHEMA') | as_text }}.mao_ord_order_milestone_event_t"
+            src_archive_tbl: "{{ env_var('DBT_BRONZE_DATABASE') | as_text }}.{{ env_var('DBT_BRONZE_SCHEMA') | as_text }}.ord_order_milestone_event_archive_v"
+            load_type: incremental
+      - name: ord_order_line_milestone_event
+        config:
+          loaded_at_field: updated_timestamp
+          meta:
+            src_tbl: "{{ env_var('DBT_STAGE_DATABASE') | as_text }}.{{ env_var('DBT_DOM_STAGE_ORD_MGMT_SCHEMA') | as_text }}.ord_order_line_milestone_event"
+            tgt_tbl: "{{ env_var('DBT_SILVER_DATABASE') | as_text }}.{{ env_var('DBT_SILVER_SCHEMA') | as_text }}.mao_ord_order_line_milestone_event_t"
+            src_archive_tbl: "{{ env_var('DBT_BRONZE_DATABASE') | as_text }}.{{ env_var('DBT_BRONZE_SCHEMA') | as_text }}.ord_order_line_milestone_event_archive_v"
+            load_type: incremental
+      - name: ord_order_milestone_definition
+        config:
+          loaded_at_field: updated_timestamp
+          meta:
+            src_tbl: "{{ env_var('DBT_STAGE_DATABASE') | as_text }}.{{ env_var('DBT_DOM_STAGE_ORD_MGMT_SCHEMA') | as_text }}.ord_order_milestone_definition"
+            tgt_tbl: "{{ env_var('DBT_SILVER_DATABASE') | as_text }}.{{ env_var('DBT_SILVER_SCHEMA') | as_text }}.mao_ord_order_milestone_definition_t"
+            src_archive_tbl: "{{ env_var('DBT_BRONZE_DATABASE') | as_text }}.{{ env_var('DBT_BRONZE_SCHEMA') | as_text }}.ord_order_milestone_definition_archive_v"
+            load_type: incremental
+      - name: ord_line_milestone_definition
+        config:
+          loaded_at_field: updated_timestamp
+          meta:
+            src_tbl: "{{ env_var('DBT_STAGE_DATABASE') | as_text }}.{{ env_var('DBT_DOM_STAGE_ORD_MGMT_SCHEMA') | as_text }}.ord_line_milestone_definition"
+            tgt_tbl: "{{ env_var('DBT_SILVER_DATABASE') | as_text }}.{{ env_var('DBT_SILVER_SCHEMA') | as_text }}.mao_ord_line_milestone_definition_t"
+            src_archive_tbl: "{{ env_var('DBT_BRONZE_DATABASE') | as_text }}.{{ env_var('DBT_BRONZE_SCHEMA') | as_text }}.ord_line_milestone_definition_archive_v"
+            load_type: incremental
+
+
+  - name: nonpriority_4_ord_mgmt_silver
+    database: "{{ env_var('DBT_SILVER_DATABASE') | as_text }}"
+    schema: "{{ env_var('DBT_SILVER_SCHEMA') | as_text }}"
+    config:
+      meta:
+        pipeline_name: dom
+        src_type: mysql
+        src_name: mao
+        src_module: mao
+        tgt_layer: silver
+        mysql_connector_db: "{{ env_var('DBT_DOM_CONNECTOR_DB')| as_text }}.PUBLIC.connector_stats"
+        t_minus_interval: "{{ env_var('DBT_T_MINUS_INTERVAL_SILVER')| as_text }}"
+        merge_predicate_interval: "{{ env_var('DBT_MERGE_PREDICATE_INTERVAL_SILVER')| as_text }}"
+    tables:
+      - name: ord_order_capture_config
+        config:
+          loaded_at_field: updated_timestamp
+          meta:
+            src_tbl: "{{ env_var('DBT_STAGE_DATABASE') | as_text }}.{{ env_var('DBT_DOM_STAGE_ORD_MGMT_SCHEMA') | as_text }}.ord_order_capture_config"
+            tgt_tbl: "{{ env_var('DBT_SILVER_DATABASE') | as_text }}.{{ env_var('DBT_SILVER_SCHEMA') | as_text }}.mao_ord_order_capture_config_t"
+            src_archive_tbl: "{{ env_var('DBT_BRONZE_DATABASE') | as_text }}.{{ env_var('DBT_BRONZE_SCHEMA') | as_text }}.ord_order_capture_config_archive_v"
+            load_type: incremental
+      - name: ord_order_payment_method
+        config:
+          loaded_at_field: updated_timestamp
+          meta:
+            src_tbl: "{{ env_var('DBT_STAGE_DATABASE') | as_text }}.{{ env_var('DBT_DOM_STAGE_ORD_MGMT_SCHEMA') | as_text }}.ord_order_payment_method"
+            tgt_tbl: "{{ env_var('DBT_SILVER_DATABASE') | as_text }}.{{ env_var('DBT_SILVER_SCHEMA') | as_text }}.mao_ord_order_payment_method_t"
+            src_archive_tbl: "{{ env_var('DBT_BRONZE_DATABASE') | as_text }}.{{ env_var('DBT_BRONZE_SCHEMA') | as_text }}.ord_order_payment_method_archive_v"
+            load_type: incremental
+      - name: ord_return_fee
+        config:
+          loaded_at_field: updated_timestamp
+          meta:
+            src_tbl: "{{ env_var('DBT_STAGE_DATABASE') | as_text }}.{{ env_var('DBT_DOM_STAGE_ORD_MGMT_SCHEMA') | as_text }}.ord_return_fee"
+            tgt_tbl: "{{ env_var('DBT_SILVER_DATABASE') | as_text }}.{{ env_var('DBT_SILVER_SCHEMA') | as_text }}.mao_ord_return_fee_t"
+            src_archive_tbl: "{{ env_var('DBT_BRONZE_DATABASE') | as_text }}.{{ env_var('DBT_BRONZE_SCHEMA') | as_text }}.ord_return_fee_archive_v"
+            load_type: incremental
+      - name: ord_line_promotion_request
+        config:
+          loaded_at_field: updated_timestamp
+          meta:
+            src_tbl: "{{ env_var('DBT_STAGE_DATABASE') | as_text }}.{{ env_var('DBT_DOM_STAGE_ORD_MGMT_SCHEMA') | as_text }}.ord_line_promotion_request"
+            tgt_tbl: "{{ env_var('DBT_SILVER_DATABASE') | as_text }}.{{ env_var('DBT_SILVER_SCHEMA') | as_text }}.mao_ord_line_promotion_request_t"
+            src_archive_tbl: "{{ env_var('DBT_BRONZE_DATABASE') | as_text }}.{{ env_var('DBT_BRONZE_SCHEMA') | as_text }}.ord_line_promotion_request_archive_v"
+            load_type: incremental
+      - name: ord_order_note
+        config:
+          loaded_at_field: updated_timestamp
+          meta:
+            src_tbl: "{{ env_var('DBT_STAGE_DATABASE') | as_text }}.{{ env_var('DBT_DOM_STAGE_ORD_MGMT_SCHEMA') | as_text }}.ord_order_note"
+            tgt_tbl: "{{ env_var('DBT_SILVER_DATABASE') | as_text }}.{{ env_var('DBT_SILVER_SCHEMA') | as_text }}.mao_ord_order_note_t"
+            src_archive_tbl: "{{ env_var('DBT_BRONZE_DATABASE') | as_text }}.{{ env_var('DBT_BRONZE_SCHEMA') | as_text }}.ord_order_note_archive_v"
+            load_type: incremental
+      - name: ord_returns
+        config:
+          loaded_at_field: updated_timestamp
+          meta:
+            src_tbl: "{{ env_var('DBT_STAGE_DATABASE') | as_text }}.{{ env_var('DBT_DOM_STAGE_ORD_MGMT_SCHEMA') | as_text }}.ord_returns"
+            tgt_tbl: "{{ env_var('DBT_SILVER_DATABASE') | as_text }}.{{ env_var('DBT_SILVER_SCHEMA') | as_text }}.mao_ord_returns_t"
+            src_archive_tbl: "{{ env_var('DBT_BRONZE_DATABASE') | as_text }}.{{ env_var('DBT_BRONZE_SCHEMA') | as_text }}.ord_returns_archive_v"
+            load_type: incremental
+      - name: ord_manager_auth_detail
+        config:
+          loaded_at_field: updated_timestamp
+          meta:
+            src_tbl: "{{ env_var('DBT_STAGE_DATABASE') | as_text }}.{{ env_var('DBT_DOM_STAGE_ORD_MGMT_SCHEMA') | as_text }}.ord_manager_auth_detail"
+            tgt_tbl: "{{ env_var('DBT_SILVER_DATABASE') | as_text }}.{{ env_var('DBT_SILVER_SCHEMA') | as_text }}.mao_ord_manager_auth_detail_t"
+            src_archive_tbl: "{{ env_var('DBT_BRONZE_DATABASE') | as_text }}.{{ env_var('DBT_BRONZE_SCHEMA') | as_text }}.ord_manager_auth_detail_archive_v"
+            load_type: incremental
+      - name: ord_order_line_attribute
+        config:
+          loaded_at_field: updated_timestamp
+          meta:
+            src_tbl: "{{ env_var('DBT_STAGE_DATABASE') | as_text }}.{{ env_var('DBT_DOM_STAGE_ORD_MGMT_SCHEMA') | as_text }}.ord_order_line_attribute"
+            tgt_tbl: "{{ env_var('DBT_SILVER_DATABASE') | as_text }}.{{ env_var('DBT_SILVER_SCHEMA') | as_text }}.mao_ord_order_line_attribute_t"
+            src_archive_tbl: "{{ env_var('DBT_BRONZE_DATABASE') | as_text }}.{{ env_var('DBT_BRONZE_SCHEMA') | as_text }}.ord_order_line_attribute_archive_v"
+            load_type: incremental

@@ -1,0 +1,67 @@
+version: 2
+
+sources:
+  - name: src_ord_fulflmnt_silver
+    database: "{{ env_var('DBT_SILVER_DATABASE') | as_text }}"
+    schema: "{{ env_var('DBT_SILVER_SCHEMA') | as_text }}"
+    tables:
+      - name: mao_ful_fulfillment_v
+        config:
+          meta:
+            description: "This is a silver view for fulfilment Header details"
+      - name: mao_ful_fulfillment_line_v
+        config:
+          meta:
+            description: "This is a silver view for fulfilment Line details"
+      - name: mao_ful_package_header_v
+        config:
+          meta:
+            description: "This is a silver view for fulfilment Package Header details"
+      - name: mao_ful_package_detail_v
+        config:
+          meta:
+            description: "This is a silver view for fulfilment Package Detail details"
+      - name: mao_ful_task_v
+        config:
+          meta:
+            description: "This is a silver view for fulfilment Task details"
+      - name: mao_ful_task_type_v
+        config:
+          meta:
+            description: "This is a silver view for fulfilment Task Type details"
+      - name: mao_ful_pick_task_detail_v
+        config:
+          meta:
+            description: "This is a silver view for fulfilment Pick Task details"
+      - name: mao_ful_fulfillment_reason_v
+        config:
+          meta:
+            description: "This is a silver view for fulfilment Reason details"
+      - name: mao_ful_fulfillment_reason_type_v
+        config:
+          meta:
+            description: "This is a silver view for fulfilment Reason Type details"
+      - name: mao_ord_release_v
+        config:
+          meta:
+            description: "This is a silver view for fulfilment Release details"
+      - name: mao_ful_package_status_v
+        config:
+          meta:
+            description: "This is a silver view for fulfilment Package Status details"
+      - name: mao_ful_fulfillment_line_hist_v
+        config:
+          meta:
+            description: "This is a silver view for fulfilment Line History (Status) details"
+      - name: mao_ful_fw_status_definition_v
+        config:
+          meta:
+            description: "This is a silver view for ful status definition details"
+      - name: mao_ful_task_status_v
+        config:
+          meta:
+            description: "This is a silver view for ful Task status details"
+      - name: mao_ful_fulfillment_line_shorts_v
+        config:
+          meta:
+            description: "This is a silver view for ful line short reason details"

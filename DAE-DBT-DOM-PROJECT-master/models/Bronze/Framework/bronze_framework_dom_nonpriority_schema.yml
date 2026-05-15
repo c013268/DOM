@@ -1,0 +1,57 @@
+version: 2
+
+models:
+  - name: dom_nonpriority_1_inv_mgmt_bronze
+    description: "This group model loads inv_mgmt group 1 based tables from journal to bronze"
+    config:
+      tags: ["load_dom_mysql_journal_to_bronze_nonpriority_tag"]
+
+  - name: dom_nonpriority_2_inv_mgmt_bronze
+    description: "This group model loads inv_mgmt group 2 based tables from journal to bronze"
+    config:
+      tags: ["load_dom_mysql_journal_to_bronze_nonpriority_tag"]
+
+  - name: dom_nonpriority_1_itm_bronze
+    description: "This group model loads itm group 1 based tables from journal to bronze"
+    config:
+      tags: ["load_dom_mysql_journal_to_bronze_nonpriority_tag"]
+
+  - name: dom_nonpriority_2_itm_bronze
+    description: "This group model loads itm group 2 based tables from journal to bronze"
+    config:
+      tags: ["load_dom_mysql_journal_to_bronze_nonpriority_tag"]
+
+  - name: dom_nonpriority_ord_fulflmnt_bronze
+    description: "This group model loads ord_fulflmnt group based tables from journal to bronze"
+    config:
+      tags: ["load_dom_mysql_journal_to_bronze_nonpriority_tag"]
+
+  - name: dom_nonpriority_1_ord_mgmt_bronze
+    description: "This group model loads ord_mgmt group 1 based tables from journal to bronze"
+    config:
+      tags: ["load_dom_mysql_journal_to_bronze_nonpriority_tag"]
+
+  - name: dom_nonpriority_2_ord_mgmt_bronze
+    description: "This group model loads ord_mgmt group 2 based tables from journal to bronze"
+    config:
+      tags: ["load_dom_mysql_journal_to_bronze_nonpriority_tag"]
+
+  - name: dom_nonpriority_3_ord_mgmt_bronze
+    description: "This group model loads ord_mgmt group 3 based tables from journal to bronze"
+    config:
+      tags: ["load_dom_mysql_journal_to_bronze_nonpriority_tag"]
+
+  - name: dom_nonpriority_org_bronze
+    description: "This group model loads org group based tables from journal to bronze"
+    config:
+      tags: ["load_dom_mysql_journal_to_bronze_nonpriority_tag"]
+
+  - name: dom_nonpriority_1_payment_bronze
+    description: "This group model loads payment group 1 based tables from journal to bronze"
+    config:
+      tags: ["load_dom_mysql_journal_to_bronze_nonpriority_tag"]
+
+  - name: dom_nonpriority_2_payment_bronze
+    description: "This group model loads payment group 2 based tables from journal to bronze"
+    config:
+      tags: ["load_dom_mysql_journal_to_bronze_nonpriority_tag"]

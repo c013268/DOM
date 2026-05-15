@@ -1,0 +1,15 @@
+sources:
+  - name: dq_config
+    database: "{{ env_var('DBT_SILVER_DATABASE') | as_text }}"
+    schema: DBT_MONITOR
+    tables:
+      - name: dq_project_t
+      - name: dq_group_t
+      - name: dq_rule_t
+      - name: dq_rule_exp_t
+
+  - name: dq_audit
+    database: "{{ env_var('DBT_SILVER_DATABASE') | as_text }}"
+    schema: DBT_MONITOR
+    tables:
+      - name: dq_result_t

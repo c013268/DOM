@@ -1,0 +1,15 @@
+version: 2
+
+models:
+  - name: dbt_batch_id_start
+    description: "This model inserts a new batch record at the start of the batch process"
+    config:
+      tags: ["batch_start_tag"]
+
+  - name: dbt_batch_id_end
+    description: "This model ends the current batch"
+    config:
+      tags: ["batch_end_tag"]
+      meta:
+        depends_on:
+          - ref: dbt_batch_id_start

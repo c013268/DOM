@@ -1,0 +1,566 @@
+package com.footlocker.oms_streaming.apps
+import com.databricks.dbutils_v1.DBUtilsHolder.dbutils
+import com.footlocker.conf.AppConfObject_Gen2.getSnowflakeConnectionOptions
+import com.footlocker.services.SnowflakeHelperService_Gen2
+import com.footlocker.utils.Common_Gen2.{applyschema,prepareDf}
+import com.footlocker.utils.Constants.AppendGen2ToSnowFlakeTablesFlag
+import org.apache.spark.sql.expressions.Window
+import org.apache.spark.sql.functions._
+import org.apache.spark.sql.{DataFrame, SaveMode, SparkSession}
+
+
+object AdlsReturn_Gen2 extends SnowflakeHelperService_Gen2 {
+
+
+  def AdlsReturnFunc(oms_return_adls: DataFrame, spark: SparkSession, inputParams: Map[String, String]) {
+    import spark.implicits._
+
+    oms_return_adls.sparkSession.conf.set("spark.sql.shuffle.partitions", 1)
+    oms_return_adls.sparkSession.conf.set("spark.sql.autoBroadcastJoinThreshold",-1)
+    oms_return_adls.sparkSession.conf.set("spark.databricks.optimizer.dynamicPartitionPruning","true")
+
+
+    //FILTERING OUT ORDER MESSAGE
+//    val oms_return_raw = oms_return_adls.withColumn("return_flag", when($"json".contains("""messageType":"RETURN"""), "1").when($"json".contains("""messageType" : "RETURN"""), "1").otherwise("0"))
+//      .filter("return_flag == 1")
+//      .drop("return_flag")
+
+    val schemapath:String = (inputParams("schema_location")+"/returns.json")
+    val parsed = applyschema(spark,oms_return_adls,schemapath)
+
+    val returns_latest = parsed.select("oms_parsed_data.returnId",
+      "oms_parsed_data.orderId",
+      "oms_parsed_data.order",
+      "oms_parsed_data.postedAt",
+      "oms_parsed_data.postedBy",
+      "oms_parsed_data.returnStatus",
+      "load_time_kafka",
+      "load_time_adls"
+    )
+
+    val returns_explode_1 = returns_latest.select(
+      trim(returns_latest("orderId")) as "order_id",
+      trim(returns_latest("returnId")) as "return_id",
+      trim(returns_latest("postedBy")) as "postedBy",
+      returns_latest("order") as "order",
+      explode_outer(returns_latest("order.returns")).alias("returns"),
+      trim(returns_latest("postedAt")) as "postedAt",
+      $"returnStatus",
+      $"load_time_kafka",
+      $"load_time_adls"
+    )
+
+    val returns_explode_2 = returns_explode_1.select(
+      $"order_id",
+      $"return_id",
+      $"returns",
+      $"postedBy",
+      $"order",
+      explode_outer($"returns.lines") as "lines",
+      $"postedAt",
+      $"returnStatus",
+      $"load_time_kafka",
+      $"load_time_adls"
+    )
+
+
+
+    val returns_parsed = returns_explode_2.select(
+      $"order_id",
+      trim($"order.orderHeader.orderDateTime") as "order_datetime",
+      $"return_id",
+      trim($"returns.companyNumber") as "company_number",
+      $"returnStatus" as "return_status",
+      $"returns.returnNum" as "return_number",
+      $"returns.refundMethod" as "refund_method",
+      $"returns.returnLocation" as "return_location",
+      $"returns.exchangeOrderNumber" as "exchangeOrderNumber",
+      $"returns.exchangeNumber" as "exchangeNumber",
+      $"returns.date" as "return_date",
+      $"returns.agent" as "return_agent",
+      $"returns.taxTransId" as "return_taxTransId",
+      $"returns.actualTotals.adjustmentAmount" as "return_act_adjustmentAmount",
+      $"returns.actualTotals.creditsAmount" as "return_act_creditsAmount",
+      $"returns.actualTotals.discountAmount" as "return_act_discountAmount",
+      $"returns.actualTotals.discountedTotalAmount" as "return_act_discountedTotalAmount",
+      $"returns.actualTotals.refundTotalAmount" as "return_act_refundTotalAmount",
+      $"returns.actualTotals.totalReturnAmount" as "return_act_totalReturnAmount",
+      $"returns.actualTotals.exchangeCreditAmount" as "return_act_exchangeCreditAmount",
+      $"returns.actualTotals.creditCardRefundAmount" as "return_act_creditCardRefundAmount",
+      $"returns.actualTotals.paypalRefundAmount" as "return_act_paypalRefundAmount",
+      $"returns.actualTotals.giftCardrefundAmount" as "return_act_giftCardrefundAmount",
+      $"returns.actualTotals.shippingAmount" as "return_act_shippingAmount",
+      $"returns.actualTotals.shippingTaxAmount" as "return_act_shippingTaxAmount",
+      $"returns.actualTotals.subTotalAmount" as "return_act_subTotalAmount",
+      $"returns.actualTotals.taxAmount" as "return_act_taxAmount",
+      $"returns.requestedTotals.adjustmentAmount" as "req_tot_adjustmentAmount",
+      $"returns.requestedTotals.creditsAmount" as "req_tot_creditsAmount",
+      $"returns.requestedTotals.discountAmount" as "req_tot_discountAmount",
+      $"returns.requestedTotals.discountedTotalAmount" as "req_tot_discountedTotalAmount",
+      $"returns.requestedTotals.refundTotalAmount" as "req_tot_refundTotalAmount",
+      $"returns.requestedTotals.totalReturnAmount" as "req_tot_totalReturnAmount",
+      $"returns.requestedTotals.exchangeCreditAmount" as "req_tot_exchangeCreditAmount",
+      $"returns.requestedTotals.creditCardRefundAmount" as "req_tot_creditCardRefundAmount",
+      $"returns.requestedTotals.paypalRefundAmount" as "req_tot_paypalRefundAmount",
+      $"returns.requestedTotals.giftCardrefundAmount" as "req_tot_giftCardrefundAmount",
+      $"returns.requestedTotals.shippingAmount" as "req_tot_shippingAmount",
+      $"returns.requestedTotals.shippingTaxAmount" as "req_tot_shippingTaxAmount",
+      $"returns.requestedTotals.subTotalAmount" as "req_tot_subTotalAmount",
+      $"returns.requestedTotals.taxAmount" as "req_tot_taxAmount",
+      $"lines.lineNumber" as "lines_lineNumber",
+      $"lines.refundNum" as "lines_refundNum",
+      $"lines.actualLinePrice.priceOverrideReason" as "lines_act_priceOverrideReason",
+      $"lines.actualLinePrice.discountAmount" as "lines_act_discountAmount",
+      $"lines.actualLinePrice.discountedTotalAmount" as "lines_act_discountedTotalAmount",
+      $"lines.actualLinePrice.originalRetailPrice" as "lines_act_originalRetailPrice",
+      $"lines.actualLinePrice.shippingAmount" as "lines_act_shippingAmount",
+      $"lines.actualLinePrice.shippingTaxAmount" as "lines_act_shippingTaxAmount",
+      $"lines.actualLinePrice.giftBoxAmount" as "lines_act_giftBoxAmount",
+      $"lines.actualLinePrice.giftBoxTaxAmount" as "lines_act_giftBoxTaxAmount",
+      $"lines.actualLinePrice.subTotalAmount" as "lines_act_subTotalAmount",
+      $"lines.actualLinePrice.taxAmount" as "lines_act_taxAmount",
+      $"lines.actualLinePrice.totalAmount" as "lines_act_totalAmount",
+      $"lines.actualLinePrice.unitPrice" as "lines_act_unitPrice",
+      $"lines.product.backorderFlag" as "product_backorderFlag",
+      $"lines.product.brand" as "product_brand",
+      $"lines.product.category" as "product_category",
+      $"lines.product.color" as "product_color",
+      $"lines.product.description" as "product_description",
+      $"lines.product.image" as "product_image",
+      $"lines.product.isCollectUpFront" as "product_isCollectUpFront",
+      $"lines.product.launchSkuFlag" as "product_launchSkuFlag",
+      $"lines.product.name" as "product_name",
+      $"lines.product.productDesignator" as "productDesignator",
+      $"lines.product.productNumber" as "product_number",
+      $"lines.product.productType" as "product_type",
+      $"lines.product.size" as "product_size",
+      $"lines.product.sku" as "product_sku",
+      $"lines.product.taxCode" as "product_taxCode",
+      $"lines.quantity" as "lines_qty",
+      $"lines.reasonCode" as "lines_reasonCode",
+      $"lines.reasonCodeId" as "lines_reasonCodeId",
+      $"lines.requestedLinePrice.currencyIso" as "currencyIso",
+      $"lines.requestedLinePrice.priceOverrideReason" as "req_lines_priceOverrideReason",
+      $"lines.requestedLinePrice.discountAmount" as "req_lines_discountAmount",
+      $"lines.requestedLinePrice.discountedTotalAmount" as "req_lines_discountedTotalAmount",
+      $"lines.requestedLinePrice.originalRetailPrice" as "req_lines_originalRetailPrice",
+      $"lines.requestedLinePrice.shippingAmount" as "req_lines_shippingAmount",
+      $"lines.requestedLinePrice.shippingTaxAmount" as "req_lines_shippingTaxAmount",
+      $"lines.requestedLinePrice.subTotalAmount" as "req_lines_subTotalAmount",
+      $"lines.requestedLinePrice.taxAmount" as "req_lines_taxAmount",
+      $"lines.requestedLinePrice.totalAmount" as "req_lines_totalAmount",
+      $"lines.requestedLinePrice.giftBoxAmount" as "req_lines_giftBoxAmount",
+      $"lines.requestedLinePrice.giftBoxTaxAmount" as "req_lines_giftBoxTaxAmount",
+      $"lines.requestedLinePrice.unitPrice" as "req_lines_unitPrice",
+      $"lines.restockable" as "restockable",
+      $"lines.taxInvoiceNum" as "taxInvoiceNum",
+      $"returns.credits" as "credits",
+      $"returns.adjustments" as "adjustments",
+      $"returns.PaymentsInfo" as "PaymentsInfo",
+      $"postedAt",
+      $"postedBy",
+      $"load_time_kafka",
+      $"load_time_adls" ,
+      to_date(trim($"order.orderHeader.orderDateTime")) as "order_date",
+      $"returns.returningStore" as "returningStore",
+      $"returns.xstoreTransactionNumber" as "xstoreTransactionNumber",
+      trim($"order.orderHeader.loyaltyDiscount") as "loyaltyDiscount",
+      $"returns.requestedTotals.discounts" as "req_tot_discounts",
+      $"returns.actualTotals.discounts" as "return_act_discounts"
+    )
+
+    //returns_parsed.persist()
+    returns_parsed.withColumn("lines_lineNumber", col("lines_lineNumber").cast("String")).write.format("delta").mode("append").option("mergeSchema", "true").partitionBy("order_date").save(inputParams("pii_landing_path")+ "/sales/oms/returns/")
+
+    /*########### START WEEKLY VACUUM AND OPTIMIZE ###########*/
+    import java.time.LocalDate
+    import java.time.DayOfWeek
+    import java.time.format.DateTimeFormatter
+
+    val today = LocalDate.now().format(DateTimeFormatter.ISO_DATE)
+    val weekDayNumber = LocalDate.now().getDayOfWeek.getValue
+    val tablePath = inputParams("pii_landing_path")+ "/sales/oms/returns/"
+
+    println(s"checking history to run weekly vacuum and optimize for ${tablePath} on DATE ${today}, WEEKDAY ${weekDayNumber}")
+
+    if (weekDayNumber == 1) {
+      // Get operation history
+      val historyDf = spark.sql(s"DESCRIBE HISTORY delta.`$tablePath`")
+
+      // Check if any VACUUM has run today
+      val vacuumToday = historyDf.filter("operation = 'VACUUM END'").filter(
+        historyDf("timestamp").cast("date") === today
+      ).count() == 0
+
+      // Check if any VACUUM has run today
+      val optimizeToday = historyDf.filter("operation = 'OPTIMIZE'").filter(
+        historyDf("timestamp").cast("date") === today
+      ).count() == 0
+
+      //running vaccum
+      if (optimizeToday) {
+        println(s"Running OPTIMIZE on: $tablePath")
+        spark.sql(s"OPTIMIZE delta.`$tablePath`")
+      }
+      else {
+        println("Skipping VACUUM as it is already ran today")
+      }
+
+      //running optimize
+      if (vacuumToday) {
+        println(s"Running VACUUM on: $tablePath with retention 168 hours")
+        spark.sql(s"VACUUM delta.`$tablePath` RETAIN 168 HOURS")
+      }
+      else {
+        println("Skipping OPTIMIZE as it is already ran today")
+      }
+    } else {
+      println("Skipping VACUUM & OPTIMIZE as it is not weekday")
+    }
+    /*########### WEEKLY VACUUM AND OPTIMIZE END ###########*/
+
+    // Select columns in exact DDL order for Snowflake write
+    val snowflakeCols = Seq(
+      "ORDER_ID", "ORDER_DATETIME", "RETURN_ID", "COMPANY_NUMBER", "RETURN_STATUS", "RETURN_NUMBER", "REFUND_METHOD", "RETURN_LOCATION", "EXCHANGEORDERNUMBER", "EXCHANGENUMBER", "RETURN_DATE", "RETURN_AGENT", "RETURN_TAXTRANSID", "RETURN_ACT_ADJUSTMENTAMOUNT", "RETURN_ACT_CREDITSAMOUNT", "RETURN_ACT_DISCOUNTAMOUNT", "RETURN_ACT_DISCOUNTEDTOTALAMOUNT", "RETURN_ACT_REFUNDTOTALAMOUNT", "RETURN_ACT_TOTALRETURNAMOUNT", "RETURN_ACT_EXCHANGECREDITAMOUNT", "RETURN_ACT_CREDITCARDREFUNDAMOUNT", "RETURN_ACT_PAYPALREFUNDAMOUNT", "RETURN_ACT_GIFTCARDREFUNDAMOUNT", "RETURN_ACT_SHIPPINGAMOUNT", "RETURN_ACT_SHIPPINGTAXAMOUNT", "RETURN_ACT_SUBTOTALAMOUNT", "RETURN_ACT_TAXAMOUNT", "REQ_TOT_ADJUSTMENTAMOUNT", "REQ_TOT_CREDITSAMOUNT", "REQ_TOT_DISCOUNTAMOUNT", "REQ_TOT_DISCOUNTEDTOTALAMOUNT", "REQ_TOT_REFUNDTOTALAMOUNT", "REQ_TOT_TOTALRETURNAMOUNT", "REQ_TOT_EXCHANGECREDITAMOUNT", "REQ_TOT_CREDITCARDREFUNDAMOUNT", "REQ_TOT_PAYPALREFUNDAMOUNT", "REQ_TOT_GIFTCARDREFUNDAMOUNT", "REQ_TOT_SHIPPINGAMOUNT", "REQ_TOT_SHIPPINGTAXAMOUNT", "REQ_TOT_SUBTOTALAMOUNT", "REQ_TOT_TAXAMOUNT", "LINES_REFUNDNUM", "LINES_ACT_PRICEOVERRIDEREASON", "LINES_ACT_DISCOUNTAMOUNT", "LINES_ACT_DISCOUNTEDTOTALAMOUNT", "LINES_ACT_ORIGINALRETAILPRICE", "LINES_ACT_SHIPPINGAMOUNT", "LINES_ACT_SHIPPINGTAXAMOUNT", "LINES_ACT_GIFTBOXAMOUNT", "LINES_ACT_GIFTBOXTAXAMOUNT", "LINES_ACT_SUBTOTALAMOUNT", "LINES_ACT_TAXAMOUNT", "LINES_ACT_TOTALAMOUNT", "LINES_ACT_UNITPRICE", "PRODUCT_BACKORDERFLAG", "PRODUCT_BRAND", "PRODUCT_CATEGORY", "PRODUCT_COLOR", "PRODUCT_DESCRIPTION", "PRODUCT_IMAGE", "PRODUCT_ISCOLLECTUPFRONT", "PRODUCT_LAUNCHSKUFLAG", "PRODUCT_NAME", "PRODUCTDESIGNATOR", "PRODUCT_NUMBER", "PRODUCT_TYPE", "PRODUCT_SIZE", "PRODUCT_SKU", "PRODUCT_TAXCODE", "LINES_QTY", "LINES_REASONCODE", "LINES_REASONCODEID", "CURRENCYISO", "REQ_LINES_PRICEOVERRIDEREASON", "REQ_LINES_DISCOUNTAMOUNT", "REQ_LINES_DISCOUNTEDTOTALAMOUNT", "REQ_LINES_ORIGINALRETAILPRICE", "REQ_LINES_SHIPPINGAMOUNT", "REQ_LINES_SHIPPINGTAXAMOUNT", "REQ_LINES_SUBTOTALAMOUNT", "REQ_LINES_TAXAMOUNT", "REQ_LINES_TOTALAMOUNT", "REQ_LINES_GIFTBOXAMOUNT", "REQ_LINES_GIFTBOXTAXAMOUNT", "REQ_LINES_UNITPRICE", "RESTOCKABLE", "TAXINVOICENUM", "CREDITS", "ADJUSTMENTS", "PAYMENTSINFO", "POSTEDAT", "POSTEDBY", "LOAD_TIME_KAFKA", "LOAD_TIME_ADLS", "ORDER_DATE", "RETURNINGSTORE", "XSTORETRANSACTIONNUMBER", "LOYALTYDISCOUNT", "REQ_TOT_DISCOUNTS", "RETURN_ACT_DISCOUNTS", "LINES_LINENUMBER","REF_SOURCE"
+    )
+    val returns_parsed_snow = returns_parsed
+      .withColumn("REF_SOURCE", lit("OMS"))
+      .select(snowflakeCols.map(c => col(c.toLowerCase) as c): _*)
+      
+    writeSnowflakeTable(
+      getSnowflakeConnectionOptions(),
+      getTableName("RETURNS", inputParams(AppendGen2ToSnowFlakeTablesFlag)),
+      returns_parsed_snow,
+      SaveMode.Append
+    )
+
+
+    val partitionWindow = Window.partitionBy($"order_id",$"company_number",$"product_size",$"product_sku",$"return_number",$"lines_lineNumber").orderBy($"postedAt".desc)
+    val rownumber = row_number().over(partitionWindow)
+    val returns_refined = returns_parsed.select($"*", rownumber as "rnum").filter($"rnum" === "1")
+      .withColumn("updated_datetime",col("load_time_adls"))
+      .drop("rnum").withColumn("ref_source", lit("OMS"))
+
+//    val schemaCols = spark.sql("select * from sales_gen2.oms_returns limit 1").columns
+//    val reOrderColsDF = prepareDf(spark, returns_refined, schemaCols)
+    returns_refined.createOrReplaceTempView("returns_refined")
+
+
+//    val mergequery = Source.fromInputStream(AdlsReturn_Gen2.getClass.getResourceAsStream("/sqls/mergereturns.sql")).mkString
+//    snowflakequeryrun(mergequery,Options)
+
+    oms_return_adls.sparkSession.sql(s"""
+          MERGE INTO sales_gen2.oms_returns t
+          USING returns_refined s
+          ON s.order_id = t.order_id AND t.company_number = s.company_number
+          and t.product_size = s.product_size and t.product_sku = s.product_sku and t.return_number = s.return_number and t.lines_lineNumber = s.lines_lineNumber
+          WHEN MATCHED THEN UPDATE SET
+          t.return_status=s.return_status,
+          t.return_id = s.return_id,
+          t.refund_method=s.refund_method,
+          t.return_location=s.return_location,
+          t.exchangeOrderNumber=s.exchangeOrderNumber,
+          t.exchangeNumber = s.exchangeNumber,
+          t.return_date=s.return_date,
+          t.return_agent=s.return_agent,
+          t.return_taxTransId = s.return_taxTransId,
+          t.return_act_adjustmentAmount=s.return_act_adjustmentAmount,
+          t.return_act_creditsAmount=s.return_act_creditsAmount,
+          t.return_act_discountAmount=s.return_act_discountAmount,
+          t.return_act_discountedTotalAmount=s.return_act_discountedTotalAmount,
+          t.return_act_refundTotalAmount=s.return_act_refundTotalAmount,
+          t.return_act_totalReturnAmount = s.return_act_totalReturnAmount,
+          t.return_act_exchangeCreditAmount=s.return_act_exchangeCreditAmount,
+          t.return_act_creditCardRefundAmount=s.return_act_creditCardRefundAmount,
+          t.return_act_paypalRefundAmount=s.return_act_paypalRefundAmount,
+          t.return_act_giftCardrefundAmount=s.return_act_giftCardrefundAmount,
+          t.return_act_shippingAmount=s.return_act_shippingAmount,
+          t.return_act_shippingTaxAmount=s.return_act_shippingTaxAmount,
+          t.return_act_subTotalAmount=s.return_act_subTotalAmount,
+          t.return_act_taxAmount=s.return_act_taxAmount,
+          t.req_tot_adjustmentAmount=s.req_tot_adjustmentAmount,
+          t.req_tot_creditsAmount=s.req_tot_creditsAmount,
+          t.req_tot_discountAmount=s.req_tot_discountAmount,
+          t.req_tot_discountedTotalAmount=s.req_tot_discountedTotalAmount,
+          t.req_tot_refundTotalAmount=s.req_tot_refundTotalAmount,
+          t.req_tot_totalReturnAmount=s.req_tot_totalReturnAmount,
+          t.req_tot_exchangeCreditAmount=s.req_tot_exchangeCreditAmount,
+          t.req_tot_creditCardRefundAmount=s.req_tot_creditCardRefundAmount,
+          t.req_tot_paypalRefundAmount=s.req_tot_paypalRefundAmount,
+          t.req_tot_giftCardrefundAmount=s.req_tot_giftCardrefundAmount,
+          t.req_tot_shippingAmount=s.req_tot_shippingAmount,
+          t.req_tot_shippingTaxAmount=s.req_tot_shippingTaxAmount,
+          t.req_tot_subTotalAmount=s.req_tot_subTotalAmount,
+          t.req_tot_taxAmount=s.req_tot_taxAmount,
+          t.lines_act_priceOverrideReason=s.lines_act_priceOverrideReason,
+          t.lines_act_discountAmount=s.lines_act_discountAmount,
+          t.lines_act_discountedTotalAmount=s.lines_act_discountedTotalAmount,
+          t.lines_act_originalRetailPrice=s.lines_act_originalRetailPrice,
+          t.lines_act_shippingAmount=s.lines_act_shippingAmount,
+          t.lines_act_shippingTaxAmount=s.lines_act_shippingTaxAmount,
+          t.lines_act_giftBoxAmount=s.lines_act_giftBoxAmount,
+          t.lines_act_giftBoxTaxAmount=s.lines_act_giftBoxTaxAmount,
+          t.lines_act_subTotalAmount=s.lines_act_subTotalAmount,
+          t.lines_act_taxAmount=s.lines_act_taxAmount,
+          t.lines_act_totalAmount=s.lines_act_totalAmount,
+          t.lines_act_unitPrice=s.lines_act_unitPrice,
+          t.product_backorderFlag=s.product_backorderFlag,
+          t.product_brand=s.product_brand  ,
+          t.product_category=s.product_category,
+          t.product_color=s.product_color,
+          t.product_description = s.product_description,
+          t.product_image = s.product_image,
+          t.product_isCollectUpFront = s.product_isCollectUpFront,
+          t.product_launchSkuFlag = s.product_launchSkuFlag,
+          t.product_name = s.product_name,
+          t.productDesignator=s.productDesignator,
+          t.product_number = s.product_number,
+          t.product_type = s.product_type,
+          t.product_size = s.product_size,
+          t.product_sku = s.product_sku,
+          t.product_taxCode = s.product_taxCode,
+          t.lines_qty = s.lines_qty,
+          t.lines_reasonCode = s.lines_reasonCode,
+          t.lines_reasonCodeId = s.lines_reasonCodeId,
+          t.currencyIso = s.currencyIso,
+          t.req_lines_priceOverrideReason=s.req_lines_priceOverrideReason,
+          t.req_lines_discountAmount = s.req_lines_discountAmount,
+          t.req_lines_discountedTotalAmount = s.req_lines_discountedTotalAmount,
+          t.req_lines_originalRetailPrice = s.req_lines_originalRetailPrice,
+          t.req_lines_shippingAmount = s.req_lines_shippingAmount,
+          t.req_lines_shippingTaxAmount = s.req_lines_shippingTaxAmount,
+          t.req_lines_subTotalAmount = s.req_lines_subTotalAmount,
+          t.req_lines_taxAmount = s.req_lines_taxAmount,
+          t.req_lines_totalAmount = s.req_lines_totalAmount,
+          t.req_lines_giftBoxAmount=s.req_lines_giftBoxAmount,
+          t.req_lines_giftBoxTaxAmount=s.req_lines_giftBoxTaxAmount,
+          t.req_lines_unitPrice = s.req_lines_unitPrice,
+          t.restockable = s.restockable,
+          t.taxInvoiceNum = s.taxInvoiceNum,
+          t.credits=s.credits,
+          t.adjustments=s.adjustments,
+          t.PaymentsInfo=s.PaymentsInfo,
+          t.postedAt = s.postedAt,
+          t.load_time_kafka = s.load_time_kafka,
+          t.updated_datetime = s.load_time_adls,
+          t.returningStore=s.returningStore,
+          t.xstoreTransactionNumber=s.xstoreTransactionNumber,
+          t.loyaltyDiscount = s.loyaltyDiscount,
+          t.req_tot_discounts = s.req_tot_discounts,
+          t.return_act_discounts = s.return_act_discounts,
+          t.ref_source = s.ref_source
+          WHEN NOT MATCHED THEN INSERT (t.order_id,
+        t.order_datetime,
+        t.return_id,
+        t.company_number,
+        t.return_status,
+        t.return_number,
+        t.refund_method,
+        t.return_location,
+        t.exchangeOrderNumber,
+        t.exchangeNumber,
+        t.return_date,
+        t.return_agent,
+        t.return_taxTransId,
+        t.return_act_adjustmentAmount,
+        t.return_act_creditsAmount,
+        t.return_act_discountAmount,
+        t.return_act_discountedTotalAmount,
+        t.return_act_refundTotalAmount,
+        t.return_act_totalReturnAmount,
+        t.return_act_exchangeCreditAmount,
+        t.return_act_creditCardRefundAmount,
+        t.return_act_paypalRefundAmount,
+        t.return_act_giftCardrefundAmount,
+        t.return_act_shippingAmount,
+        t.return_act_shippingTaxAmount,
+        t.return_act_subTotalAmount,
+        t.return_act_taxAmount,
+        t.req_tot_adjustmentAmount,
+        t.req_tot_creditsAmount,
+        t.req_tot_discountAmount,
+        t.req_tot_discountedTotalAmount,
+        t.req_tot_refundTotalAmount,
+        t.req_tot_totalReturnAmount,
+        t.req_tot_exchangeCreditAmount,
+        t.req_tot_creditCardRefundAmount,
+        t.req_tot_paypalRefundAmount,
+        t.req_tot_giftCardrefundAmount,
+        t.req_tot_shippingAmount,
+        t.req_tot_shippingTaxAmount,
+        t.req_tot_subTotalAmount,
+        t.req_tot_taxAmount,
+        t.lines_lineNumber,
+        t.lines_refundNum,
+        t.lines_act_priceOverrideReason,
+        t.lines_act_discountAmount,
+        t.lines_act_discountedTotalAmount,
+        t.lines_act_originalRetailPrice,
+        t.lines_act_shippingAmount,
+        t.lines_act_shippingTaxAmount,
+        t.lines_act_giftBoxAmount,
+        t.lines_act_giftBoxTaxAmount,
+        t.lines_act_subTotalAmount,
+        t.lines_act_taxAmount,
+        t.lines_act_totalAmount,
+        t.lines_act_unitPrice,
+        t.product_backorderFlag,
+        t.product_brand,
+        t.product_category,
+        t.product_color,
+        t.product_description,
+        t.product_image,
+        t.product_isCollectUpFront,
+        t.product_launchSkuFlag,
+        t.product_name,
+        t.productDesignator,
+        t.product_number,
+        t.product_type,
+        t.product_size,
+        t.product_sku,
+        t.product_taxCode,
+        t.lines_qty,
+        t.lines_reasonCode,
+        t.lines_reasonCodeId,
+        t.currencyIso,
+        t.req_lines_priceOverrideReason,
+        t.req_lines_discountAmount,
+        t.req_lines_discountedTotalAmount,
+        t.req_lines_originalRetailPrice,
+        t.req_lines_shippingAmount,
+        t.req_lines_shippingTaxAmount,
+        t.req_lines_subTotalAmount,
+        t.req_lines_taxAmount,
+        t.req_lines_totalAmount,
+        t.req_lines_giftBoxAmount,
+        t.req_lines_giftBoxTaxAmount,
+        t.req_lines_unitPrice,
+        t.restockable,
+        t.taxInvoiceNum,
+        t.credits,
+        t.adjustments,
+        t.PaymentsInfo,
+        t.postedAt,
+        t.postedBy,
+        t.load_time_kafka,
+        t.load_time_adls,
+        t.order_date,
+        t.updated_datetime,
+        t.returningStore,
+        t.xstoreTransactionNumber,
+        t.loyaltyDiscount,
+        t.req_tot_discounts,
+        t.return_act_discounts,
+        t.ref_source)
+        values (
+        s.order_id,
+        s.order_datetime,
+        s.return_id,
+        s.company_number,
+        s.return_status,
+        s.return_number,
+        s.refund_method,
+        s.return_location,
+        s.exchangeOrderNumber,
+        s.exchangeNumber,
+        s.return_date,
+        s.return_agent,
+        s.return_taxTransId,
+        s.return_act_adjustmentAmount,
+        s.return_act_creditsAmount,
+        s.return_act_discountAmount,
+        s.return_act_discountedTotalAmount,
+        s.return_act_refundTotalAmount,
+        s.return_act_totalReturnAmount,
+        s.return_act_exchangeCreditAmount,
+        s.return_act_creditCardRefundAmount,
+        s.return_act_paypalRefundAmount,
+        s.return_act_giftCardrefundAmount,
+        s.return_act_shippingAmount,
+        s.return_act_shippingTaxAmount,
+        s.return_act_subTotalAmount,
+        s.return_act_taxAmount,
+        s.req_tot_adjustmentAmount,
+        s.req_tot_creditsAmount,
+        s.req_tot_discountAmount,
+        s.req_tot_discountedTotalAmount,
+        s.req_tot_refundTotalAmount,
+        s.req_tot_totalReturnAmount,
+        s.req_tot_exchangeCreditAmount,
+        s.req_tot_creditCardRefundAmount,
+        s.req_tot_paypalRefundAmount,
+        s.req_tot_giftCardrefundAmount,
+        s.req_tot_shippingAmount,
+        s.req_tot_shippingTaxAmount,
+        s.req_tot_subTotalAmount,
+        s.req_tot_taxAmount,
+        s.lines_lineNumber,
+        s.lines_refundNum,
+        s.lines_act_priceOverrideReason,
+        s.lines_act_discountAmount,
+        s.lines_act_discountedTotalAmount,
+        s.lines_act_originalRetailPrice,
+        s.lines_act_shippingAmount,
+        s.lines_act_shippingTaxAmount,
+        s.lines_act_giftBoxAmount,
+        s.lines_act_giftBoxTaxAmount,
+        s.lines_act_subTotalAmount,
+        s.lines_act_taxAmount,
+        s.lines_act_totalAmount,
+        s.lines_act_unitPrice,
+        s.product_backorderFlag,
+        s.product_brand,
+        s.product_category,
+        s.product_color,
+        s.product_description,
+        s.product_image,
+        s.product_isCollectUpFront,
+        s.product_launchSkuFlag,
+        s.product_name,
+        s.productDesignator,
+        s.product_number,
+        s.product_type,
+        s.product_size,
+        s.product_sku,
+        s.product_taxCode,
+        s.lines_qty,
+        s.lines_reasonCode,
+        s.lines_reasonCodeId,
+        s.currencyIso,
+        s.req_lines_priceOverrideReason,
+        s.req_lines_discountAmount,
+        s.req_lines_discountedTotalAmount,
+        s.req_lines_originalRetailPrice,
+        s.req_lines_shippingAmount,
+        s.req_lines_shippingTaxAmount,
+        s.req_lines_subTotalAmount,
+        s.req_lines_taxAmount,
+        s.req_lines_totalAmount,
+        s.req_lines_giftBoxAmount,
+        s.req_lines_giftBoxTaxAmount,
+        s.req_lines_unitPrice,
+        s.restockable,
+        s.taxInvoiceNum,
+        s.credits,
+        s.adjustments,
+        s.PaymentsInfo,
+        s.postedAt,
+        s.postedBy,
+        s.load_time_kafka,
+        s.load_time_adls,
+        s.order_date,
+        s.updated_datetime,
+        s.returningStore,
+        s.xstoreTransactionNumber,
+        s.loyaltyDiscount,
+        s.req_tot_discounts,
+        s.return_act_discounts,
+        s.ref_source)
+        """)
+
+    //returns_parsed.unpersist()
+
+  }
+
+
+}

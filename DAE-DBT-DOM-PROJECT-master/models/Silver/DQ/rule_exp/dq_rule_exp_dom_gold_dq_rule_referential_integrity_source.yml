@@ -1,0 +1,51 @@
+version: 2
+
+sources:
+  - name: dq_rule_exp_dom_gold_dq_rule_referential_integrity
+    tables:
+      - name: dummy
+    config:
+      meta:
+        expectations:
+          EDOMGR0090001:
+            exp_message: "Ensure the Integrity of the referenced key is maintained in DOM Order Alloc table"
+            exp_type: "Referential Integrity Check"
+            rule_id: "R009"
+            group_id: "GDOMG002"
+            db_name: "{{ env_var('DBT_GOLD_DATABASE') | as_text }}"
+            schema_name: "{{ env_var('DBT_GOLD_SCHEMA') | as_text }}"
+            tbl_name: "fct_mao_ord_alloc_t"
+            full_tbl_name: "{{ env_var('DBT_GOLD_DATABASE') | as_text }}.{{ env_var('DBT_GOLD_SCHEMA') | as_text }}.fct_mao_ord_alloc_t"
+            col_name: "ord_id"
+            param_value:
+              p_fk_column: ["ord_id"]
+              p_pk_column: ["ord_id"]
+              p_pk_table: "{{ env_var('DBT_GOLD_DATABASE') | as_text }}.{{ env_var('DBT_GOLD_SCHEMA') | as_text }}.fct_mao_ord_hdr_t"
+              p_key_column: ["org_id", "alloc_id", "ord_id", "ord_ln_id", "rel_id", "rel_ln_id"]
+              p_table_name: "{{ env_var('DBT_GOLD_DATABASE') | as_text }}.{{ env_var('DBT_GOLD_SCHEMA') | as_text }}.fct_mao_ord_alloc_t"
+            exp_dt: "2024-07-01"
+            severity_level: "HIGH"
+            source_system: "MAO"
+            escalation_poc: "team"
+            active_flg: "Y"
+          EDOMGR0090002:
+            exp_message: "Ensure the Integrity of the referenced key is maintained in DOM Order Alloc table"
+            exp_type: "Referential Integrity Check"
+            rule_id: "R009"
+            group_id: "GDOMG002"
+            db_name: "{{ env_var('DBT_GOLD_DATABASE') | as_text }}"
+            schema_name: "{{ env_var('DBT_GOLD_SCHEMA') | as_text }}"
+            tbl_name: "fct_mao_fulfillment_line_t"
+            full_tbl_name: "{{ env_var('DBT_GOLD_DATABASE') | as_text }}.{{ env_var('DBT_GOLD_SCHEMA') | as_text }}.fct_mao_fulfillment_line_t"
+            col_name: "ord_id"
+            param_value:
+              p_fk_column: ["ord_id"]
+              p_pk_column: ["ord_id"]
+              p_pk_table: "{{ env_var('DBT_GOLD_DATABASE') | as_text }}.{{ env_var('DBT_GOLD_SCHEMA') | as_text }}.fct_mao_ord_hdr_t"
+              p_key_column: ["org_id", "fulflmnt_id", "fulflmnt_ln_id"]
+              p_table_name: "{{ env_var('DBT_GOLD_DATABASE') | as_text }}.{{ env_var('DBT_GOLD_SCHEMA') | as_text }}.fct_mao_fulfillment_line_t"
+            exp_dt: "2024-07-01"
+            severity_level: "HIGH"
+            source_system: "MAO"
+            escalation_poc: "team"
+            active_flg: "Y"

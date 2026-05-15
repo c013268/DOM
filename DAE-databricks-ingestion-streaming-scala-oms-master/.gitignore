@@ -1,0 +1,20 @@
+### compiled sources ###
+target
+*.class
+
+### intellij files and folders ###
+*.iml
+*.ipr
+*.iws
+.idea
+out
+*.data
+*.offset
+*.jar
+.DS_Store
+### vscode
+.vscode
+.settings
+.project
+.classpath
+dependency-reduced-pom.xml

@@ -1,0 +1,33 @@
+version: 2
+
+sources:
+  - name: dom_gold
+    database: "{{ env_var('DBT_GOLD_DATABASE')| as_text }}"
+    schema: "{{ env_var('DBT_GOLD_SCHEMA')| as_text }}"
+    tables:
+      - name: fct_mao_ord_pymt_line_v
+      - name: fct_mao_ord_line_v
+      - name: fct_mao_ord_hdr_v
+      - name: fct_mao_ord_hdr_hist_v
+      - name: lkp_cancel_code_reason_v
+      - name: dim_mao_employee_v
+      - name: dim_mao_loc_v
+      - name: fct_mao_ord_line_hist_v
+      - name: fct_mao_fulfillment_hdr_v
+      - name: fct_mao_fulfillment_line_v
+      - name: fct_mao_ord_fulfillment_dtl_v
+      - name: fct_mao_fulfillment_line_hist_v
+      - name: dim_mao_item_v
+      - name: lkp_refund_reason_code_v
+
+  - name: product_npii
+    database: "{{ env_var('DBT_GOLD_DATABASE')| as_text }}"
+    schema: "{{ env_var('DBT_GOLD_SCHEMA')| as_text }}"
+    tables:
+      - name: product_master
+
+  - name: location_gold
+    database: GOLD_PROD_DB
+    schema: "{{ env_var('DBT_GOLD_LOCATION_SCHEMA')| as_text }}"
+    tables:
+      - name: dim_location_v

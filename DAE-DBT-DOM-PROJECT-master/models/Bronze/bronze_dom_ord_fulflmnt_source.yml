@@ -1,0 +1,10 @@
+version: 2
+
+sources:
+  - name: ord_fulflmnt_bronze
+    database: "{{ env_var('DBT_BRONZE_DATABASE') | as_text }}"
+    schema: "{{ env_var('DBT_BRONZE_SCHEMA') | as_text }}"
+
+    tables:
+      - name: ful_fulfillment_line_archive_v
+      - name: ful_packages_archive_v

@@ -1,0 +1,49 @@
+version: 2
+
+sources:
+  - name: dq_rule_exp_dom_gold_dq_rule_conditional_null
+    tables:
+      - name: dummy
+    config:
+      meta:
+        expectations:
+          EDOMGR0070001:
+            exp_message: "Ensure the column is conditionally not null in DOM Order Hdr table"
+            exp_type: "Conditional Null Check"
+            rule_id: "R007"
+            group_id: "GDOMG002"
+            db_name: "{{ env_var('DBT_GOLD_DATABASE') | as_text }}"
+            schema_name: "{{ env_var('DBT_GOLD_SCHEMA') | as_text }}"
+            tbl_name: "fct_mao_ord_line_t"
+            full_tbl_name: "{{ env_var('DBT_GOLD_DATABASE') | as_text }}.{{ env_var('DBT_GOLD_SCHEMA') | as_text }}.fct_mao_ord_line_t"
+            col_name: "ord_id"
+            param_value:
+              p_column_name: "ord_id"
+              p_conditional_column_name: "ord_ln_id"
+              p_key_column: ["org_id", "ord_id", "ord_ln_id"]
+              p_table_name: "{{ env_var('DBT_GOLD_DATABASE') | as_text }}.{{ env_var('DBT_GOLD_SCHEMA') | as_text }}.fct_mao_ord_line_t"
+            exp_dt: "2024-07-01"
+            severity_level: "HIGH"
+            source_system: "MAO"
+            escalation_poc: "team"
+            active_flg: "Y"
+          EDOMGR0070002:
+            exp_message: "Ensure the column is conditionally not null in DOM Order Hdr table"
+            exp_type: "Conditional Null Check"
+            rule_id: "R007"
+            group_id: "GDOMG002"
+            db_name: "{{ env_var('DBT_GOLD_DATABASE') | as_text }}"
+            schema_name: "{{ env_var('DBT_GOLD_SCHEMA') | as_text }}"
+            tbl_name: "fct_mao_fulfillment_line_t"
+            full_tbl_name: "{{ env_var('DBT_GOLD_DATABASE') | as_text }}.{{ env_var('DBT_GOLD_SCHEMA') | as_text }}.fct_mao_fulfillment_line_t"
+            col_name: "fulflmnt_id"
+            param_value:
+              p_column_name: "fulflmnt_id"
+              p_conditional_column_name: "fulflmnt_ln_id"
+              p_key_column: ["org_id", "fulflmnt_id", "fulflmnt_ln_id"]
+              p_table_name: "{{ env_var('DBT_GOLD_DATABASE') | as_text }}.{{ env_var('DBT_GOLD_SCHEMA') | as_text }}.fct_mao_fulfillment_line_t"
+            exp_dt: "2024-07-01"
+            severity_level: "HIGH"
+            source_system: "MAO"
+            escalation_poc: "team"
+            active_flg: "Y"

@@ -1,0 +1,24 @@
+version: 2
+
+sources:
+  - name: src_itm_silver
+    database: "{{ env_var('DBT_SILVER_DATABASE') | as_text }}"
+    schema: "{{ env_var('DBT_SILVER_SCHEMA') | as_text }}"
+    tables:
+      - name: mao_itm_item_v
+        config:
+          meta:
+            description: "This is a silver view for Item details"
+      - name: mao_itm_selling_attributes_v
+        config:
+          meta:
+            description: "This is a silver view for Item Selling Attributes details"
+
+      - name: mao_itm_item_code_v
+        config:
+          meta:
+            description: "Silver incremental table for item codes (upc,ean,etc)."
+      - name: mao_itm_handling_attributes_v
+        config:
+          meta:
+            description: "Silver incremental table for item handling attributes."

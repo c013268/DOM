@@ -1,0 +1,30 @@
+version: 2
+
+sources:
+  - name: priority_itm_bronze
+    database: "{{ env_var('DBT_BRONZE_DATABASE') | as_text }}"
+    schema: "{{ env_var('DBT_BRONZE_SCHEMA') | as_text }}"
+    config:
+      meta:
+        pipeline_name: dom
+        src_type: mysql
+        src_name: mao
+        src_module: mao
+        tgt_layer: bronze
+        mysql_connector_db: "{{ env_var('DBT_DOM_CONNECTOR_DB')| as_text }}.PUBLIC.connector_stats"
+        t_minus_interval: "{{ env_var('DBT_T_MINUS_INTERVAL_BRONZE')| as_text }}"
+    tables:
+      - name: itm_item
+        config:
+          loaded_at_field: seen_at
+          meta:
+            src_tbl: '{{ env_var("DBT_DOM_CONNECTOR_DB") | as_text }}.journals.ITM_ITEM'
+            tgt_tbl: '{{ env_var("DBT_BRONZE_DATABASE") | as_text }}.{{ env_var("DBT_BRONZE_SCHEMA") | as_text }}.itm_item_archive'
+            load_type: incremental
+      - name: itm_selling_attributes
+        config:
+          loaded_at_field: seen_at
+          meta:
+            src_tbl: '{{ env_var("DBT_DOM_CONNECTOR_DB") | as_text }}.journals.ITM_SELLING_ATTRIBUTES'
+            tgt_tbl: '{{ env_var("DBT_BRONZE_DATABASE") | as_text }}.{{ env_var("DBT_BRONZE_SCHEMA") | as_text }}.itm_selling_attributes_archive'
+            load_type: incremental

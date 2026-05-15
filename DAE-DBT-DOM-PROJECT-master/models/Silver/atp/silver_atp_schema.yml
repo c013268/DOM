@@ -1,0 +1,23 @@
+version: 2
+
+models:
+
+  - name: mao_location_atp_fullsync_t
+    description: "This model loads location fullsync atp from bronze to silver"
+    config:
+      tags: ["load_atp_bronze_to_silver_tag"]
+
+  - name: mao_location_atp_delta_t
+    description: "This model loads location delta atp from bronze to silver"
+    config:
+      tags: ["load_atp_bronze_to_silver_tag"]
+
+  - name: mao_network_atp_t
+    description: "This model loads network atp from bronze to silver"
+    config:
+      tags: ["load_atp_bronze_to_silver_tag"]
+
+  - name: mao_network_alerts_t
+    description: "This model loads network alerts from bronze to silver"
+    config:
+      tags: ["load_atp_bronze_to_silver_tag"]

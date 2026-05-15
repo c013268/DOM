@@ -1,0 +1,47 @@
+version: 2
+
+sources:
+  - name: src_payment_silver
+    database: "{{ env_var('DBT_SILVER_DATABASE') | as_text }}"
+    schema: "{{ env_var('DBT_SILVER_SCHEMA') | as_text }}"
+    tables:
+      - name: mao_pay_payment_header_v
+        config:
+          meta:
+            description: "This is a silver view for Payment Header details"
+      - name: mao_pay_payment_method_v
+        config:
+          meta:
+            description: "This is a silver view for Payment Method details"
+      - name: mao_pay_billing_address_v
+        config:
+          meta:
+            description: "This is a silver view for Payment Billing Address details"
+      - name: mao_pay_payment_summary_v
+        config:
+          meta:
+            description: "This is a silver view for Payment Summary details"
+      - name: mao_pay_payment_transaction_v
+        config:
+          meta:
+            description: "This is a silver view for Payment Transaction details"
+      - name: mao_pay_payment_transaction_detail_v
+        config:
+          meta:
+            description: "This is a silver view for Payment Transaction Detail details"
+      - name: mao_pay_payment_transaction_group_v
+        config:
+          meta:
+            description: "This is a silver view for Payment Transaction Group details"
+      - name: mao_pay_payment_status_v
+        config:
+          meta:
+            description: "This is a silver view for Payment Status Lookup details"
+      - name: mao_pay_payment_method_attribute_v
+        config:
+          meta:
+            description: "This is a silver view for Payment Method Attribute details"
+      - name: mao_pay_payment_type_v
+        config:
+          meta:
+            description: "This is a silver view for Payment Type lookup details"

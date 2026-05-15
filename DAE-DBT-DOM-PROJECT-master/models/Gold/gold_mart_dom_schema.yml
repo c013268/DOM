@@ -1,0 +1,104 @@
+version: 2
+
+models:
+  - name: dim_mao_employee_t
+    description: "Gold Dimension table for org employee details"
+    config:
+      alias: dim_mao_employee_t
+      tags: ["load_dom_org_silver_to_gold_tag"]
+
+  - name: dim_mao_cust_t
+    description: "Gold Dimension table for Customer details"
+    config:
+      alias: dim_mao_cust_t
+      tags: ["load_dom_org_silver_to_gold_tag"]
+
+  - name: dim_mao_org_t
+    description: "Gold Dimension table for Org details"
+    config:
+      alias: dim_mao_org_t
+      tags: ["load_dom_org_silver_to_gold_tag"]
+
+  - name: dim_mao_loc_t
+    description: "Gold Dimension table for location details"
+    config:
+      alias: dim_mao_loc_t
+      tags: ["load_dom_org_silver_to_gold_tag"]
+
+  - name: dim_mao_item_t
+    description: "gold Dimension table for item details"
+    config:
+      alias: dim_mao_item_t
+      tags: ["load_dom_org_silver_to_gold_tag"]
+
+  # - name: dim_mao_promo_t
+  #   description: "silver Dimension table for promo details"
+  #   config:
+  #     alias: dim_mao_promo_t
+  #     tags: ["load_dom_org_silver_to_gold_tag"]
+
+  - name: fct_mao_fulfillment_hdr_t
+    description: "Gold Fact table for Fulfillment Header details"
+    config:
+      alias: fct_mao_fulfillment_hdr_t
+      tags: ["load_dom_org_silver_to_gold_tag"]
+
+  - name: fct_mao_fulfillment_line_t
+    description: "Gold Fact table for Fulfillment Line details"
+    config:
+      alias: fct_mao_fulfillment_line_t
+      tags: ["load_dom_org_silver_to_gold_tag"]
+
+  - name: fct_mao_fulfillment_package_detail_t
+    description: "Gold Fact table for Fulfillment Package details"
+    config:
+      alias: fct_mao_fulfillment_package_detail_t
+      tags: ["load_dom_org_silver_to_gold_tag"]
+
+  - name: fct_mao_ord_hdr_t
+    description: "Gold Fact table for Order Header details"
+    config:
+      alias: fct_mao_ord_hdr_t
+      tags: ["load_dom_org_silver_to_gold_tag"]
+
+  - name: fct_mao_ord_hdr_hist_t
+    description: "Gold Fact table for Order Header History details"
+    config:
+      alias: fct_mao_ord_hdr_hist_t
+      tags: ["load_dom_org_silver_to_gold_tag"]
+
+  - name: fct_mao_ord_line_t
+    description: "Gold Fact table for Order Line details"
+    config:
+      alias: fct_mao_ord_line_t
+      tags: ["load_dom_org_silver_to_gold_tag"]
+
+  - name: fct_mao_ord_pymt_line_t
+    description: "Gold Fact table for Order Payment details"
+    config:
+      alias: fct_mao_ord_pymt_line_t
+      tags: ["load_dom_org_silver_to_gold_tag"]
+
+  - name: fct_mao_ord_alloc_t
+    description: "Gold Fact table for Order Allocation details"
+    config:
+      alias: fct_mao_ord_alloc_t
+      tags: ["load_dom_org_silver_to_gold_tag"]
+ 
+  - name: fct_mao_inv_supply_t
+    description: "Gold Fact table for Inventory Supply"
+    config:
+      alias: fct_mao_inv_supply_t
+      tags: ["load_dom_org_silver_to_gold_tag"]
+
+  - name: fct_mao_sku_exclusion_t
+    description: "Gold Fact table for SKU Exclusions"
+    config:
+      alias: fct_mao_sku_exclusion_t
+      tags: ["load_dom_org_silver_to_gold_tag"]
+
+  - name: fct_mao_ord_fulfillment_dtl_t
+    description: "Gold Fact table for Order Fulfillment Details"
+    config:
+      alias: fct_mao_ord_fulfillment_dtl_t
+      tags: ["load_dom_org_silver_to_gold_tag"]

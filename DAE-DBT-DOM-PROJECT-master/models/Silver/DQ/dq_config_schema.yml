@@ -1,0 +1,20 @@
+version: 2
+
+models:
+  - name: load_dom_dq_project_t
+    description: "DQ Config table for Project details"
+    config:
+      alias: load_dom_dq_project_t
+      tags: ["load_dom_dq_config_tag"]
+
+  - name: load_dom_dq_group_t
+    description: "DQ Config table for Group details"
+    config:
+      alias: load_dom_dq_group_t
+      tags: ["load_dom_dq_config_tag"]
+
+  - name: load_dom_dq_rule_exp_t
+    description: "DQ Config table for Rule Expectation details"
+    config:
+      alias: load_dom_dq_rule_exp_t
+      tags: ["load_dom_dq_config_tag"]

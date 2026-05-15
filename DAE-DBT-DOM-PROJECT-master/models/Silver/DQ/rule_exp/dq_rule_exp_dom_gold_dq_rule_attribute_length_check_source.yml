@@ -1,0 +1,309 @@
+version: 2
+
+sources:
+  - name: dq_rule_exp_dom_gold_dq_rule_attribute_length_check
+    tables:
+      - name: dummy
+    config:
+      meta:
+        expectations:
+          EDOMGR0050001:
+            exp_message: "Ensure the Attribute length is Consistent in DOM Order Header table"
+            exp_type: "Attribute length Check"
+            rule_id: "R005"
+            group_id: "GDOMG002"
+            db_name: "{{ env_var('DBT_GOLD_DATABASE') | as_text }}"
+            schema_name: "{{ env_var('DBT_GOLD_SCHEMA') | as_text }}"
+            tbl_name: "fct_mao_ord_hdr_t"
+            full_tbl_name: "{{ env_var('DBT_GOLD_DATABASE') | as_text }}.{{ env_var('DBT_GOLD_SCHEMA') | as_text }}.fct_mao_ord_hdr_t"
+            col_name: "ord_id"
+            param_value:
+              p_column_fixed_length: 20
+              p_column_name: "ord_id"
+              p_key_column: ["org_id", "ord_id"]
+              p_table_name: "{{ env_var('DBT_GOLD_DATABASE') | as_text }}.{{ env_var('DBT_GOLD_SCHEMA') | as_text }}.fct_mao_ord_hdr_t"
+            exp_dt: "2024-07-01"
+            severity_level: "HIGH"
+            source_system: "MAO"
+            escalation_poc: "team"
+            active_flg: "Y"
+          EDOMGR0050002:
+            exp_message: "Ensure the Attribute length is Consistent in DOM Order Header table"
+            exp_type: "Attribute length Check"
+            rule_id: "R005"
+            group_id: "GDOMG002"
+            db_name: "{{ env_var('DBT_GOLD_DATABASE') | as_text }}"
+            schema_name: "{{ env_var('DBT_GOLD_SCHEMA') | as_text }}"
+            tbl_name: "fct_mao_ord_hdr_t"
+            full_tbl_name: "{{ env_var('DBT_GOLD_DATABASE') | as_text }}.{{ env_var('DBT_GOLD_SCHEMA') | as_text }}.fct_mao_ord_hdr_t"
+            col_name: "flx_id"
+            param_value:
+              p_column_fixed_length: 20
+              p_column_name: "flx_id"
+              p_key_column: ["org_id", "ord_id"]
+              p_table_name: "{{ env_var('DBT_GOLD_DATABASE') | as_text }}.{{ env_var('DBT_GOLD_SCHEMA') | as_text }}.fct_mao_ord_hdr_t"
+            exp_dt: "2024-07-01"
+            severity_level: "HIGH"
+            source_system: "MAO"
+            escalation_poc: "team"
+            active_flg: "Y"
+          EDOMGR0050003:
+            exp_message: "Ensure the Attribute length is Consistent in DOM Order Line table"
+            exp_type: "Attribute length Check"
+            rule_id: "R005"
+            group_id: "GDOMG002"
+            db_name: "{{ env_var('DBT_GOLD_DATABASE') | as_text }}"
+            schema_name: "{{ env_var('DBT_GOLD_SCHEMA') | as_text }}"
+            tbl_name: "fct_mao_ord_line_t"
+            full_tbl_name: "{{ env_var('DBT_GOLD_DATABASE') | as_text }}.{{ env_var('DBT_GOLD_SCHEMA') | as_text }}.fct_mao_ord_line_t"
+            col_name: "item_id"
+            param_value:
+              p_column_fixed_length: 20
+              p_column_name: "item_id"
+              p_key_column: ["org_id", "ord_id", "ord_ln_id"]
+              p_table_name: "{{ env_var('DBT_GOLD_DATABASE') | as_text }}.{{ env_var('DBT_GOLD_SCHEMA') | as_text }}.fct_mao_ord_line_t"
+            exp_dt: "2024-07-01"
+            severity_level: "HIGH"
+            source_system: "MAO"
+            escalation_poc: "team"
+            active_flg: "Y"
+          EDOMGR0050004:
+            exp_message: "Ensure the Attribute length is Consistent in DOM Order Line table"
+            exp_type: "Attribute length Check"
+            rule_id: "R005"
+            group_id: "GDOMG002"
+            db_name: "{{ env_var('DBT_GOLD_DATABASE') | as_text }}"
+            schema_name: "{{ env_var('DBT_GOLD_SCHEMA') | as_text }}"
+            tbl_name: "fct_mao_ord_line_t"
+            full_tbl_name: "{{ env_var('DBT_GOLD_DATABASE') | as_text }}.{{ env_var('DBT_GOLD_SCHEMA') | as_text }}.fct_mao_ord_line_t"
+            col_name: "physical_org_id"
+            param_value:
+              p_column_fixed_length: 20
+              p_column_name: "physical_org_id"
+              p_key_column: ["org_id", "ord_id", "ord_ln_id"]
+              p_table_name: "{{ env_var('DBT_GOLD_DATABASE') | as_text }}.{{ env_var('DBT_GOLD_SCHEMA') | as_text }}.fct_mao_ord_line_t"
+            exp_dt: "2024-07-01"
+            severity_level: "HIGH"
+            source_system: "MAO"
+            escalation_poc: "team"
+            active_flg: "Y"
+          EDOMGR0050005:
+            exp_message: "Ensure the Attribute length is Consistent in DOM Order Line table"
+            exp_type: "Attribute length Check"
+            rule_id: "R005"
+            group_id: "GDOMG002"
+            db_name: "{{ env_var('DBT_GOLD_DATABASE') | as_text }}"
+            schema_name: "{{ env_var('DBT_GOLD_SCHEMA') | as_text }}"
+            tbl_name: "fct_mao_ord_line_t"
+            full_tbl_name: "{{ env_var('DBT_GOLD_DATABASE') | as_text }}.{{ env_var('DBT_GOLD_SCHEMA') | as_text }}.fct_mao_ord_line_t"
+            col_name: "ship_to_loc_id"
+            param_value:
+              p_column_fixed_length: 20
+              p_column_name: "ship_to_loc_id"
+              p_key_column: ["org_id", "ord_id", "ord_ln_id"]
+              p_table_name: "{{ env_var('DBT_GOLD_DATABASE') | as_text }}.{{ env_var('DBT_GOLD_SCHEMA') | as_text }}.fct_mao_ord_line_t"
+            exp_dt: "2024-07-01"
+            severity_level: "HIGH"
+            source_system: "MAO"
+            escalation_poc: "team"
+            active_flg: "Y"
+          EDOMGR0050006:
+            exp_message: "Ensure the Attribute length is Consistent in DOM Order Alloc table"
+            exp_type: "Attribute length Check"
+            rule_id: "R005"
+            group_id: "GDOMG002"
+            db_name: "{{ env_var('DBT_GOLD_DATABASE') | as_text }}"
+            schema_name: "{{ env_var('DBT_GOLD_SCHEMA') | as_text }}"
+            tbl_name: "fct_mao_ord_alloc_t"
+            full_tbl_name: "{{ env_var('DBT_GOLD_DATABASE') | as_text }}.{{ env_var('DBT_GOLD_SCHEMA') | as_text }}.fct_mao_ord_alloc_t"
+            col_name: "ship_from_loc_id"
+            param_value:
+              p_column_fixed_length: 20
+              p_column_name: "ship_from_loc_id"
+              p_key_column: ["org_id", "alloc_id", "ord_id", "ord_ln_id", "rel_id", "rel_ln_id"]
+              p_table_name: "{{ env_var('DBT_GOLD_DATABASE') | as_text }}.{{ env_var('DBT_GOLD_SCHEMA') | as_text }}.fct_mao_ord_alloc_t"
+            exp_dt: "2024-07-01"
+            severity_level: "HIGH"
+            source_system: "MAO"
+            escalation_poc: "team"
+            active_flg: "Y"
+          EDOMGR0050007:
+            exp_message: "Ensure the Attribute length is Consistent in DOM Fulfillment Hdr table"
+            exp_type: "Attribute length Check"
+            rule_id: "R005"
+            group_id: "GDOMG002"
+            db_name: "{{ env_var('DBT_GOLD_DATABASE') | as_text }}"
+            schema_name: "{{ env_var('DBT_GOLD_SCHEMA') | as_text }}"
+            tbl_name: "fct_mao_fulfillment_hdr_t"
+            full_tbl_name: "{{ env_var('DBT_GOLD_DATABASE') | as_text }}.{{ env_var('DBT_GOLD_SCHEMA') | as_text }}.fct_mao_fulfillment_hdr_t"
+            col_name: "fulflmnt_type_id"
+            param_value:
+              p_column_fixed_length: 20
+              p_column_name: "fulflmnt_type_id"
+              p_key_column: ["org_id", "fulflmnt_id"]
+              p_table_name: "{{ env_var('DBT_GOLD_DATABASE') | as_text }}.{{ env_var('DBT_GOLD_SCHEMA') | as_text }}.fct_mao_fulfillment_hdr_t"
+            exp_dt: "2024-07-01"
+            severity_level: "HIGH"
+            source_system: "MAO"
+            escalation_poc: "team"
+            active_flg: "Y"
+          EDOMGR0050008:
+            exp_message: "Ensure the Attribute length is Consistent in DOM Fulfillment Hdr table"
+            exp_type: "Attribute length Check"
+            rule_id: "R005"
+            group_id: "GDOMG002"
+            db_name: "{{ env_var('DBT_GOLD_DATABASE') | as_text }}"
+            schema_name: "{{ env_var('DBT_GOLD_SCHEMA') | as_text }}"
+            tbl_name: "fct_mao_fulfillment_hdr_t"
+            full_tbl_name: "{{ env_var('DBT_GOLD_DATABASE') | as_text }}.{{ env_var('DBT_GOLD_SCHEMA') | as_text }}.fct_mao_fulfillment_hdr_t"
+            col_name: "ship_from_loc_id"
+            param_value:
+              p_column_fixed_length: 20
+              p_column_name: "ship_from_loc_id"
+              p_key_column: ["org_id", "fulflmnt_id"]
+              p_table_name: "{{ env_var('DBT_GOLD_DATABASE') | as_text }}.{{ env_var('DBT_GOLD_SCHEMA') | as_text }}.fct_mao_fulfillment_hdr_t"
+            exp_dt: "2024-07-01"
+            severity_level: "HIGH"
+            source_system: "MAO"
+            escalation_poc: "team"
+            active_flg: "Y"
+          EDOMGR0050009:
+            exp_message: "Ensure the Attribute length is Consistent in DOM Fulfillment Hdr table"
+            exp_type: "Attribute length Check"
+            rule_id: "R005"
+            group_id: "GDOMG002"
+            db_name: "{{ env_var('DBT_GOLD_DATABASE') | as_text }}"
+            schema_name: "{{ env_var('DBT_GOLD_SCHEMA') | as_text }}"
+            tbl_name: "fct_mao_fulfillment_hdr_t"
+            full_tbl_name: "{{ env_var('DBT_GOLD_DATABASE') | as_text }}.{{ env_var('DBT_GOLD_SCHEMA') | as_text }}.fct_mao_fulfillment_hdr_t"
+            col_name: "ship_to_loc_id"
+            param_value:
+              p_column_fixed_length: 20
+              p_column_name: "ship_to_loc_id"
+              p_key_column: ["org_id", "fulflmnt_id"]
+              p_table_name: "{{ env_var('DBT_GOLD_DATABASE') | as_text }}.{{ env_var('DBT_GOLD_SCHEMA') | as_text }}.fct_mao_fulfillment_hdr_t"
+            exp_dt: "2024-07-01"
+            severity_level: "HIGH"
+            source_system: "MAO"
+            escalation_poc: "team"
+            active_flg: "Y"
+          EDOMGR0050010:
+            exp_message: "Ensure the Attribute length is Consistent in DOM Fulfillment Hdr table"
+            exp_type: "Attribute length Check"
+            rule_id: "R005"
+            group_id: "GDOMG002"
+            db_name: "{{ env_var('DBT_GOLD_DATABASE') | as_text }}"
+            schema_name: "{{ env_var('DBT_GOLD_SCHEMA') | as_text }}"
+            tbl_name: "fct_mao_fulfillment_hdr_t"
+            full_tbl_name: "{{ env_var('DBT_GOLD_DATABASE') | as_text }}.{{ env_var('DBT_GOLD_SCHEMA') | as_text }}.fct_mao_fulfillment_hdr_t"
+            col_name: "dlvry_method_id"
+            param_value:
+              p_column_fixed_length: 20
+              p_column_name: "dlvry_method_id"
+              p_key_column: ["org_id", "fulflmnt_id"]
+              p_table_name: "{{ env_var('DBT_GOLD_DATABASE') | as_text }}.{{ env_var('DBT_GOLD_SCHEMA') | as_text }}.fct_mao_fulfillment_hdr_t"
+            exp_dt: "2024-07-01"
+            severity_level: "HIGH"
+            source_system: "MAO"
+            escalation_poc: "team"
+            active_flg: "Y"
+          EDOMGR0050011:
+            exp_message: "Ensure the Attribute length is Consistent in DOM Fulfillment Line table"
+            exp_type: "Attribute length Check"
+            rule_id: "R005"
+            group_id: "GDOMG002"
+            db_name: "{{ env_var('DBT_GOLD_DATABASE') | as_text }}"
+            schema_name: "{{ env_var('DBT_GOLD_SCHEMA') | as_text }}"
+            tbl_name: "fct_mao_fulfillment_line_t"
+            full_tbl_name: "{{ env_var('DBT_GOLD_DATABASE') | as_text }}.{{ env_var('DBT_GOLD_SCHEMA') | as_text }}.fct_mao_fulfillment_line_t"
+            col_name: "item_id"
+            param_value:
+              p_column_fixed_length: 20
+              p_column_name: "item_id"
+              p_key_column: ["org_id", "fulflmnt_id", "fulflmnt_ln_id"]
+              p_table_name: "{{ env_var('DBT_GOLD_DATABASE') | as_text }}.{{ env_var('DBT_GOLD_SCHEMA') | as_text }}.fct_mao_fulfillment_line_t"
+            exp_dt: "2024-07-01"
+            severity_level: "HIGH"
+            source_system: "MAO"
+            escalation_poc: "team"
+            active_flg: "Y"
+          EDOMGR0050012:
+            exp_message: "Ensure the Attribute length is Consistent in DOM Fulfillment Line table"
+            exp_type: "Attribute length Check"
+            rule_id: "R005"
+            group_id: "GDOMG002"
+            db_name: "{{ env_var('DBT_GOLD_DATABASE') | as_text }}"
+            schema_name: "{{ env_var('DBT_GOLD_SCHEMA') | as_text }}"
+            tbl_name: "fct_mao_fulfillment_line_t"
+            full_tbl_name: "{{ env_var('DBT_GOLD_DATABASE') | as_text }}.{{ env_var('DBT_GOLD_SCHEMA') | as_text }}.fct_mao_fulfillment_line_t"
+            col_name: "fulflmnt_ln_status_id"
+            param_value:
+              p_column_fixed_length: 20
+              p_column_name: "fulflmnt_ln_status_id"
+              p_key_column: ["org_id", "fulflmnt_id", "fulflmnt_ln_id"]
+              p_table_name: "{{ env_var('DBT_GOLD_DATABASE') | as_text }}.{{ env_var('DBT_GOLD_SCHEMA') | as_text }}.fct_mao_fulfillment_line_t"
+            exp_dt: "2024-07-01"
+            severity_level: "HIGH"
+            source_system: "MAO"
+            escalation_poc: "team"
+            active_flg: "Y"
+          EDOMGR0050013:
+            exp_message: "Ensure the Attribute length is Consistent in DOM Fulfillment Package Detail table"
+            exp_type: "Attribute length Check"
+            rule_id: "R005"
+            group_id: "GDOMG002"
+            db_name: "{{ env_var('DBT_GOLD_DATABASE') | as_text }}"
+            schema_name: "{{ env_var('DBT_GOLD_SCHEMA') | as_text }}"
+            tbl_name: "fct_mao_fulfillment_package_detail_t"
+            full_tbl_name: "{{ env_var('DBT_GOLD_DATABASE') | as_text }}.{{ env_var('DBT_GOLD_SCHEMA') | as_text }}.fct_mao_fulfillment_package_detail_t"
+            col_name: "pkg_status"
+            param_value:
+              p_column_fixed_length: 20
+              p_column_name: "pkg_status"
+              p_key_column: ["org_id", "pkg_id", "pkg_dtl_id"]
+              p_table_name: "{{ env_var('DBT_GOLD_DATABASE') | as_text }}.{{ env_var('DBT_GOLD_SCHEMA') | as_text }}.fct_mao_fulfillment_package_detail_t"
+            exp_dt: "2024-07-01"
+            severity_level: "HIGH"
+            source_system: "MAO"
+            escalation_poc: "team"
+            active_flg: "Y"
+          EDOMGR0050014:
+            exp_message: "Ensure the Attribute length is Consistent in DOM Fulfillment Package Detail table"
+            exp_type: "Attribute length Check"
+            rule_id: "R005"
+            group_id: "GDOMG002"
+            db_name: "{{ env_var('DBT_GOLD_DATABASE') | as_text }}"
+            schema_name: "{{ env_var('DBT_GOLD_SCHEMA') | as_text }}"
+            tbl_name: "fct_mao_fulfillment_package_detail_t"
+            full_tbl_name: "{{ env_var('DBT_GOLD_DATABASE') | as_text }}.{{ env_var('DBT_GOLD_SCHEMA') | as_text }}.fct_mao_fulfillment_package_detail_t"
+            col_name: "item_id"
+            param_value:
+              p_column_fixed_length: 20
+              p_column_name: "item_id"
+              p_key_column: ["org_id", "pkg_id", "pkg_dtl_id"]
+              p_table_name: "{{ env_var('DBT_GOLD_DATABASE') | as_text }}.{{ env_var('DBT_GOLD_SCHEMA') | as_text }}.fct_mao_fulfillment_package_detail_t"
+            exp_dt: "2024-07-01"
+            severity_level: "HIGH"
+            source_system: "MAO"
+            escalation_poc: "team"
+            active_flg: "Y"
+          EDOMGR0050015:
+            exp_message: "Ensure the Attribute length is Consistent in DOM Fulfillment Package Detail table"
+            exp_type: "Attribute length Check"
+            rule_id: "R005"
+            group_id: "GDOMG002"
+            db_name: "{{ env_var('DBT_GOLD_DATABASE') | as_text }}"
+            schema_name: "{{ env_var('DBT_GOLD_SCHEMA') | as_text }}"
+            tbl_name: "fct_mao_fulfillment_package_detail_t"
+            full_tbl_name: "{{ env_var('DBT_GOLD_DATABASE') | as_text }}.{{ env_var('DBT_GOLD_SCHEMA') | as_text }}.fct_mao_fulfillment_package_detail_t"
+            col_name: "ship_from_loc_id"
+            param_value:
+              p_column_fixed_length: 20
+              p_column_name: "ship_from_loc_id"
+              p_key_column: ["org_id", "pkg_id", "pkg_dtl_id"]
+              p_table_name: "{{ env_var('DBT_GOLD_DATABASE') | as_text }}.{{ env_var('DBT_GOLD_SCHEMA') | as_text }}.fct_mao_fulfillment_package_detail_t"
+            exp_dt: "2024-07-01"
+            severity_level: "HIGH"
+            source_system: "MAO"
+            escalation_poc: "team"
+            active_flg: "Y"

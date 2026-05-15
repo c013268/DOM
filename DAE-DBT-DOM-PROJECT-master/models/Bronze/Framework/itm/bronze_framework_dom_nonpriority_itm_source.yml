@@ -1,0 +1,101 @@
+version: 2
+
+sources:
+  - name: nonpriority_1_itm_bronze
+    database: "{{ env_var('DBT_BRONZE_DATABASE') | as_text }}"
+    schema: "{{ env_var('DBT_BRONZE_SCHEMA') | as_text }}"
+    config:
+      meta:
+        pipeline_name: dom
+        src_type: mysql
+        src_name: mao
+        src_module: mao
+        tgt_layer: bronze
+        mysql_connector_db: "{{ env_var('DBT_DOM_CONNECTOR_DB')| as_text }}.PUBLIC.connector_stats"
+        t_minus_interval: "{{ env_var('DBT_T_MINUS_INTERVAL_BRONZE')| as_text }}"
+    tables:
+      - name: itm_handling_attributes
+        config:
+          loaded_at_field: seen_at
+          meta:
+            src_tbl: '{{ env_var("DBT_DOM_CONNECTOR_DB") | as_text }}.journals.ITM_HANDLING_ATTRIBUTES'
+            tgt_tbl: '{{ env_var("DBT_BRONZE_DATABASE") | as_text }}.{{ env_var("DBT_BRONZE_SCHEMA") | as_text }}.itm_handling_attributes_archive'
+            load_type: incremental
+      - name: itm_item_attribute
+        config:
+          loaded_at_field: seen_at
+          meta:
+            src_tbl: '{{ env_var("DBT_DOM_CONNECTOR_DB") | as_text }}.journals.ITM_ITEM_ATTRIBUTE'
+            tgt_tbl: '{{ env_var("DBT_BRONZE_DATABASE") | as_text }}.{{ env_var("DBT_BRONZE_SCHEMA") | as_text }}.itm_item_attribute_archive'
+            load_type: incremental
+      - name: itm_item_code
+        config:
+          loaded_at_field: seen_at
+          meta:
+            src_tbl: '{{ env_var("DBT_DOM_CONNECTOR_DB") | as_text }}.journals.ITM_ITEM_CODE'
+            tgt_tbl: '{{ env_var("DBT_BRONZE_DATABASE") | as_text }}.{{ env_var("DBT_BRONZE_SCHEMA") | as_text }}.itm_item_code_archive'
+            load_type: incremental
+      - name: itm_item_code_type
+        config:
+          loaded_at_field: seen_at
+          meta:
+            src_tbl: '{{ env_var("DBT_DOM_CONNECTOR_DB") | as_text }}.journals.ITM_ITEM_CODE_TYPE'
+            tgt_tbl: '{{ env_var("DBT_BRONZE_DATABASE") | as_text }}.{{ env_var("DBT_BRONZE_SCHEMA") | as_text }}.itm_item_code_type_archive'
+            load_type: incremental
+      - name: itm_item_extension1
+        config:
+          loaded_at_field: seen_at
+          meta:
+            src_tbl: '{{ env_var("DBT_DOM_CONNECTOR_DB") | as_text }}.journals.ITM_ITEM_EXTENSION1'
+            tgt_tbl: '{{ env_var("DBT_BRONZE_DATABASE") | as_text }}.{{ env_var("DBT_BRONZE_SCHEMA") | as_text }}.itm_item_extension1_archive'
+            load_type: incremental
+      - name: itm_substitute_items
+        config:
+          loaded_at_field: seen_at
+          meta:
+            src_tbl: '{{ env_var("DBT_DOM_CONNECTOR_DB") | as_text }}.journals.ITM_SUBSTITUTE_ITEMS'
+            tgt_tbl: '{{ env_var("DBT_BRONZE_DATABASE") | as_text }}.{{ env_var("DBT_BRONZE_SCHEMA") | as_text }}.itm_substitute_items_archive'
+            load_type: incremental
+
+
+  - name: nonpriority_2_itm_bronze
+    database: "{{ env_var('DBT_BRONZE_DATABASE') | as_text }}"
+    schema: "{{ env_var('DBT_BRONZE_SCHEMA') | as_text }}"
+    config:
+      meta:
+        pipeline_name: dom
+        src_type: mysql
+        src_name: mao
+        src_module: mao
+        tgt_layer: bronze
+        mysql_connector_db: "{{ env_var('DBT_DOM_CONNECTOR_DB')| as_text }}.PUBLIC.connector_stats"
+        t_minus_interval: "{{ env_var('DBT_T_MINUS_INTERVAL_BRONZE')| as_text }}"
+    tables:
+      - name: itm_substitution_rule
+        config:
+          loaded_at_field: seen_at
+          meta:
+            src_tbl: '{{ env_var("DBT_DOM_CONNECTOR_DB") | as_text }}.journals.ITM_SUBSTITUTION_RULE'
+            tgt_tbl: '{{ env_var("DBT_BRONZE_DATABASE") | as_text }}.{{ env_var("DBT_BRONZE_SCHEMA") | as_text }}.itm_substitution_rule_archive'
+            load_type: incremental
+      - name: itm_value_added_services
+        config:
+          loaded_at_field: seen_at
+          meta:
+            src_tbl: '{{ env_var("DBT_DOM_CONNECTOR_DB") | as_text }}.journals.ITM_VALUE_ADDED_SERVICES'
+            tgt_tbl: '{{ env_var("DBT_BRONZE_DATABASE") | as_text }}.{{ env_var("DBT_BRONZE_SCHEMA") | as_text }}.itm_value_added_services_archive'
+            load_type: incremental
+      - name: itm_manufacturing_attribute
+        config:
+          loaded_at_field: seen_at
+          meta:
+            src_tbl: '{{ env_var("DBT_DOM_CONNECTOR_DB") | as_text }}.journals.ITM_MANUFACTURING_ATTRIBUTE'
+            tgt_tbl: '{{ env_var("DBT_BRONZE_DATABASE") | as_text }}.{{ env_var("DBT_BRONZE_SCHEMA") | as_text }}.itm_manufacturing_attribute_archive'
+            load_type: incremental
+      - name: itm_media
+        config:
+          loaded_at_field: seen_at
+          meta:
+            src_tbl: '{{ env_var("DBT_DOM_CONNECTOR_DB") | as_text }}.journals.itm_media'
+            tgt_tbl: '{{ env_var("DBT_BRONZE_DATABASE") | as_text }}.{{ env_var("DBT_BRONZE_SCHEMA") | as_text }}.itm_media_archive'
+            load_type: incremental

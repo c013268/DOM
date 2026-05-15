@@ -1,0 +1,13 @@
+version: 2
+
+sources:
+  - name: dom_dq_project
+    tables:
+      - name: dummy
+    config:
+      meta:
+        projects:
+          PDOM001:
+            project_name: dom
+            owner: Sig7
+            active_flg: Y

@@ -1,0 +1,112 @@
+version: 2
+
+sources:
+  - name: priority_1_org_silver
+    database: "{{ env_var('DBT_SILVER_DATABASE') | as_text }}"
+    schema: "{{ env_var('DBT_SILVER_SCHEMA') | as_text }}"
+    config:
+      meta:
+        pipeline_name: dom
+        src_type: mysql
+        src_name: mao
+        src_module: mao
+        tgt_layer: silver
+        mysql_connector_db: "{{ env_var('DBT_DOM_CONNECTOR_DB')| as_text }}.PUBLIC.connector_stats"
+        t_minus_interval: "{{ env_var('DBT_T_MINUS_INTERVAL_SILVER')| as_text }}"
+        merge_predicate_interval: "{{ env_var('DBT_MERGE_PREDICATE_INTERVAL_SILVER')| as_text }}"
+    tables:
+      - name: org_user
+        config:
+          loaded_at_field: updated_timestamp
+          meta:
+            src_tbl: "{{ env_var('DBT_STAGE_DATABASE') | as_text }}.{{ env_var('DBT_DOM_STAGE_ORG_SCHEMA') | as_text }}.org_user"
+            tgt_tbl: "{{ env_var('DBT_SILVER_DATABASE') | as_text }}.{{ env_var('DBT_SILVER_SCHEMA') | as_text }}.mao_org_user_t"
+            src_archive_tbl: "{{ env_var('DBT_BRONZE_DATABASE') | as_text }}.{{ env_var('DBT_BRONZE_SCHEMA') | as_text }}.org_user_archive_v"
+            load_type: incremental
+      - name: org_location
+        config:
+          loaded_at_field: updated_timestamp
+          meta:
+            src_tbl: "{{ env_var('DBT_STAGE_DATABASE') | as_text }}.{{ env_var('DBT_DOM_STAGE_ORG_SCHEMA') | as_text }}.org_location"
+            tgt_tbl: "{{ env_var('DBT_SILVER_DATABASE') | as_text }}.{{ env_var('DBT_SILVER_SCHEMA') | as_text }}.mao_org_location_t"
+            src_archive_tbl: "{{ env_var('DBT_BRONZE_DATABASE') | as_text }}.{{ env_var('DBT_BRONZE_SCHEMA') | as_text }}.org_location_archive_v"
+            load_type: incremental
+      - name: org_location_status
+        config:
+          loaded_at_field: updated_timestamp
+          meta:
+            src_tbl: "{{ env_var('DBT_STAGE_DATABASE') | as_text }}.{{ env_var('DBT_DOM_STAGE_ORG_SCHEMA') | as_text }}.org_location_status"
+            tgt_tbl: "{{ env_var('DBT_SILVER_DATABASE') | as_text }}.{{ env_var('DBT_SILVER_SCHEMA') | as_text }}.mao_org_location_status_t"
+            src_archive_tbl: "{{ env_var('DBT_BRONZE_DATABASE') | as_text }}.{{ env_var('DBT_BRONZE_SCHEMA') | as_text }}.org_location_status_archive_v"
+            load_type: incremental
+      - name: org_location_type
+        config:
+          loaded_at_field: updated_timestamp
+          meta:
+            src_tbl: "{{ env_var('DBT_STAGE_DATABASE') | as_text }}.{{ env_var('DBT_DOM_STAGE_ORG_SCHEMA') | as_text }}.org_location_type"
+            tgt_tbl: "{{ env_var('DBT_SILVER_DATABASE') | as_text }}.{{ env_var('DBT_SILVER_SCHEMA') | as_text }}.mao_org_location_type_t"
+            src_archive_tbl: "{{ env_var('DBT_BRONZE_DATABASE') | as_text }}.{{ env_var('DBT_BRONZE_SCHEMA') | as_text }}.org_location_type_archive_v"
+            load_type: incremental
+
+  - name: priority_2_org_silver
+    database: "{{ env_var('DBT_SILVER_DATABASE') | as_text }}"
+    schema: "{{ env_var('DBT_SILVER_SCHEMA') | as_text }}"
+    config:
+      meta:
+        pipeline_name: dom
+        src_type: mysql
+        src_name: mao
+        src_module: mao
+        tgt_layer: silver
+        mysql_connector_db: "{{ env_var('DBT_DOM_CONNECTOR_DB')| as_text }}.PUBLIC.connector_stats"
+        t_minus_interval: "{{ env_var('DBT_T_MINUS_INTERVAL_SILVER')| as_text }}"
+        merge_predicate_interval: "{{ env_var('DBT_MERGE_PREDICATE_INTERVAL_SILVER')| as_text }}"
+    tables:
+      - name: org_location_sub_type
+        config:
+          loaded_at_field: updated_timestamp
+          meta:
+            src_tbl: "{{ env_var('DBT_STAGE_DATABASE') | as_text }}.{{ env_var('DBT_DOM_STAGE_ORG_SCHEMA') | as_text }}.org_location_sub_type"
+            tgt_tbl: "{{ env_var('DBT_SILVER_DATABASE') | as_text }}.{{ env_var('DBT_SILVER_SCHEMA') | as_text }}.mao_org_location_sub_type_t"
+            src_archive_tbl: "{{ env_var('DBT_BRONZE_DATABASE') | as_text }}.{{ env_var('DBT_BRONZE_SCHEMA') | as_text }}.org_location_sub_type_archive_v"
+            load_type: incremental
+      - name: org_location_contact
+        config:
+          loaded_at_field: updated_timestamp
+          meta:
+            src_tbl: "{{ env_var('DBT_STAGE_DATABASE') | as_text }}.{{ env_var('DBT_DOM_STAGE_ORG_SCHEMA') | as_text }}.org_location_contact"
+            tgt_tbl: "{{ env_var('DBT_SILVER_DATABASE') | as_text }}.{{ env_var('DBT_SILVER_SCHEMA') | as_text }}.mao_org_location_contact_t"
+            src_archive_tbl: "{{ env_var('DBT_BRONZE_DATABASE') | as_text }}.{{ env_var('DBT_BRONZE_SCHEMA') | as_text }}.org_location_contact_archive_v"
+            load_type: incremental
+      - name: org_location_contact_type
+        config:
+          loaded_at_field: updated_timestamp
+          meta:
+            src_tbl: "{{ env_var('DBT_STAGE_DATABASE') | as_text }}.{{ env_var('DBT_DOM_STAGE_ORG_SCHEMA') | as_text }}.org_location_contact_type"
+            tgt_tbl: "{{ env_var('DBT_SILVER_DATABASE') | as_text }}.{{ env_var('DBT_SILVER_SCHEMA') | as_text }}.mao_org_location_contact_type_t"
+            src_archive_tbl: "{{ env_var('DBT_BRONZE_DATABASE') | as_text }}.{{ env_var('DBT_BRONZE_SCHEMA') | as_text }}.org_location_contact_type_archive_v"
+            load_type: incremental
+      - name: org_business_unit
+        config:
+          loaded_at_field: updated_timestamp
+          meta:
+            src_tbl: "{{ env_var('DBT_STAGE_DATABASE') | as_text }}.{{ env_var('DBT_DOM_STAGE_ORG_SCHEMA') | as_text }}.org_business_unit"
+            tgt_tbl: "{{ env_var('DBT_SILVER_DATABASE') | as_text }}.{{ env_var('DBT_SILVER_SCHEMA') | as_text }}.mao_org_business_unit_t"
+            src_archive_tbl: "{{ env_var('DBT_BRONZE_DATABASE') | as_text }}.{{ env_var('DBT_BRONZE_SCHEMA') | as_text }}.org_business_unit_archive_v"
+            load_type: incremental
+      - name: org_organization
+        config:
+          loaded_at_field: updated_timestamp
+          meta:
+            src_tbl: "{{ env_var('DBT_STAGE_DATABASE') | as_text }}.{{ env_var('DBT_DOM_STAGE_ORG_SCHEMA') | as_text }}.org_organization"
+            tgt_tbl: "{{ env_var('DBT_SILVER_DATABASE') | as_text }}.{{ env_var('DBT_SILVER_SCHEMA') | as_text }}.mao_org_organization_t"
+            src_archive_tbl: "{{ env_var('DBT_BRONZE_DATABASE') | as_text }}.{{ env_var('DBT_BRONZE_SCHEMA') | as_text }}.org_organization_archive_v"
+            load_type: incremental
+      - name: org_organization_hierarchy
+        config:
+          loaded_at_field: updated_timestamp
+          meta:
+            src_tbl: "{{ env_var('DBT_STAGE_DATABASE') | as_text }}.{{ env_var('DBT_DOM_STAGE_ORG_SCHEMA') | as_text }}.org_organization_hierarchy"
+            tgt_tbl: "{{ env_var('DBT_SILVER_DATABASE') | as_text }}.{{ env_var('DBT_SILVER_SCHEMA') | as_text }}.mao_org_organization_hierarchy_t"
+            src_archive_tbl: "{{ env_var('DBT_BRONZE_DATABASE') | as_text }}.{{ env_var('DBT_BRONZE_SCHEMA') | as_text }}.org_organization_hierarchy_archive_v"
+            load_type: incremental

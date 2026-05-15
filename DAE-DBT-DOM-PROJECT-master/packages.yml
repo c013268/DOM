@@ -1,0 +1,3 @@
+packages:
+  - git: "https://{{env_var('DBT_ENV_SECRET_GIT_CREDENTIAL')}}@github.com/FootLocker-DA/DAE-DBT-FL-UTILITY-SUITE.git"
+    revision: "{{env_var('DBT_UTILITY_BRANCH')}}"

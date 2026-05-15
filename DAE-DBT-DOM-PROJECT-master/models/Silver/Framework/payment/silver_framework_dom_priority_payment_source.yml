@@ -1,0 +1,126 @@
+version: 2
+
+sources:
+  - name: priority_1_payment_silver
+    database: "{{ env_var('DBT_SILVER_DATABASE') | as_text }}"
+    schema: "{{ env_var('DBT_SILVER_SCHEMA') | as_text }}"
+    config:
+      meta:
+        pipeline_name: dom
+        src_type: mysql
+        src_name: mao
+        src_module: mao
+        tgt_layer: silver
+        mysql_connector_db: "{{ env_var('DBT_DOM_CONNECTOR_DB')| as_text }}.PUBLIC.connector_stats"
+        t_minus_interval: "{{ env_var('DBT_T_MINUS_INTERVAL_SILVER')| as_text }}"
+        merge_predicate_interval: "{{ env_var('DBT_MERGE_PREDICATE_INTERVAL_SILVER')| as_text }}"
+    tables:
+      - name: pay_payment_header
+        config:
+          loaded_at_field: updated_timestamp
+          meta:
+            src_tbl: "{{ env_var('DBT_STAGE_DATABASE') | as_text }}.{{ env_var('DBT_DOM_STAGE_PAYMENT_SCHEMA') | as_text }}.pay_payment_header"
+            tgt_tbl: "{{ env_var('DBT_SILVER_DATABASE') | as_text }}.{{ env_var('DBT_SILVER_SCHEMA') | as_text }}.mao_pay_payment_header_t"
+            src_archive_tbl: "{{ env_var('DBT_BRONZE_DATABASE') | as_text }}.{{ env_var('DBT_BRONZE_SCHEMA') | as_text }}.pay_payment_header_archive_v"
+            load_type: incremental
+      - name: pay_payment_type
+        config:
+          loaded_at_field: updated_timestamp
+          meta:
+            src_tbl: "{{ env_var('DBT_STAGE_DATABASE') | as_text }}.{{ env_var('DBT_DOM_STAGE_PAYMENT_SCHEMA') | as_text }}.pay_payment_type"
+            tgt_tbl: "{{ env_var('DBT_SILVER_DATABASE') | as_text }}.{{ env_var('DBT_SILVER_SCHEMA') | as_text }}.mao_pay_payment_type_t"
+            src_archive_tbl: "{{ env_var('DBT_BRONZE_DATABASE') | as_text }}.{{ env_var('DBT_BRONZE_SCHEMA') | as_text }}.pay_payment_type_archive_v"
+            load_type: incremental
+      - name: pay_payment_status
+        config:
+          loaded_at_field: updated_timestamp
+          meta:
+            src_tbl: "{{ env_var('DBT_STAGE_DATABASE') | as_text }}.{{ env_var('DBT_DOM_STAGE_PAYMENT_SCHEMA') | as_text }}.pay_payment_status"
+            tgt_tbl: "{{ env_var('DBT_SILVER_DATABASE') | as_text }}.{{ env_var('DBT_SILVER_SCHEMA') | as_text }}.mao_pay_payment_status_t"
+            src_archive_tbl: "{{ env_var('DBT_BRONZE_DATABASE') | as_text }}.{{ env_var('DBT_BRONZE_SCHEMA') | as_text }}.pay_payment_status_archive_v"
+            load_type: incremental
+
+  - name: priority_2_payment_silver
+    database: "{{ env_var('DBT_SILVER_DATABASE') | as_text }}"
+    schema: "{{ env_var('DBT_SILVER_SCHEMA') | as_text }}"
+    config:
+      meta:
+        pipeline_name: dom
+        src_type: mysql
+        src_name: mao
+        src_module: mao
+        tgt_layer: silver
+        mysql_connector_db: "{{ env_var('DBT_DOM_CONNECTOR_DB')| as_text }}.PUBLIC.connector_stats"
+        t_minus_interval: "{{ env_var('DBT_T_MINUS_INTERVAL_SILVER')| as_text }}"
+    tables:
+      - name: pay_payment_method
+        config:
+          loaded_at_field: updated_timestamp
+          meta:
+            src_tbl: "{{ env_var('DBT_STAGE_DATABASE') | as_text }}.{{ env_var('DBT_DOM_STAGE_PAYMENT_SCHEMA') | as_text }}.pay_payment_method"
+            tgt_tbl: "{{ env_var('DBT_SILVER_DATABASE') | as_text }}.{{ env_var('DBT_SILVER_SCHEMA') | as_text }}.mao_pay_payment_method_t"
+            src_archive_tbl: "{{ env_var('DBT_BRONZE_DATABASE') | as_text }}.{{ env_var('DBT_BRONZE_SCHEMA') | as_text }}.pay_payment_method_archive_v"
+            load_type: incremental
+      - name: pay_billing_address
+        config:
+          loaded_at_field: updated_timestamp
+          meta:
+            src_tbl: "{{ env_var('DBT_STAGE_DATABASE') | as_text }}.{{ env_var('DBT_DOM_STAGE_PAYMENT_SCHEMA') | as_text }}.pay_billing_address"
+            tgt_tbl: "{{ env_var('DBT_SILVER_DATABASE') | as_text }}.{{ env_var('DBT_SILVER_SCHEMA') | as_text }}.mao_pay_billing_address_t"
+            src_archive_tbl: "{{ env_var('DBT_BRONZE_DATABASE') | as_text }}.{{ env_var('DBT_BRONZE_SCHEMA') | as_text }}.pay_billing_address_archive_v"
+            load_type: incremental
+      - name: pay_payment_summary
+        config:
+          loaded_at_field: updated_timestamp
+          meta:
+            src_tbl: "{{ env_var('DBT_STAGE_DATABASE') | as_text }}.{{ env_var('DBT_DOM_STAGE_PAYMENT_SCHEMA') | as_text }}.pay_payment_summary"
+            tgt_tbl: "{{ env_var('DBT_SILVER_DATABASE') | as_text }}.{{ env_var('DBT_SILVER_SCHEMA') | as_text }}.mao_pay_payment_summary_t"
+            src_archive_tbl: "{{ env_var('DBT_BRONZE_DATABASE') | as_text }}.{{ env_var('DBT_BRONZE_SCHEMA') | as_text }}.pay_payment_summary_archive_v"
+            load_type: incremental
+      - name: pay_payment_method_attribute
+        config:
+          loaded_at_field: updated_timestamp
+          meta:
+            src_tbl: "{{ env_var('DBT_STAGE_DATABASE') | as_text }}.{{ env_var('DBT_DOM_STAGE_PAYMENT_SCHEMA') | as_text }}.pay_payment_method_attribute"
+            tgt_tbl: "{{ env_var('DBT_SILVER_DATABASE') | as_text }}.{{ env_var('DBT_SILVER_SCHEMA') | as_text }}.mao_pay_payment_method_attribute_t"
+            src_archive_tbl: "{{ env_var('DBT_BRONZE_DATABASE') | as_text }}.{{ env_var('DBT_BRONZE_SCHEMA') | as_text }}.pay_payment_method_attribute_archive_v"
+            load_type: incremental
+
+  - name: priority_3_payment_silver
+    database: "{{ env_var('DBT_SILVER_DATABASE') | as_text }}"
+    schema: "{{ env_var('DBT_SILVER_SCHEMA') | as_text }}"
+    config:
+      meta:
+        pipeline_name: dom
+        src_type: mysql
+        src_name: mao
+        src_module: mao
+        tgt_layer: silver
+        mysql_connector_db: "{{ env_var('DBT_DOM_CONNECTOR_DB')| as_text }}.PUBLIC.connector_stats"
+        t_minus_interval: "{{ env_var('DBT_T_MINUS_INTERVAL_SILVER')| as_text }}"
+        merge_predicate_interval: "{{ env_var('DBT_MERGE_PREDICATE_INTERVAL_SILVER')| as_text }}"
+    tables:
+      - name: pay_payment_transaction
+        config:
+          loaded_at_field: updated_timestamp
+          meta:
+            src_tbl: "{{ env_var('DBT_STAGE_DATABASE') | as_text }}.{{ env_var('DBT_DOM_STAGE_PAYMENT_SCHEMA') | as_text }}.pay_payment_transaction"
+            tgt_tbl: "{{ env_var('DBT_SILVER_DATABASE') | as_text }}.{{ env_var('DBT_SILVER_SCHEMA') | as_text }}.mao_pay_payment_transaction_t"
+            src_archive_tbl: "{{ env_var('DBT_BRONZE_DATABASE') | as_text }}.{{ env_var('DBT_BRONZE_SCHEMA') | as_text }}.pay_payment_transaction_archive_v"
+            load_type: incremental
+      - name: pay_payment_transaction_detail
+        config:
+          loaded_at_field: updated_timestamp
+          meta:
+            src_tbl: "{{ env_var('DBT_STAGE_DATABASE') | as_text }}.{{ env_var('DBT_DOM_STAGE_PAYMENT_SCHEMA') | as_text }}.pay_payment_transaction_detail"
+            tgt_tbl: "{{ env_var('DBT_SILVER_DATABASE') | as_text }}.{{ env_var('DBT_SILVER_SCHEMA') | as_text }}.mao_pay_payment_transaction_detail_t"
+            src_archive_tbl: "{{ env_var('DBT_BRONZE_DATABASE') | as_text }}.{{ env_var('DBT_BRONZE_SCHEMA') | as_text }}.pay_payment_transaction_detail_archive_v"
+            load_type: incremental
+      - name: pay_payment_transaction_group
+        config:
+          loaded_at_field: updated_timestamp
+          meta:
+            src_tbl: "{{ env_var('DBT_STAGE_DATABASE') | as_text }}.{{ env_var('DBT_DOM_STAGE_PAYMENT_SCHEMA') | as_text }}.pay_payment_transaction_group"
+            tgt_tbl: "{{ env_var('DBT_SILVER_DATABASE') | as_text }}.{{ env_var('DBT_SILVER_SCHEMA') | as_text }}.mao_pay_payment_transaction_group_t"
+            src_archive_tbl: "{{ env_var('DBT_BRONZE_DATABASE') | as_text }}.{{ env_var('DBT_BRONZE_SCHEMA') | as_text }}.pay_payment_transaction_group_archive_v"
+            load_type: incremental

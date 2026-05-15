@@ -1,0 +1,149 @@
+version: 2
+
+sources:
+  - name: priority_1_ord_fulflmnt_bronze
+    database: "{{ env_var('DBT_BRONZE_DATABASE') | as_text }}"
+    schema: "{{ env_var('DBT_BRONZE_SCHEMA') | as_text }}"
+    config:
+      meta:
+        pipeline_name: dom
+        src_type: mysql
+        src_name: mao
+        src_module: mao
+        tgt_layer: bronze
+        mysql_connector_db: "{{ env_var('DBT_DOM_CONNECTOR_DB')| as_text }}.PUBLIC.connector_stats"
+        t_minus_interval: "{{ env_var('DBT_T_MINUS_INTERVAL_BRONZE')| as_text }}"
+    tables:
+      - name: ful_fulfillment
+        config:
+          loaded_at_field: seen_at
+          meta:
+            src_tbl: '{{ env_var("DBT_DOM_CONNECTOR_DB") | as_text }}.journals.FUL_FULFILLMENT'
+            tgt_tbl: '{{ env_var("DBT_BRONZE_DATABASE") | as_text }}.{{ env_var("DBT_BRONZE_SCHEMA") | as_text }}.ful_fulfillment_archive'
+            load_type: incremental
+      - name: fw_status_definition
+        config:
+          loaded_at_field: seen_at
+          meta:
+            src_tbl: '{{ env_var("DBT_DOM_CONNECTOR_DB") | as_text }}.journals.FW_STATUS_DEFINITION'
+            tgt_tbl: '{{ env_var("DBT_BRONZE_DATABASE") | as_text }}.{{ env_var("DBT_BRONZE_SCHEMA") | as_text }}.ful_fw_status_definition_archive'
+            load_type: incremental
+
+  - name: priority_2_ord_fulflmnt_bronze
+    database: "{{ env_var('DBT_BRONZE_DATABASE') | as_text }}"
+    schema: "{{ env_var('DBT_BRONZE_SCHEMA') | as_text }}"
+    config:
+      meta:
+        pipeline_name: dom
+        src_type: mysql
+        src_name: mao
+        src_module: mao
+        tgt_layer: bronze
+        mysql_connector_db: "{{ env_var('DBT_DOM_CONNECTOR_DB')| as_text }}.PUBLIC.connector_stats"
+        t_minus_interval: "{{ env_var('DBT_T_MINUS_INTERVAL_BRONZE')| as_text }}"
+    tables:
+      - name: ful_fulfillment_line
+        config:
+          loaded_at_field: seen_at
+          meta:
+            src_tbl: '{{ env_var("DBT_DOM_CONNECTOR_DB") | as_text }}.journals.FUL_FULFILLMENT_LINE'
+            tgt_tbl: '{{ env_var("DBT_BRONZE_DATABASE") | as_text }}.{{ env_var("DBT_BRONZE_SCHEMA") | as_text }}.ful_fulfillment_line_archive'
+            load_type: incremental
+      - name: ful_fulfillment_reason
+        config:
+          loaded_at_field: seen_at
+          meta:
+            src_tbl: '{{ env_var("DBT_DOM_CONNECTOR_DB") | as_text }}.journals.FUL_FULFILLMENT_REASON'
+            tgt_tbl: '{{ env_var("DBT_BRONZE_DATABASE") | as_text }}.{{ env_var("DBT_BRONZE_SCHEMA") | as_text }}.ful_fulfillment_reason_archive'
+            load_type: incremental
+      - name: ful_pick_task_detail
+        config:
+          loaded_at_field: seen_at
+          meta:
+            src_tbl: '{{ env_var("DBT_DOM_CONNECTOR_DB") | as_text }}.journals.FUL_PICK_TASK_DETAIL'
+            tgt_tbl: '{{ env_var("DBT_BRONZE_DATABASE") | as_text }}.{{ env_var("DBT_BRONZE_SCHEMA") | as_text }}.ful_pick_task_detail_archive'
+            load_type: incremental
+
+  - name: priority_3_ord_fulflmnt_bronze
+    database: "{{ env_var('DBT_BRONZE_DATABASE') | as_text }}"
+    schema: "{{ env_var('DBT_BRONZE_SCHEMA') | as_text }}"
+    config:
+      meta:
+        pipeline_name: dom
+        src_type: mysql
+        src_name: mao
+        src_module: mao
+        tgt_layer: bronze
+        mysql_connector_db: "{{ env_var('DBT_DOM_CONNECTOR_DB')| as_text }}.PUBLIC.connector_stats"
+        t_minus_interval: "{{ env_var('DBT_T_MINUS_INTERVAL_BRONZE')| as_text }}"
+    tables:
+      - name: ful_packages
+        config:
+          loaded_at_field: seen_at
+          meta:
+            src_tbl: '{{ env_var("DBT_DOM_CONNECTOR_DB") | as_text }}.journals.FUL_PACKAGES'
+            tgt_tbl: '{{ env_var("DBT_BRONZE_DATABASE") | as_text }}.{{ env_var("DBT_BRONZE_SCHEMA") | as_text }}.ful_packages_archive'
+            load_type: incremental
+      - name: ful_task_type
+        config:
+          loaded_at_field: seen_at
+          meta:
+            src_tbl: '{{ env_var("DBT_DOM_CONNECTOR_DB") | as_text }}.journals.FUL_TASK_TYPE'
+            tgt_tbl: '{{ env_var("DBT_BRONZE_DATABASE") | as_text }}.{{ env_var("DBT_BRONZE_SCHEMA") | as_text }}.ful_task_type_archive'
+            load_type: incremental
+      - name: ful_fulfillment_line_shorts
+        config:
+          loaded_at_field: seen_at
+          meta:
+            src_tbl: '{{ env_var("DBT_DOM_CONNECTOR_DB") | as_text }}.journals.FUL_FULFILLMENT_LINE_SHORTS'
+            tgt_tbl: '{{ env_var("DBT_BRONZE_DATABASE") | as_text }}.{{ env_var("DBT_BRONZE_SCHEMA") | as_text }}.ful_fulfillment_line_shorts_archive'
+            load_type: incremental
+
+  - name: priority_4_ord_fulflmnt_bronze
+    database: "{{ env_var('DBT_BRONZE_DATABASE') | as_text }}"
+    schema: "{{ env_var('DBT_BRONZE_SCHEMA') | as_text }}"
+    config:
+      meta:
+        pipeline_name: dom
+        src_type: mysql
+        src_name: mao
+        src_module: mao
+        tgt_layer: bronze
+        mysql_connector_db: "{{ env_var('DBT_DOM_CONNECTOR_DB')| as_text }}.PUBLIC.connector_stats"
+        t_minus_interval: "{{ env_var('DBT_T_MINUS_INTERVAL_BRONZE')| as_text }}"
+    tables:
+      - name: ful_package_detail
+        config:
+          loaded_at_field: seen_at
+          meta:
+            src_tbl: '{{ env_var("DBT_DOM_CONNECTOR_DB") | as_text }}.journals.FUL_PACKAGE_DETAIL'
+            tgt_tbl: '{{ env_var("DBT_BRONZE_DATABASE") | as_text }}.{{ env_var("DBT_BRONZE_SCHEMA") | as_text }}.ful_package_detail_archive'
+            load_type: incremental
+      - name: ful_fulfillment_reason_type
+        config:
+          loaded_at_field: seen_at
+          meta:
+            src_tbl: '{{ env_var("DBT_DOM_CONNECTOR_DB") | as_text }}.journals.FUL_FULFILLMENT_REASON_TYPE'
+            tgt_tbl: '{{ env_var("DBT_BRONZE_DATABASE") | as_text }}.{{ env_var("DBT_BRONZE_SCHEMA") | as_text }}.ful_fulfillment_reason_type_archive'
+            load_type: incremental
+      - name: ful_task
+        config:
+          loaded_at_field: seen_at
+          meta:
+            src_tbl: '{{ env_var("DBT_DOM_CONNECTOR_DB") | as_text }}.journals.FUL_TASK'
+            tgt_tbl: '{{ env_var("DBT_BRONZE_DATABASE") | as_text }}.{{ env_var("DBT_BRONZE_SCHEMA") | as_text }}.ful_task_archive'
+            load_type: incremental
+      - name: ful_package_status
+        config:
+          loaded_at_field: seen_at
+          meta:
+            src_tbl: '{{ env_var("DBT_DOM_CONNECTOR_DB") | as_text }}.journals.FUL_PACKAGE_STATUS'
+            tgt_tbl: '{{ env_var("DBT_BRONZE_DATABASE") | as_text }}.{{ env_var("DBT_BRONZE_SCHEMA") | as_text }}.ful_package_status_archive'
+            load_type: incremental
+      - name: ful_task_status
+        config:
+          loaded_at_field: seen_at
+          meta:
+            src_tbl: '{{ env_var("DBT_DOM_CONNECTOR_DB") | as_text }}.journals.ful_task_status'
+            tgt_tbl: '{{ env_var("DBT_BRONZE_DATABASE") | as_text }}.{{ env_var("DBT_BRONZE_SCHEMA") | as_text }}.ful_task_status_archive'
+            load_type: incremental

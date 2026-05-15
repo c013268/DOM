@@ -1,0 +1,21 @@
+trigger:
+  branches:
+    include:
+      - develop
+      - master
+
+pool: DAP-PROD-VMSS
+
+resources:
+  repositories:
+    - repository: templates
+      type: github
+      name: FootLocker-DA/DAO-azuredevops-templates/
+      endpoint: Footlocker-Github
+      ref: develop
+
+stages:
+  - template: scala-azure-pipeline.yml@templates
+    parameters:
+      Package_name: "oms_ingestion"
+      Region: "US"

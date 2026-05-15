@@ -1,0 +1,167 @@
+version: 2
+
+sources:
+  - name: priority_1_ord_fulflmnt_silver
+    database: "{{ env_var('DBT_SILVER_DATABASE') | as_text }}"
+    schema: "{{ env_var('DBT_SILVER_SCHEMA') | as_text }}"
+    ### these meta configs are utilized at the model ( j in the i for j ) ###
+    config:
+      meta:
+        pipeline_name: dom
+        src_type: mysql
+        src_name: mao
+        src_module: mao
+        tgt_layer: silver
+        mysql_connector_db: "{{ env_var('DBT_DOM_CONNECTOR_DB')| as_text }}.PUBLIC.connector_stats"
+        t_minus_interval: "{{ env_var('DBT_T_MINUS_INTERVAL_SILVER')| as_text }}"
+        merge_predicate_interval: "{{ env_var('DBT_MERGE_PREDICATE_INTERVAL_SILVER')| as_text }}"
+    tables:
+      - name: fw_status_definition
+        config:
+          loaded_at_field: updated_timestamp
+          meta:
+            src_tbl: "{{ env_var('DBT_STAGE_DATABASE') | as_text }}.{{ env_var('DBT_DOM_STAGE_ORD_FULFLMNT_SCHEMA') | as_text }}.fw_status_definition"
+            tgt_tbl: "{{ env_var('DBT_SILVER_DATABASE') | as_text }}.{{ env_var('DBT_SILVER_SCHEMA') | as_text }}.mao_ful_fw_status_definition_t"
+            src_archive_tbl: "{{ env_var('DBT_BRONZE_DATABASE') | as_text }}.{{ env_var('DBT_BRONZE_SCHEMA') | as_text }}.ful_fw_status_definition_archive_v"
+            load_type: incremental
+
+  - name: priority_2_ord_fulflmnt_silver
+    database: "{{ env_var('DBT_SILVER_DATABASE') | as_text }}"
+    schema: "{{ env_var('DBT_SILVER_SCHEMA') | as_text }}"
+    ### these meta configs are utilized at the model ( j in the i for j ) ###
+    config:
+      meta:
+        pipeline_name: dom
+        src_type: mysql
+        src_name: mao
+        src_module: mao
+        tgt_layer: silver
+        mysql_connector_db: "{{ env_var('DBT_DOM_CONNECTOR_DB')| as_text }}.PUBLIC.connector_stats"
+        t_minus_interval: "{{ env_var('DBT_T_MINUS_INTERVAL_SILVER')| as_text }}"
+    tables:
+      - name: ful_fulfillment_reason
+        config:
+          loaded_at_field: updated_timestamp
+          meta:
+            src_tbl: "{{ env_var('DBT_STAGE_DATABASE') | as_text }}.{{ env_var('DBT_DOM_STAGE_ORD_FULFLMNT_SCHEMA') | as_text }}.ful_fulfillment_reason"
+            tgt_tbl: "{{ env_var('DBT_SILVER_DATABASE') | as_text }}.{{ env_var('DBT_SILVER_SCHEMA') | as_text }}.mao_ful_fulfillment_reason_t"
+            src_archive_tbl: "{{ env_var('DBT_BRONZE_DATABASE') | as_text }}.{{ env_var('DBT_BRONZE_SCHEMA') | as_text }}.ful_fulfillment_reason_archive_v"
+            load_type: incremental
+      - name: ful_fulfillment_reason_type
+        config:
+          loaded_at_field: updated_timestamp
+          meta:
+            src_tbl: "{{ env_var('DBT_STAGE_DATABASE') | as_text }}.{{ env_var('DBT_DOM_STAGE_ORD_FULFLMNT_SCHEMA') | as_text }}.ful_fulfillment_reason_type"
+            tgt_tbl: "{{ env_var('DBT_SILVER_DATABASE') | as_text }}.{{ env_var('DBT_SILVER_SCHEMA') | as_text }}.mao_ful_fulfillment_reason_type_t"
+            src_archive_tbl: "{{ env_var('DBT_BRONZE_DATABASE') | as_text }}.{{ env_var('DBT_BRONZE_SCHEMA') | as_text }}.ful_fulfillment_reason_type_archive_v"
+            load_type: incremental
+
+  - name: priority_3_ord_fulflmnt_silver
+    database: "{{ env_var('DBT_SILVER_DATABASE') | as_text }}"
+    schema: "{{ env_var('DBT_SILVER_SCHEMA') | as_text }}"
+    ### these meta configs are utilized at the model ( j in the i for j ) ###
+    config:
+      meta:
+        pipeline_name: dom
+        src_type: mysql
+        src_name: mao
+        src_module: mao
+        tgt_layer: silver
+        mysql_connector_db: "{{ env_var('DBT_DOM_CONNECTOR_DB')| as_text }}.PUBLIC.connector_stats"
+        t_minus_interval: "{{ env_var('DBT_T_MINUS_INTERVAL_SILVER')| as_text }}"
+    tables:
+      - name: ful_fulfillment
+        config:
+          loaded_at_field: updated_timestamp
+          meta:
+            src_tbl: "{{ env_var('DBT_STAGE_DATABASE') | as_text }}.{{ env_var('DBT_DOM_STAGE_ORD_FULFLMNT_SCHEMA') | as_text }}.ful_fulfillment"
+            tgt_tbl: "{{ env_var('DBT_SILVER_DATABASE') | as_text }}.{{ env_var('DBT_SILVER_SCHEMA') | as_text }}.mao_ful_fulfillment_t"
+            src_archive_tbl: "{{ env_var('DBT_BRONZE_DATABASE') | as_text }}.{{ env_var('DBT_BRONZE_SCHEMA') | as_text }}.ful_fulfillment_archive_v"
+            load_type: incremental
+      - name: ful_package_detail
+        config:
+          loaded_at_field: updated_timestamp
+          meta:
+            src_tbl: "{{ env_var('DBT_STAGE_DATABASE') | as_text }}.{{ env_var('DBT_DOM_STAGE_ORD_FULFLMNT_SCHEMA') | as_text }}.ful_package_detail"
+            tgt_tbl: "{{ env_var('DBT_SILVER_DATABASE') | as_text }}.{{ env_var('DBT_SILVER_SCHEMA') | as_text }}.mao_ful_package_detail_t"
+            src_archive_tbl: "{{ env_var('DBT_BRONZE_DATABASE') | as_text }}.{{ env_var('DBT_BRONZE_SCHEMA') | as_text }}.ful_package_detail_archive_v"
+            load_type: incremental
+      - name: ful_package_status
+        config:
+          loaded_at_field: updated_timestamp
+          meta:
+            src_tbl: "{{ env_var('DBT_STAGE_DATABASE') | as_text }}.{{ env_var('DBT_DOM_STAGE_ORD_FULFLMNT_SCHEMA') | as_text }}.ful_package_status"
+            tgt_tbl: "{{ env_var('DBT_SILVER_DATABASE') | as_text }}.{{ env_var('DBT_SILVER_SCHEMA') | as_text }}.mao_ful_package_status_t"
+            src_archive_tbl: "{{ env_var('DBT_BRONZE_DATABASE') | as_text }}.{{ env_var('DBT_BRONZE_SCHEMA') | as_text }}.ful_package_status_archive_v"
+            load_type: incremental
+
+  - name: priority_4_ord_fulflmnt_silver
+    database: "{{ env_var('DBT_SILVER_DATABASE') | as_text }}"
+    schema: "{{ env_var('DBT_SILVER_SCHEMA') | as_text }}"
+    ### these meta configs are utilized at the model ( j in the i for j ) ###
+    config:
+      meta:
+        pipeline_name: dom
+        src_type: mysql
+        src_name: mao
+        src_module: mao
+        tgt_layer: silver
+        mysql_connector_db: "{{ env_var('DBT_DOM_CONNECTOR_DB')| as_text }}.PUBLIC.connector_stats"
+        t_minus_interval: "{{ env_var('DBT_T_MINUS_INTERVAL_SILVER')| as_text }}"
+        merge_predicate_interval: "{{ env_var('DBT_MERGE_PREDICATE_INTERVAL_SILVER')| as_text }}"
+    tables:
+      - name: ful_task
+        config:
+          loaded_at_field: updated_timestamp
+          meta:
+            src_tbl: "{{ env_var('DBT_STAGE_DATABASE') | as_text }}.{{ env_var('DBT_DOM_STAGE_ORD_FULFLMNT_SCHEMA') | as_text }}.ful_task"
+            tgt_tbl: "{{ env_var('DBT_SILVER_DATABASE') | as_text }}.{{ env_var('DBT_SILVER_SCHEMA') | as_text }}.mao_ful_task_t"
+            src_archive_tbl: "{{ env_var('DBT_BRONZE_DATABASE') | as_text }}.{{ env_var('DBT_BRONZE_SCHEMA') | as_text }}.ful_task_archive_v"
+            load_type: incremental
+
+  - name: priority_5_ord_fulflmnt_silver
+    database: "{{ env_var('DBT_SILVER_DATABASE') | as_text }}"
+    schema: "{{ env_var('DBT_SILVER_SCHEMA') | as_text }}"
+    ### these meta configs are utilized at the model ( j in the i for j ) ###
+    config:
+      meta:
+        pipeline_name: dom
+        src_type: mysql
+        src_name: mao
+        src_module: mao
+        tgt_layer: silver
+        mysql_connector_db: "{{ env_var('DBT_DOM_CONNECTOR_DB')| as_text }}.PUBLIC.connector_stats"
+        t_minus_interval: "{{ env_var('DBT_T_MINUS_INTERVAL_SILVER')| as_text }}"
+    tables:
+      - name: ful_task_type
+        config:
+          loaded_at_field: updated_timestamp
+          meta:
+            src_tbl: "{{ env_var('DBT_STAGE_DATABASE') | as_text }}.{{ env_var('DBT_DOM_STAGE_ORD_FULFLMNT_SCHEMA') | as_text }}.ful_task_type"
+            tgt_tbl: "{{ env_var('DBT_SILVER_DATABASE') | as_text }}.{{ env_var('DBT_SILVER_SCHEMA') | as_text }}.mao_ful_task_type_t"
+            src_archive_tbl: "{{ env_var('DBT_BRONZE_DATABASE') | as_text }}.{{ env_var('DBT_BRONZE_SCHEMA') | as_text }}.ful_task_type_archive_v"
+            load_type: incremental
+      - name: ful_task_status
+        config:
+          loaded_at_field: updated_timestamp
+          meta:
+            src_tbl: "{{ env_var('DBT_STAGE_DATABASE') | as_text }}.{{ env_var('DBT_DOM_STAGE_ORD_FULFLMNT_SCHEMA') | as_text }}.ful_task_status"
+            tgt_tbl: "{{ env_var('DBT_SILVER_DATABASE') | as_text }}.{{ env_var('DBT_SILVER_SCHEMA') | as_text }}.mao_ful_task_status_t"
+            src_archive_tbl: "{{ env_var('DBT_BRONZE_DATABASE') | as_text }}.{{ env_var('DBT_BRONZE_SCHEMA') | as_text }}.ful_task_status_archive_v"
+            load_type: incremental
+      - name: ful_pick_task_detail
+        config:
+          loaded_at_field: updated_timestamp
+          meta:
+            src_tbl: "{{ env_var('DBT_STAGE_DATABASE') | as_text }}.{{ env_var('DBT_DOM_STAGE_ORD_FULFLMNT_SCHEMA') | as_text }}.ful_pick_task_detail"
+            tgt_tbl: "{{ env_var('DBT_SILVER_DATABASE') | as_text }}.{{ env_var('DBT_SILVER_SCHEMA') | as_text }}.mao_ful_pick_task_detail_t"
+            src_archive_tbl: "{{ env_var('DBT_BRONZE_DATABASE') | as_text }}.{{ env_var('DBT_BRONZE_SCHEMA') | as_text }}.ful_pick_task_detail_archive_v"
+            load_type: incremental
+      - name: ful_fulfillment_line_shorts
+        config:
+          loaded_at_field: updated_timestamp
+          meta:
+            src_tbl: "{{ env_var('DBT_STAGE_DATABASE') | as_text }}.{{ env_var('DBT_DOM_STAGE_ORD_FULFLMNT_SCHEMA') | as_text }}.ful_fulfillment_line_shorts"
+            tgt_tbl: "{{ env_var('DBT_SILVER_DATABASE') | as_text }}.{{ env_var('DBT_SILVER_SCHEMA') | as_text }}.mao_ful_fulfillment_line_shorts_t"
+            src_archive_tbl: "{{ env_var('DBT_BRONZE_DATABASE') | as_text }}.{{ env_var('DBT_BRONZE_SCHEMA') | as_text }}.ful_fulfillment_line_shorts_archive_v"
+            load_type: incremental

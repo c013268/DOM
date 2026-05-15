@@ -1,0 +1,47 @@
+version: 2
+
+sources:
+  - name: src_org_silver
+    database: "{{ env_var('DBT_SILVER_DATABASE') | as_text }}"
+    schema: "{{ env_var('DBT_SILVER_SCHEMA') | as_text }}"
+    tables:
+      - name: mao_org_user_v
+        config:
+          meta:
+            description: "This is a silver view for User details"
+      - name: mao_org_organization_hierarchy_v
+        config:
+          meta:
+            description: "This is a silver view for organizationhierarchy details"
+      - name: mao_org_business_unit_v
+        config:
+          meta:
+            description: "This is a silver view for business unit details"
+      - name: mao_org_location_contact_v
+        config:
+          meta:
+            description: "This is a silver view for location contact  details"
+      - name: mao_org_location_v
+        config:
+          meta:
+            description: "This is a silver view for location contact  details"
+      - name: mao_org_location_status_v
+        config:
+          meta:
+            description: "This is a silver view for location contact  details"
+      - name: mao_org_location_type_v
+        config:
+          meta:
+            description: "This is a silver view for location contact  details"
+      - name: mao_org_location_sub_type_v
+        config:
+          meta:
+            description: "This is a silver view for location contact  details"
+      - name: mao_org_location_contact_type_v
+        config:
+          meta:
+            description: "This is a silver view for location contact  details"
+      - name: mao_org_organization_v
+        config:
+          meta:
+            description: "This is a silver view for location contact  details"

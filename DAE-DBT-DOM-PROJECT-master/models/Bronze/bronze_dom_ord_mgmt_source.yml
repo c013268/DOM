@@ -1,0 +1,19 @@
+version: 2
+
+sources:
+  - name: ord_mgmt_bronze
+    database: "{{ env_var('DBT_BRONZE_DATABASE') | as_text }}"
+    schema: "{{ env_var('DBT_BRONZE_SCHEMA') | as_text }}"
+
+    tables:
+      - name: ord_order_line_archive_v
+      - name: ord_order_archive_v
+      - name: ord_allocation_archive_v
+      - name: ord_order_line_charge_detail_archive_v
+      - name: ord_cancel_line_charge_detail_archive_v
+      - name: ord_order_line_tax_detail_archive_v
+      - name: ord_cancel_line_tax_detail_archive_v
+      - name: ord_order_charge_detail_archive_v
+      - name: ord_order_tax_detail_archive_v
+      - name: ord_cancelled_charge_detail_archive_v
+      - name: ord_cancelled_order_tax_detail_archive_v

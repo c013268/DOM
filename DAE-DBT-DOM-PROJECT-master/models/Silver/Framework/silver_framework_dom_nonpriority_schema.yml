@@ -1,0 +1,62 @@
+version: 2
+
+models:
+  - name: dom_nonpriority_1_inv_mgmt_silver
+    description: "This group model loads inv_mgmt group 1 based tables from stage to silver"
+    config:
+      tags: ["load_dom_nonpriority_mysql_stage_to_silver_tag","load_dom_nonpriority_mysql_backfill_bronze_to_silver_tag"]
+
+  - name: dom_nonpriority_2_inv_mgmt_silver
+    description: "This group model loads inv_mgmt group 2 based tables from stage to silver"
+    config:
+      tags: ["load_dom_nonpriority_mysql_stage_to_silver_tag","load_dom_nonpriority_mysql_backfill_bronze_to_silver_tag"]
+
+  - name: dom_nonpriority_1_itm_silver
+    description: "This group model loads itm group 1 based tables from stage to silver"
+    config:
+      tags: ["load_dom_nonpriority_mysql_stage_to_silver_tag","load_dom_nonpriority_mysql_backfill_bronze_to_silver_tag"]
+
+  - name: dom_nonpriority_2_itm_silver
+    description: "This group model loads itm group 2 based tables from stage to silver"
+    config:
+      tags: ["load_dom_nonpriority_mysql_stage_to_silver_tag","load_dom_nonpriority_mysql_backfill_bronze_to_silver_tag"]
+
+  - name: dom_nonpriority_ord_fulflmnt_silver
+    description: "This group model loads ord_fulflmnt group based tables from stage to silver"
+    config:
+      tags: ["load_dom_nonpriority_mysql_stage_to_silver_tag","load_dom_nonpriority_mysql_backfill_bronze_to_silver_tag"]
+
+  - name: dom_nonpriority_1_ord_mgmt_silver
+    description: "This group model loads ord_mgmt group 1 based tables from stage to silver"
+    config:
+      tags: ["load_dom_nonpriority_mysql_stage_to_silver_tag","load_dom_nonpriority_mysql_backfill_bronze_to_silver_tag"]
+
+  - name: dom_nonpriority_2_ord_mgmt_silver
+    description: "This group model loads ord_mgmt group 2 based tables from stage to silver"
+    config:
+      tags: ["load_dom_nonpriority_mysql_stage_to_silver_tag","load_dom_nonpriority_mysql_backfill_bronze_to_silver_tag"]
+
+  - name: dom_nonpriority_3_ord_mgmt_silver
+    description: "This group model loads ord_mgmt group 3 based tables from stage to silver"
+    config:
+      tags: ["load_dom_nonpriority_mysql_stage_to_silver_tag","load_dom_nonpriority_mysql_backfill_bronze_to_silver_tag"]
+
+  - name: dom_nonpriority_4_ord_mgmt_silver
+    description: "This group model loads ord_mgmt group 4 based tables from stage to silver"
+    config:
+      tags: ["load_dom_nonpriority_mysql_stage_to_silver_tag","load_dom_nonpriority_mysql_backfill_bronze_to_silver_tag"]
+
+  - name: dom_nonpriority_org_silver
+    description: "This group model loads org group based tables from stage to silver"
+    config:
+      tags: ["load_dom_nonpriority_mysql_stage_to_silver_tag","load_dom_nonpriority_mysql_backfill_bronze_to_silver_tag"]
+
+  - name: dom_nonpriority_1_payment_silver
+    description: "This group model loads payment group 1 based tables from stage to silver"
+    config:
+      tags: ["load_dom_nonpriority_mysql_stage_to_silver_tag","load_dom_nonpriority_mysql_backfill_bronze_to_silver_tag"]
+
+  - name: dom_nonpriority_2_payment_silver
+    description: "This group model loads payment group 2 based tables from stage to silver"
+    config:
+      tags: ["load_dom_nonpriority_mysql_stage_to_silver_tag","load_dom_nonpriority_mysql_backfill_bronze_to_silver_tag"]

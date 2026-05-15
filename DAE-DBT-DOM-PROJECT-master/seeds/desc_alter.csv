@@ -1,0 +1,1202 @@
+table_name,column_description,column_name
+FUL_FULFILLMENT,"Unique identifier of fulfillment. If external system does not provide a value then the system creates a business key.""",FULFILLMENT_ID
+FUL_FULFILLMENT,Field on the entity to store purge date ,PURGE_DATE
+FUL_FULFILLMENT,The source from which the fulfillment originated. It could be bridged in from external or from order component.,SOURCE
+FUL_FULFILLMENT,The first name of the Customer.,CUSTOMER_FIRST_NAME
+FUL_FULFILLMENT,The last name of the customer.,CUSTOMER_LAST_NAME
+FUL_FULFILLMENT,Email of the customer.,CUSTOMER_EMAIL
+FUL_FULFILLMENT,Phone Number of the customer.,CUSTOMER_PHONE
+FUL_FULFILLMENT,The location from where the fulfillment is executed.,SHIP_FROM_LOCATION_ID
+FUL_FULFILLMENT,"Ship-to location Id, in case of ship to store or any flow where the items are shipping to a destination which is configured as a location in the system.",SHIP_TO_LOCATION_ID
+FUL_FULFILLMENT,Latest possible shipping timestamp on which the items should be shipped out from store.,SHIPPING_DUE_DATE
+FUL_FULFILLMENT,Delivery date which was originally promised to the customer.,DELIVERY_DUE_DATE
+FUL_FULFILLMENT,Ship via which is requested to fulfill the particular fulfillment order line. Ship Via Id is a unique combination of Carrier Code and Service Level Code. Either Carrier Code and Service Level Code or Ship Via Id is mandatory. If both are populated then Ship Via Id takes precedence over the Carrier Code and Service Level Code populated in the Fulfillment.,SHIP_VIA_ID
+FUL_FULFILLMENT,Service Level which should be used to fulfill the order line. Either Carrier Code and Service Level Code or Ship Via Id is mandatory. If both are populated then Ship Via Id takes precedence over the Carrier Code and Service Level Code populated in the Fulfillment.,SERVICE_LEVEL_CODE
+FUL_FULFILLMENT,Carrier used to ship the fulfillment to the customer.,CARRIER_CODE
+FUL_FULFILLMENT,"Indicates  the lowest status of among all the fulfillment lines of a given fulfillment. Example: pending pickup, packed, shipped etc.",MIN_STATUS_ID
+FUL_FULFILLMENT,"Indicates the highest status, excluding Cancelled, among the fulfillment lines of a given fulfillment. Example: pending pickup, packed, shipped etc.",MAX_STATUS_ID
+FUL_FULFILLMENT,"Defines the type of document for the order. Used to differentiate retail, customer, and B2B orders. Propagated from order.",DOC_TYPE_ID
+FUL_FULFILLMENT,Order Type used by order component for order processing.This is propagated from Order.,ORDER_TYPE_ID
+FUL_FULFILLMENT,"Indicates the method of fulfillment.  This decides how the fulfillment will be processed in the store.  When active omni order management is used, this information flows from release entity. Replenishment to store from DC should be mapped as DCtoStore. Valid values include DCtoStore, ShipToLocation, ShipToAddress, ShipToStore and PickUpAtStore.",DELIVERY_METHOD_ID
+FUL_FULFILLMENT,This is used when the delivery method is ship to store to differentiate between  merge and pickup orders.,DESTINATION_ACTION_ID
+FUL_FULFILLMENT,This is the date when the fulfillment gets shipped.,SHIPPED_DATE
+FUL_FULFILLMENT,This is the calculate date from the carrier for when the delivery of the order could be expected.,EXPECTED_DELIVERY_DATE
+FUL_FULFILLMENT,This is the actual order captured date and denoted the date when the customer placed the order.Earliest date if orders are consolidated.,ORDER_CAPTURE_DATE
+FUL_FULFILLMENT,"Indicates the priority determined by the Fulfillment component based on the Prioritization Tags configured in the system. If no Prioritization Tags are configured, then Priority is the same as the Order Priority.",PRIORITY
+FUL_FULFILLMENT,Indicates the priority of the order which was set by the order component.,ORDER_PRIORITY
+FUL_FULFILLMENT,Indicates the total order value.,ORDER_TOTAL
+FUL_FULFILLMENT,Indicates if the fulfillment is a gift.,IS_GIFT
+FUL_FULFILLMENT,"Indicates if the fulfillment needs value added services. Even if one fulfillment line needs VAS, this flag is set to true.",IS_V_A_S_REQUIRED
+FUL_FULFILLMENT,Indicates if the fulfillment has any alerts.,CONTAINS_ALERT
+FUL_FULFILLMENT,Indicates if the fulfillment has any instructions.,CONTAINS_INSTRUCTION
+FUL_FULFILLMENT,Location id to locate the return center,RETURN_TO_LOCATION_ID
+FUL_FULFILLMENT,Indicates if the fulfillment needs return label.,IS_RETURN_LABEL_REQUIRED
+FUL_FULFILLMENT,"Indicates if the fulfillment/ASN is received or not. If all packages are not received by the time of updating this flag, remaining packages will be made missing.",IS_VERIFIED
+FUL_FULFILLMENT,Expiry date of the Customer Pickup order.,PICKUP_EXPIRY_DATE
+FUL_FULFILLMENT,Indicates the total value of the units that is purchased in addition to the original items,ADDITIONAL_PURCHASED_VALUE
+FUL_FULFILLMENT,Indicates the total value of items that are picked up by the customer,PICKEDUP_VALUE
+FUL_FULFILLMENT,This flag indicates if packing is complete for a pullbacks/transfers or store initiated transfer order.,IS_CLOSED
+FUL_FULFILLMENT,"Indicates whether we are allowing over packing for the pullback orders or not, if OverageAllowed is set to true and order type is Pullback then user will be allowed to ship or pack more than order quantity for any line. If OverageAllowed is set to false, user will not be allowed to ship or pack more than order quantity.",OVERAGE_ALLOWED
+FUL_FULFILLMENT,Indicates if the fulfillment is a parcel or non-parcel.,IS_NON_PARCEL
+FUL_FULFILLMENT,Unique ID used to identify the customer,CUSTOMER_ID
+FUL_FULFILLMENT,"This specifies the locale in which the order was captured. If item attributes such as description, style, etc. are null on order creation, the attributes will be populated in this locale if translations are available in the item component. If no translations exist for the specified locale, then the default item attributes are saved. This field cannot be edited once an fulfillment is created.Valid values are locale codes supported in base like en, es, pt, etc.",ORDER_LOCALE
+FUL_FULFILLMENT,Indicates if the fulfillment should be picked in a slotted cart or not,IS_PICK_TO_SLOT
+FUL_FULFILLMENT,"This field represents the organization in which the order is captured. This will be populated only when the ordering organization is different from the fulfilling store’s organization. This field should not be populated for other kinds of fulfillments like replenishments, pullbacks etc",ORDER_ORG_ID
+FUL_FULFILLMENT,Currency Code of the order sent from in the release from OM. This field represents the currency in which the order is placed.,CURRENCY_CODE
+FUL_FULFILLMENT,This is an additional classification with delivery methods. This differentiates orders between in-store pickup vs curbside pickup and similarly ship to address vs send sale orders.,DELIVERY_METHOD_SUB_TYPE
+FUL_FULFILLMENT,This indicates when the customer has arrived in the parking area to pick up the order.,PICKUP_ARRIVAL_DATE_TIME
+FUL_FULFILLMENT,This attribute keeps the original value of delivery method subtype when the order was released to fulfillment. Because the other attribute i.e. ‘Delivery method subtype’ value can get change if the fulfillment parameter ‘Capture the actual pickup type of the pickup at store order during the pickup’ is enabled.,ORDER_DELIVERY_METHOD_SUB_TYPE
+FUL_FULFILLMENT,Indicates that the customer is on their way to the store. It is used within the store application to differentiate between Arrived and On the Way curbside pickup orders.,IS_CUSTOMER_ON_THE_WAY
+FUL_FULFILLMENT,Indicates customer’s expected time of arrival at the store. The pickupETADateTime is calculated by the updatePickupFulfillmentsAndNotify API if PickupETA is passed as input.,PICKUP_E_T_A_DATE_TIME
+FUL_FULFILLMENT,Indicates if the fulfillment needs to be shipped using a same day delivery carrier.,IS_SAME_DAY_DELIVERY
+FUL_FULFILLMENT,Indicates if the fulfillment was converted from a pickup order to a shipment order.,IS_PICKUP_CONVERT_TO_SHIPMENT
+FUL_FULFILLMENT,Indicates whether the fulfillment is eligible for conversion from pick up at store to ship to address.,CAN_SHIP_TO_ADDRESS
+FUL_FULFILLMENT,Defines the transfer type for a store initiated transfer.,TRANSFER_TYPE_ID
+FUL_FULFILLMENT,Indicates if the fulfillment is created against a Reserve Online and Pickup in Store order. These orders are Pickup in Store orders which are created without any payment information and are paid for at the time of their pickup.,IS_R_O_P_I_S
+FUL_FULFILLMENT,"In the case of external POS integration, ROPIS orders are assumed to be paid if the Store Associate acknowledges the popup which ensues on the tap of the Confirm Pickup button. It is the Store Associate’s responsibility to ensure that the required amount is paid using an external register before they acknowledge the popup. In the case of internal POS integrations, Active POS handles the balance due payment and once the payment is successful, this flag is updated to true. A true value implies that the payment is received in full. This property is meant for auditing purposes only and it doesn’t update the Payment Header in the payment component. ",CONSIDER_R_O_P_I_S_PAID
+FUL_FULFILLMENT,This indicates the sum of the shorted quantities of fulfillment lines.,TOTAL_SHORTS_QUANTITY
+FUL_FULFILLMENT,This indicates the total time taken to complete picking process in minutes.,PICK_DURATION
+FUL_FULFILLMENT,This indicates the total time taken to complete packing process in minutes.,PACK_DURATION
+FUL_FULFILLMENT,This indicates whether the fulfillment was picked on time or not with respect to the defined goal time.,ON_TIME
+FUL_FULFILLMENT,The User ID of the associate who performed picking process.,PICKED_BY
+FUL_FULFILLMENT,The User ID of the associate who performed packing process.,PACKED_BY
+FUL_FULFILLMENT,Date and time before which fulfillment operations should be completed based on store hours.,GOAL_END_DATE_TIME
+FUL_FULFILLMENT,Boolean field specifies whether a fulfillment is in picking stage or not.,IS_ACTIVE_PICK_TASK
+FUL_FULFILLMENT,cancel reason code for the cancelled fulfillment,CANCEL_REASON_ID
+FUL_FULFILLMENT,Extended Attribute,EXT_FLSHIPMETHOD
+FUL_FULFILLMENT,Extended Attribute,EXT_RESIDENTIAL
+FUL_FULFILLMENT,Extended Attribute,JSON_STORE
+FUL_FULFILLMENT_LINE,Unique identifier of fulfillment line.,FULFILLMENT_LINE_ID
+FUL_FULFILLMENT_LINE,Unique identifier of release,RELEASE_ID
+FUL_FULFILLMENT_LINE,Unique identifier of release line,RELEASE_LINE_ID
+FUL_FULFILLMENT_LINE,Status that indicates the stage of processing of the fulfillment line,FULFILLMENT_LINE_STATUS_ID
+FUL_FULFILLMENT_LINE,name of the items that needs to be fulfilled.,ITEM_ID
+FUL_FULFILLMENT_LINE,description of the item that needs to be fulfilled,ITEM_DESCRIPTION
+FUL_FULFILLMENT_LINE,UPC for this item,ITEM_UPC
+FUL_FULFILLMENT_LINE,The style of the requested item ,ITEM_STYLE
+FUL_FULFILLMENT_LINE,The color of the requested item.,ITEM_COLOR
+FUL_FULFILLMENT_LINE,The size of the requested item,ITEM_SIZE
+FUL_FULFILLMENT_LINE,The unit weight of the item,ITEM_UNIT_WEIGHT
+FUL_FULFILLMENT_LINE,The URI of the small image for the item,ITEM_SMALL_IMAGE_U_R_I
+FUL_FULFILLMENT_LINE,"Required. If null, this field is populated from weight UOM of the item. Permitted values are LB, KG and OZS  case sensitive ",WEIGHT_U_O_M
+FUL_FULFILLMENT_LINE,The department in store where the requested item belongs to.,STORE_DEPARTMENT
+FUL_FULFILLMENT_LINE,The ordered quantity of the requested item,ORDERED_QTY
+FUL_FULFILLMENT_LINE,"Total quantity of items picked, including both the requested item and any substitution items",PICKED_QTY
+FUL_FULFILLMENT_LINE,Quantity of items packed for the requested item,PACKED_QTY
+FUL_FULFILLMENT_LINE,Quantity of items shipped for the requested item,SHIPPED_QTY
+FUL_FULFILLMENT_LINE,Quantity of items sorted for the requested item,SORTED_QTY
+FUL_FULFILLMENT_LINE,Quantity of items received for the requested item,RECEIVED_QTY
+FUL_FULFILLMENT_LINE,Quantity of items cancelled for the requested item,CANCELLED_QTY
+FUL_FULFILLMENT_LINE,The unit of measure for the item,QUANTITY_UOM
+FUL_FULFILLMENT_LINE,Indicates if we need to capture the serial number for the item during fulfillment,IS_SERIAL_NUMBER_REQUIRED
+FUL_FULFILLMENT_LINE,This is the serial numbers of the items that are being fulfilled and is a delimited text with the list of serial numbers.,SERIAL_NUMBERS
+FUL_FULFILLMENT_LINE,This is the reference order id from the order component,ORDER_ID
+FUL_FULFILLMENT_LINE,This is the reference order line id from the order component,ORDER_LINE_ID
+FUL_FULFILLMENT_LINE,Indicates if this item is fulfilled as a gift item,IS_GIFT
+FUL_FULFILLMENT_LINE,Indicates if the item is hazardous,IS_HAZMAT
+FUL_FULFILLMENT_LINE,This is the allocation information from order promising,ALLOCATION_ID
+FUL_FULFILLMENT_LINE,Not used for any processing logic in SIF. It is just a pass-through field that is persisted. This is the allocation object type from order promising.,SUPPLY_TYPE_ID
+FUL_FULFILLMENT_LINE,Id of the state transition pipeline.,PIPELINE_ID
+FUL_FULFILLMENT_LINE,"Unique identifier of the ASN. Applicable only to ship to store fulfillment lines which are allocated against in-transit inventory. If this is blank in the order release, then the fulfillment is converted from STS-Pickup to BOPIS.",ASN_ID
+FUL_FULFILLMENT_LINE,Indicates the actual unit price of the item. This does not include the tax or discounts applied on the item,ITEM_UNIT_PRICE
+FUL_FULFILLMENT_LINE,Indicates if the line is returned to the shelf,RETURNED_TO_SHELF
+FUL_FULFILLMENT_LINE,Original quantity picked by store,ORIGINAL_PICKED_QTY
+FUL_FULFILLMENT_LINE,Number of times fulfillment line has been shorted  backordered  from other locations,LINE_SHORT_COUNT
+FUL_FULFILLMENT_LINE,"Denotes if the customer has permitted substitution of the item that they have ordered. Accepts three values: ''''DoNotSubstitute'''', ''''BestAvailable'''', and ''''SpecificItem''''. ''''DoNotSubstitute'''' means that the customer hasn''''t allowed substitution of the ordered item. ''''BestAvailable'''' implies that substitution is allowed in line with the configured substitution rules in Active Omni, an external OMS, or based on the store associate''''s discretion. ''''SpecificItem'''' denotes that substitution is allowed only from the customer specified items.",FULFILLMENT_SUBSTITUTION_TYPE
+FUL_FULFILLMENT_LINE,"Denotes the types of substitutions which are to be enabled in the UI. NONE means this line cannot be substituted, BASIC means this line can be substituted from the list of available items, FREEFORM means that the line can be substituted by any configured item using the context menu, ALL means the line can be substituted either from the list of available items or any configured item using the context menu.",ALLOWED_SUBSTITUTION_ON_U_I
+FUL_FULFILLMENT_LINE,"This temporary property is meant to be used only during reprint pickupslip for a fulfillment that involves an item which has been substituted. During reprint, scanning a substituted item should reprint the pickup slip for that fufillment. This will be deprecated in future.",SUBSTITUTED_ITEM_ID
+FUL_FULFILLMENT_LINE,Field on the entity to store purge date ,PURGE_DATE
+FUL_FULFILLMENT_LINE,cancel reason code for the cancelled item,CANCEL_REASON_ID
+FUL_QUANTITY_DETAIL,Unique identifier of the item.,ITEM_ID
+FUL_QUANTITY_DETAIL,Picked quantity of the item.,PICKED_QTY
+FUL_QUANTITY_DETAIL,Cancelled quantity of the item.,CANCELLED_QTY
+FUL_QUANTITY_DETAIL,Quantity of the item that has been picked up by or shipped to the customer.,SHIPPED_QTY
+FUL_QUANTITY_DETAIL,Unit of measurement of the item.,UOM
+FUL_QUANTITY_DETAIL,Reason code to be used to the short the originally ordered item if its substituted.,SUBSTITUTION_REASON_ID
+FUL_QUANTITY_DETAIL,Reason code which states why the customer decided to cancel the substitute item  partially or fully  at the time of pickup.,CANCEL_REASON_ID
+FUL_QUANTITY_DETAIL,Indicates the type of quantityDetail used to differentiate details of Original vs Substitute item,DETAIL_TYPE
+FUL_QUANTITY_DETAIL,Field on the entity to store purge date ,PURGE_DATE
+FUL_FULFILLMENT_LINE_SHORTS,The shorted quantity of the fulfillment line,SHORT_QUANTITY
+FUL_FULFILLMENT_LINE_SHORTS,The unit of measure for the item,SHORT_QUANTITY_UOM
+FUL_FULFILLMENT_LINE_SHORTS,Identifier of short reason code.,SHORT_REASON_ID
+FUL_FULFILLMENT_LINE_SHORTS,"Transaction type name, like Pick or Pack during which this record is created",TRANSACTION_TYPE
+FUL_FULFILLMENT_LINE_SHORTS,Field on the entity to store purge date ,PURGE_DATE
+FUL_PACKAGE_DETAIL,Unique identifier of package details.,PACKAGE_DETAIL_ID
+FUL_PACKAGE_DETAIL,Reference to Fulfillment ID for which the package belongs to.,FULFILLMENT_ID
+FUL_PACKAGE_DETAIL,Reference to Fulfillment Line ID for which the package belongs to.,FULFILLMENT_LINE_ID
+FUL_PACKAGE_DETAIL,Reference to Item Id.,ITEM_ID
+FUL_PACKAGE_DETAIL,Description of the Item.,ITEM_DESCRIPTION
+FUL_PACKAGE_DETAIL,Country name from where the Item is originated.,COUNTRY_OF_ORIGIN
+FUL_PACKAGE_DETAIL,Indicates whether the Item is hazardous or not.,IS_HAZARDOUS
+FUL_PACKAGE_DETAIL,Serial Number for a package,SERIAL_NUMBER
+FUL_PACKAGE_DETAIL,This is the gift card number.,GIFT_CARD_NUMBER
+FUL_PACKAGE_DETAIL,This is the gift card pin.,GIFT_CARD_PIN
+FUL_PACKAGE_DETAIL,Indicates the value of gift card,GIFT_CARD_VALUE
+FUL_PACKAGE_DETAIL,The reason for shorting the fulfillment line quantity,SHORT_REASON_ID
+FUL_PACKAGE_DETAIL,Field on the entity to store purge date ,PURGE_DATE
+FUL_PACKAGES,Reference to Fulfillment ID for which the package belongs to.,FULFILLMENT_ID
+FUL_PACKAGES,Unique identifier of package. This will be a unique identifier to identify the package when it is created in our system.,PACKAGE_ID
+FUL_PACKAGES,Field on the entity to store purge date),PURGE_DATE
+FUL_PACKAGES,Unique identifier of the type of a package. The package type ID defined in the base data.,PACKAGE_TYPE_ID
+FUL_PACKAGES,type of package.,TYPE
+FUL_PACKAGES,The unique tracking number provided by the carrier.,TRACKING_NUMBER
+FUL_PACKAGES,"If populated by the carrier, this barcode can be scanned during receiving to receive the package. Out of the box, the FedEx carrier barcode is supported.",CARRIER_BARCODE
+FUL_PACKAGES,Return tracking number generated for customer returns.,RETURN_TRACKING_NUMBER
+FUL_PACKAGES,Ship via which is requested to fulfill the particular fulfillment.,SHIP_VIA_ID
+FUL_PACKAGES,Service Level which is used to ship the package.Inherited from fulfillment.,SERVICE_LEVEL_CODE
+FUL_PACKAGES,Carrier used for shipping the package. Inherited from fulfillment.,CARRIER_CODE
+FUL_PACKAGES,Location from where the package is shipped from.,SHIP_FROM_LOCATION_ID
+FUL_PACKAGES,Location to which package is shipped to,SHIP_TO_LOCATION_ID
+FUL_PACKAGES,Location where the packages are present currently,CURRENT_LOCATION_ID
+FUL_PACKAGES,Indicated if package contains hazardous items.,CONTAINS_HAZMAT
+FUL_PACKAGES,Date and Time when package is shipped.,SHIPPED_DATE_TIME
+FUL_PACKAGES,Date and time when package is received.,RECEIVED_DATE_TIME
+FUL_PACKAGES,Unique identifier used to denote a packing activity.,TASK_GROUP_ID
+FUL_PACKAGES,Unique identifier used to denote each individual package which is created as a result of the packing activity.,TASK_ID
+FUL_PACKAGES,Indicates whether the package is rejected one,IS_REJECTED_PACKAGE
+FUL_PACKAGES,"Package, Item or load. Receiving process honors the receipt type and enables the receiving to happen by scanning the package or item. If the receipt type is load, store associate can receive the entire shipment by scanning only one of the packages.",RECEIPT_TYPE
+FUL_PACKAGES,It is used to store the previous receipt type of the package whose inventory is adjusted during the receiving process. Its default value is null and it remains so if the package is received without any adjustments during receipt.,PREVIOUS_RECEIPT_TYPE
+FUL_PACKAGES,Customer Pickup or Store Inventory,DELIVERY_TYPE
+FUL_PACKAGES,Used in Ship to Store. The pickup leg fulfillment to which this package belongs,PICKUP_FULFILLMENT_ID
+FUL_PACKAGES,Shipment identifier of the shipped packages from an Active store to another location,SHIPMENT_ID
+FUL_PACKAGES,Estimated delivery date of the package,ESTIMATED_DELIVERY_DATE
+FUL_PACKAGES,This is the status of the shipment/package delivery from the carrier and it is updated when the shipment/package is delivered by the carrier at the store.,DELIVERY_STATUS
+FUL_PACKAGES,Date and time when the package is built,PACKED_DATE_TIME
+FUL_PACKAGES,"It is the Order ID which is received, in the Fulfillment, from the OMS. It is populated for the Ship to Address, Ship to Store merge legs, Pullbacks and Transfers, and Replenishments related Packages. In the UI, it is displayed only for those Packages whose fulfillments have the Order ID available.",ORDER_ID
+FUL_PACKAGES,Indicates whether the package is late shipment after the package already received in the store.,LATE_SHIPMENT
+FUL_PACKAGES,"Captures User ID of the Store Associate who closes a Store Initiated Transfer, Corporate Transfer, or a Customer Shipment Package. It is used to display “Packed By” Store Associate’s name in Completed Shipments UI.",PACKED_BY
+FUL_PACKAGES,"Identifies whether a package is a Pullback / Corporate Transfer, Store Initiated Transfer, or a Customer Shipment. All Ship to Address and Ship to Store merge leg packages are classified as Customer Shipments. The Shipment Type is displayed in the Completed Shipments UI and is also available as a filtering option there.",SHIPMENT_TYPE
+FUL_PACKAGES,Indicates the status of package.,PACKAGE_STATUS
+ORD_ORDER,Unique identifier of order. If this is not already populated by an external system then the system populates this field with a next-up value,ORDER_ID
+ORD_ORDER,Field on the entity to store purge date ,PURGE_DATE
+ORD_ORDER,Unique ID used to identify the customer,CUSTOMER_ID
+ORD_ORDER,First name for the customer on this order,CUSTOMER_FIRST_NAME
+ORD_ORDER,Last name for the customer on this order,CUSTOMER_LAST_NAME
+ORD_ORDER,Phone number for the customer on this order,CUSTOMER_PHONE
+ORD_ORDER,E-mail address for the customer on this order,CUSTOMER_EMAIL
+ORD_ORDER,The Customer Type for the customer on this Order. The Customer type is used to differentiate categories of customers,CUSTOMER_TYPE_ID
+ORD_ORDER,"Unique alternate identifier of order, as defined by external system",ALTERNATE_ORDER_ID
+ORD_ORDER,Specific store location ID where transaction was captured. This needs to be the location ID of a store existing in the system.,SELLING_LOCATION_ID
+ORD_ORDER,"Priority of order, used in case of constrained inventory",PRIORITY
+ORD_ORDER,Indicates if the order is on hold,IS_ON_HOLD
+ORD_ORDER,Indicates if the order is confirmed,IS_CONFIRMED
+ORD_ORDER,"If set true ,it indicates that the order has been originally captured off-line i.e. Edge Mode. If set false then order has been captured on-line.",IS_CAPTURED_OFFLINE
+ORD_ORDER,Indicates if the order is cancelled,IS_CANCELLED
+ORD_ORDER,"If isCancelled is true, these are comments entered for the cancellation",CANCEL_COMMENTS
+ORD_ORDER,Date of initial order capture from the order capture system,CAPTURED_DATE
+ORD_ORDER,Indicates if order is tax exempt,IS_TAX_EXEMPT
+ORD_ORDER,"If isTaxExempt is true for this order, then this is the taxexemptid which represents the tax excempt reason",TAX_EXEMPT_ID
+ORD_ORDER,"If isTaxExempt is true for this order, these are the comments entered",TAX_EXEMPT_COMMENTS
+ORD_ORDER,Currency code to be used for processing the order payment,CURRENCY_CODE
+ORD_ORDER,"Indicates if order is ready to be tendered.  If true, order component will invoke payment component to process payment.",IS_READY_FOR_TENDER
+ORD_ORDER,Date of the order confirmation,CONFIRMED_DATE
+ORD_ORDER,Indicates if the tax has been overridden,IS_TAX_OVERRIDDEN
+ORD_ORDER,Sum of all charges for the order and order lines,TOTAL_CHARGES
+ORD_ORDER,Sum of all discounts for the order and order lines,TOTAL_DISCOUNTS
+ORD_ORDER,Sum of all taxes for the order and order lines,TOTAL_TAXES
+ORD_ORDER,"It has the tax override value. The value can be in terms of percentage or flat number and the precision is upto 2 places of decimal. When there is a need to provide a percentage for taxOverrideValue which requires higher precision  upto 3 or 4 places of decimal, say 2.3456 , then donot use this attribute instead use taxOverridePercValue",TAX_OVERRIDE_VALUE
+ORD_ORDER,"It has the tax override value in percentage. This attribute can have values with a precision upto 4 places of decimal. Hence when the tax override percentage requires higher precision, then this attribute must be used.",TAX_OVRD_PERC_VALUE
+ORD_ORDER,Sum of all order line subtotals where each order line subtotal is the item price times the order line quantity.,ORDER_SUB_TOTAL
+ORD_ORDER,"Sum of items, charges, discounts, and taxes for the order and order lines",ORDER_TOTAL
+ORD_ORDER,"Sum of items, charges, discounts, and taxes for the order and order lines at the time of confirmation",CONFIRMED_ORDER_TOTAL
+ORD_ORDER,Indicates if the order is post-voided,IS_POST_VOIDED
+ORD_ORDER,"Identifier of existing reservation.  If inventory is already reserved for this order, the reservationRequestId for the reservation is populated here so that Promising can allocate this order against these reserved quantities",PARENT_RESERVATION_REQUEST_ID
+ORD_ORDER,This column used by monitoring framework to set the time at which the immediate/next event has to occur,NEXT_EVENT_TIME
+ORD_ORDER,Date on which order would be archived post completion or cancellation,ARCHIVE_DATE
+ORD_ORDER,Total number of non-cancelled lines having deliveryMethod as StoreSale,STORE_SALE_COUNT
+ORD_ORDER,Total number of lines including Cancelled line having devliveryMethod as ShipToAddress or ShipToStore or PickUpAtStore or Email,ORDER_LINE_COUNT
+ORD_ORDER,Total number of non-cancelled lines having deliveryMethod as StoreReturn,STORE_RETURN_COUNT
+ORD_ORDER,Count of order lines where isReturn = true. Used for displaying return order lines in the DS UI and to identify orders where any return items exist,RETURN_LINE_COUNT
+ORD_ORDER,Total number of cancelled lines in order,CANCEL_LINE_COUNT
+ORD_ORDER,"Number of packages the customer will be shipping to the return center. Used to request labels from the carrier. For instance, if the customer indicates that two packages are required for shipping their return items, then the CSR inputs 2 in the call center UI, and 2 labels are retrieved from the carrier. The email marketing system emails these two labels to the customer to affix to the return shipments. Required only when delivery method is Ship to Return Center",PACKAGE_COUNT
+ORD_ORDER,"Email address to which the return shipping labels should be sent. During call center return creation, this is captured and input by the CSR. Required only when delivery method is Ship to Return Center",RETURN_LABEL_EMAIL
+ORD_ORDER,Store''''s Business Date on which the order is created.  This can be different from the capture date if the store is opened through more than one calendar date.,BUSINESS_DATE
+ORD_ORDER,Indicates if the order is under going archival process,IS_ARCHIVE_IN_PROGRESS
+ORD_ORDER,"This property is introduced to handle unArchive failure scenarios.UnArchiving is a multi step process, if any step is failed after Order is loaded from search, this flag value set to true, so that on next unArchive process, it tries to resume the remaining process",IS_UN_ARCHIVE_IN_PROGRESS
+ORD_ORDER,Indicates the minimum status of all Return lines within Order. It consider all the lines for which IsReturn is true and among such lines this is the minimum status.,MIN_RETURN_STATUS_ID
+ORD_ORDER,Indicates the maximum status of all Return lines within Order. It consider all the lines for which IsReturn is true and among such lines this is the maximum status.,MAX_RETURN_STATUS_ID
+ORD_ORDER,Indicates the minimum fulfillment lifecycle status of all units on the order,MIN_FULFILLMENT_STATUS_ID
+ORD_ORDER,Indicates the maximum fulfillment lifecycle status of all units on the order,MAX_FULFILLMENT_STATUS_ID
+ORD_ORDER,Identifies the Suspended order ID  which is  resumed in the current order.  It should be populated only on the resumed order.,SUSPENDED_ORDER_ID
+ORD_ORDER,"Order quantities cannot be released before this date and time. This value can be imported on the order, or it can be calculated by the system as a specified amount of time after an order has been allocated. To specify the amount of time, this can be configured on the milestone expected time rule.",DO_NOT_RELEASE_BEFORE
+ORD_ORDER,Comments provided by user when a return order is processed by a CSR to expedite refund processing or an exchange shipment.,PROCESS_RETURN_COMMENTS
+ORD_ORDER,"This field indicates the total merchandise items  Orderline.isNonMerchandise=False  sold in an order, with delivery option=In store sale,Ship to address/Ship to store/Pick up . The value should get incremented when an In store line is added, decremented if canceled or removed or delivery option changes.",MERCH_SALE_LINE_COUNT
+ORD_ORDER,"This field indicates the total merchandise items  Orderline.isNonMerchandise=False  returned at store. This is not determined by the delivery option. Items bought across channels, returned at store are considered. The value should get incremented when an line is added where isReturn=True. Decremented when the line is voided or cancelled.",MERCH_RETURN_LINE_COUNT
+ORD_ORDER,"Sum of all cancelled lines'''' SubTotal. If the entire order gets cancelled, OrderSubTotal value is moved to this field, Order. OrderSubTotal becomes 0.",CANCELLED_ORDER_SUB_TOTAL
+ORD_ORDER,"Sum of the discounts applied on cancelled lines. If the entire order gets cancelled, Order.totalDiscounts is set to 0, value is moved to this field.",CANCELLED_TOTAL_DISCOUNTS
+ORD_ORDER,This column is used by milestone scheduler to set the time at which it picked the order for processing,EVENT_SUBMIT_TIME
+ORD_ORDER,This Column is used to check whether to count this Order,IS_ORDER_COUNTABLE
+ORD_ORDER,This column is used for storing the date when the order is confirmed,COUNTED_DATE
+ORD_ORDER,"Sum of all cancelled order total. If the entire order gets cancelled, OrderTotal value is moved to this field, Order. OrderTotal becomes 0.",CANCELLED_ORDER_TOTAL
+ORD_ORDER,"This attribute is to capture the loyalty number of the customer on the order, this data can be used in user exits to validate with 3rd party application and come back with rewards to the customer.",LOYALTY_NUMBER
+ORD_ORDER,This attribute is used to persist customer signature captured at point of sale.,CUSTOMER_SIGNATURE
+ORD_ORDER,Indicates a unique Id for every bulk order imports. System populates this when import bulk orders is triggered. This field also used on Order UI to render the list of matching orders per Run Id,RUN_ID
+ORD_ORDER,"This specifies the locale in which the order is captured. If item attributes such as description, style, etc. are null on order creation, the attributes will be populated in this locale if translations are available in the item component. If no translations exist for the specified locale, then the default item attributes are saved. This field cannot be edited once an order is created.Valid values are locale codes supported in base like en, es, pt, etc.",ORDER_LOCALE
+ORD_ORDER,"Random number for the order, generated by the system. Used for authentication for Digital Self-Service. For example, if a customer wants to access self-service shipment tracking, the self-service URL contains orderId, orgId, and this token, and these attributes are validated against the order to authenticate the customer before rendering the self-service UI. This token is automatically generated upon order creation for all orders. If the order was created before token generation was enabled, then this token is generated upon receiving status updates from fulfillment systems  e.g. ''''Picked'''' status update .",ORDER_TOKEN
+ORD_ORDER,"Random number for the order, generated by the system. Used for authentication for Digital Self-Service. For example, if a customer wants to access self-service shipment tracking, the self-service URL contains orderId, orgId, and this token, and these attributes are validated against the order to authenticate the customer before rendering the self-service UI. This token is automatically generated upon order creation for all orders. If the order was created before token generation was enabled, then this token is generated upon receiving status updates from fulfillment systems  e.g. ''''Picked'''' status update .",SALTED_ORDER_TOKEN
+ORD_ORDER,"Version identifier for order, to prevent stale updates",VERSION_TIMESTAMP
+ORD_ORDER,"This field indicates the money owed either by the retailer or by the customer. For example, if a customer places an order of $100 and prepays it via cash, and the order is not yet shipped, then the value of this field will be 100. When $20 worth of items are shipped, then the value becomes 80. Another example is when a customer places an order of $100 via credit card, and the settlement transaction fails after shipment, then the value of this field will be -100.",LIABILITY_AMOUNT
+ORD_ORDER,This field indicates that the particular return is printerless return.,JSON_STORE
+ORD_ORDER,DEPRECATED. PLEASE USE AwaitingPayForPBLOrd attribute,JSON_STORE
+ORD_ORDER,"This is used for PayByLink orders to track whether payment is captured from a customer. For example, when a PayByLink request is sent to the customer, the status will be set to ''''PaymentRequested''''. Once payment is received from the customer, the status will be updated to ''''PaymentReceived''''. If the payment is not received from the customer within the configured number of hours, the status will be updated to ''''PaymentNotReceived''''. By default, the status is set to ''''Null''''.",PAY_BY_LINK_STATUS
+ORD_ORDER,This attribute is used to persist the sum of Order Informational Taxes and all the Order Line Informational Taxes.,JSON_STORE
+ORD_ORDER,This attribute is to capture the printerless return option selected by the customer during return creation.,JSON_STORE
+ORD_ORDER,Sum of all cancelled taxes for the order,JSON_STORE
+ORD_ORDER,Sum of all cancelled charges for the order,JSON_STORE
+ORD_ORDER,"Order Type used for order processing. If not provided, then the default Order Type is used.  Valid values are defined in the orderType entity.",ORDER_TYPE_ID
+ORD_ORDER,"Defines the type of document for the order.  This is used to differentiate retail, customer, and B2B orders.",DOC_TYPE_ID
+ORD_ORDER,"This specifies the channel where the transaction was captured.  For example, this could be ''''Store'''' or ''''Web''''",SELLING_CHANNEL_ID
+ORD_ORDER,"If isCancelled is true, this field indicates the cancel reason code",CANCEL_REASON_ID
+ORD_ORDER,"If isTaxOverridden is true, the tax override reason code",TAX_OVERRIDE_REASON_ID
+ORD_ORDER,"If isTaxExempt is true for this order, this field indicates the tax exempt reason code.",TAX_EXEMPT_REASON_ID
+ORD_ORDER,"If isPostVoided is true, this field indicates the post-void cancel reason code",POST_VOID_REASON_ID
+ORD_ORDER,Status of the order within the payment lifecycle only can be imported if payment is managed outside OM,PAYMENT_STATUS_ID
+ORD_ORDER,"Indicates whether the refund should be issued via the original payment method, or via a new gift card. Used during return invoice creation to determine whether to refund the customer via the original payment method, or to refund the gift recipient via a new gift card order line.",REFUND_RECIPIENT
+ORD_ORDER,Indicates if the invoice has been published to external systems,PUBLISH_STATUS_ID
+ORD_ORDER,"Reason provided by user when a return order is processed by a CSR to expedite refund processing or an exchange shipment. When a return order is processed, then the return quantity moves to Returned status and a return invoice is created. Any exchange line holds with hold type Return Items Pending are resolved, and exchange lines are released for fulfillment.",PROCESS_RETURN_REASON
+ORD_ORDER,"Indicates whether a POS customer wants to be refunded via the original payment method or a new payment method in case of a return. If refundPaymentMethod = New, then the payment component does not transfer return credit from the parent order. If refundPaymentMethod = Original, then payment moves return credit in the payment summary and copies payment methods and transactions, so that a refund can be issued via the original payment method.",REFUND_PAYMENT_METHOD
+ORD_ORDER,"If the Tax is overridden for this OrderLine, then the value for this property should be selected either ''''FlatAmount'''' or ''''Percentage''''",TAX_OVERRIDE_TYPE
+ORD_ORDER,Extended Attribute,JSON_STORE
+ORD_ORDER,Extended Attribute,JSON_STORE
+ORD_ORDER,Extended Attribute,EXT_RETURN_AUTH_NO
+ORD_ORDER,Extended Attribute,EXT_NOT_AFTER_DATE
+ORD_ORDER_LINE,"Unique identifier of order line, as defined by external system. If external system does not provide a value, then the system populates this field with a next-up value",ORDER_LINE_ID
+ORD_ORDER_LINE,"Unique alternate identifier of order line, as defined by external system",ALTERNATE_ORDER_LINE_ID
+ORD_ORDER_LINE,The item Id for the item on this order line.,ITEM_ID
+ORD_ORDER_LINE,Order Line ordered quantity,QUANTITY
+ORD_ORDER_LINE,Unit of measure  UOM  of the ordered quantity,UOM
+ORD_ORDER_LINE,Unit price of the ordered item,UNIT_PRICE
+ORD_ORDER_LINE,Indicates the minimum fulfillment lifecycle status of all units on the order line,MIN_FULFILLMENT_STATUS_ID
+ORD_ORDER_LINE,Indicates the maximum fulfillment lifecycle status of all units on the order line,MAX_FULFILLMENT_STATUS_ID
+ORD_ORDER_LINE,"Priority of order line, used in case of constrained inventory",PRIORITY
+ORD_ORDER_LINE,"If value is yes, this indicates the item is not stored in the Item master",IS_ITEM_NOT_ON_FILE
+ORD_ORDER_LINE,"Indicates if item is returnable. Can be used by return capture systems, such as the call center UI, POS UI, or any third party return capture system. If IsReturanble = false, then the UI should display the item as non-returnable but could optionally allow the user to override this and return the item anyways. This field is not used by the order component to validate returnability during return order creation any restrictions must be done by the UI.",IS_RETURNABLE
+ORD_ORDER_LINE,"Indicates if item is returnable at Store. This field is intended to be used by store return capture systems  e.g. POS  to indicate if an item is returnable. IsReturnableAtStore is used to set orderLine IsReturnable flag at the time of order creation. If IsReturnableAtStore and IsReturnableAtDC are false, orderLine IsReturnable is set to false. If either one is True, order line is flagged as returnable. The POS UI  typically provides the ability to override this field  based on permissions  - for example, if an item is ''''final sale'''' and is not returnable, then the POS user will see that the item is not returnable, but they have the ability to override the item to returnable in exception scenarios. There is no validation of this field on the back end upon return order creation, as this is not a hard validation but is intended for use in the UI.",IS_RETURNABLE_AT_STORE
+ORD_ORDER_LINE,"Indicates if item is eligible to be exchagned. Can be used by return capture systems, such as the call center UI, POS UI, or any third party return capture system. If isExchangeable = false, then the UI should display the item as non-exchangeable but could optionally allow the user to override this and exchange the item anyways. This field is not used by the order component to validate during exchange order creation any restrictions must be done by the UI.",IS_EXCHANGEABLE
+ORD_ORDER_LINE,Indicates if item is a gift,IS_GIFT
+ORD_ORDER_LINE,"This flag indicates if a gift card line is added by the system to process any refunds resulting from order updates where the payment was originally made by cash or gift cards. Order updates can include order cancellation, applying appeasement, regular returns resulting in refunds or a gift receipt returns",IS_REFUND_GIFT_CARD
+ORD_ORDER_LINE,Indicates if the order line is on hold,IS_ON_HOLD
+ORD_ORDER_LINE,Indicates if item is pre-order,IS_PRE_ORDER
+ORD_ORDER_LINE,Indicates if item is pre-sale,IS_PRE_SALE
+ORD_ORDER_LINE,Indicates date on which pre-order item can be shipped/sold,STREET_DATE
+ORD_ORDER_LINE,IIndicates if the order line is cancelled,IS_CANCELLED
+ORD_ORDER_LINE,"If isCancelled is true, these are comments entered for the cancellation",CANCEL_COMMENTS
+ORD_ORDER_LINE,"Identifies the original order line in case of returns or even exchanges. Used in conjunction with parent order id while retrieving prices, charges, taxes, discounts, etc. from the original order line to be copied on return or exchange lines. Parent order id and parent order line id should only be populated in return or even exchange scenarios, since return credit is pulled from the parent order and applied to the return or exchange order. Parent order line id should not be populated for sale lines or uneven exchange lines",PARENT_ORDER_LINE_ID
+ORD_ORDER_LINE,ID used to associate a payment with an item or group of items,PAYMENT_GROUP_ID
+ORD_ORDER_LINE,Sum of taxes for the order line,TOTAL_TAXES
+ORD_ORDER_LINE,Sum of charges for the order line,TOTAL_CHARGES
+ORD_ORDER_LINE,Sum of discounts for the order line,TOTAL_DISCOUNTS
+ORD_ORDER_LINE,Line subtotal This is calculated as the item unit price times the order line quantity,ORDER_LINE_SUB_TOTAL
+ORD_ORDER_LINE,"Sum of items, charges, discounts, and taxes for the order line",ORDER_LINE_TOTAL
+ORD_ORDER_LINE,Style of the ordered item,ITEM_STYLE
+ORD_ORDER_LINE,Brand of the ordered item,ITEM_BRAND
+ORD_ORDER_LINE,Size of the ordered item,ITEM_SIZE
+ORD_ORDER_LINE,Color of the ordered item,ITEM_COLOR_DESCRIPTION
+ORD_ORDER_LINE,Season of the ordered item,ITEM_SEASON
+ORD_ORDER_LINE,Description of the ordered item,ITEM_DESCRIPTION
+ORD_ORDER_LINE,Short Description of the ordered item,ITEM_SHORT_DESCRIPTION
+ORD_ORDER_LINE,URI of the small image for the ordered item,SMALL_IMAGE_U_R_I
+ORD_ORDER_LINE,URI of the color image for the ordered item,JSON_STORE
+ORD_ORDER_LINE,"Activation value, if the item is a gift card",GIFT_CARD_VALUE
+ORD_ORDER_LINE,"Price to be refunded, if the item is returned",REFUND_PRICE
+ORD_ORDER_LINE,"Original UnitPrice, if the price is overridden",ORIGINAL_UNIT_PRICE
+ORD_ORDER_LINE,"Indicates if tax is included in the UnitPrice, in case of a Value-Added Tax  VAT  or a return charge.",IS_TAX_INCLUDED
+ORD_ORDER_LINE,Indicates if the line tax has been overridden,IS_TAX_OVERRIDDEN
+ORD_ORDER_LINE,"It has the tax override value. The value can be in terms of percentage or flat number and the precision is upto 2 places of decimal. When there is a need to provide a percentage for taxOverrideValue which requires higher precision  upto 3 or 4 places of decimal, say 2.3456 , then donot use this attribute instead use taxOverridePercValue",TAX_OVERRIDE_VALUE
+ORD_ORDER_LINE,"It has the tax override value in percentage. This attribute can have values with a precision upto 4 places of decimal. Hence when the tax override percentage requires higher precision, then this attribute must be used.",TAX_OVRD_PERC_VALUE
+ORD_ORDER_LINE,Indicates if the price has been overridden,IS_PRICE_OVERRIDDEN
+ORD_ORDER_LINE,Earliest date on which the order line should be shipped This is read only if IsPackAndHold is true.,DO_NOT_SHIP_BEFORE_DATE
+ORD_ORDER_LINE,Indicates if the order line should be held until the DoNotShipBeforeDate,IS_PACK_AND_HOLD
+ORD_ORDER_LINE,"Requested date on which the items should be delivered to the destination. *Example: 2015-10-28T10:15:30  ISO Date Time Format *. If the RDD is added on the order/promising request then the system will validate if a transit lane exists for the order origin and destination. If no transit lane exist or if we the system cannot find an origin location to fulfill the order in time then the allocation will fail. If RDD is null on the order/promising request and the system does not find a transit lane, allocation will still succeed but transit time will be null. Adding a RDD ensures backward scheduling dates are computed.",REQUESTED_DELIVERY_DATE
+ORD_ORDER_LINE,Delivery date which was originally promised to the customer,PROMISED_DELIVERY_DATE
+ORD_ORDER_LINE,"Latest possible delivery date on which the items should be delivered to the destination. Used by SIF to display At risk tag on late orders. Passthrough field for OM. If RDD is used in the implementation, should be mapped with the same value as Requested delivery date.",LATEST_DELIVERY_DATE
+ORD_ORDER_LINE,"Delivery Method Sub Type selected by the customer. For example, sub type ‘Curbside’ indicates the customer wants to receive items in their car in the parking lot for delivery method PickUpAtStore. Delivery Method Sub type is used by fulfillment system when completing the pick up/shipment flow.",DELIVERY_METHOD_SUB_TYPE
+ORD_ORDER_LINE,"Carrier which should be used to fulfill the order line e.g. Fedex, UPS etc",CARRIER_CODE
+ORD_ORDER_LINE,"Service Level which should be used to fulfill the order line e.g. AIR-1 Day, Road-day",SERVICE_LEVEL_CODE
+ORD_ORDER_LINE,"Rank of the order line, as calculated by the system during prioritization.",EFFECTIVE_RANK
+ORD_ORDER_LINE,"Identifier of the shipping address, which is stored in the address table. Used if deliveryMethod is Ship to address",SHIP_TO_ADDRESS_ID
+ORD_ORDER_LINE,"Ship from address for return order lines being shipped from a customer address to a return center. This address is printed on return labels and used to calculate return taxes. Ship from address can be specified on return order import. If null on import and delivery method is Ship to Return Center, then ship from address is populated with the ship to address from the parent order line. If parent order line ship to address is null  in case of pick up in store or ship to store , then the preferred customer address is retrieved from the customer record. If no preferred customer address exists, then ship from address should be manually entered by a user",SHIP_FROM_ADDRESS_ID
+ORD_ORDER_LINE,"Ship-to location ID, in case of ship to store, pick up in store, or any flow where the items are shipping to a destination which is configured as a location in the network",SHIP_TO_LOCATION_ID
+ORD_ORDER_LINE,"ID used to group items which need to be fulfilled together  e.g. warranties, kits, gift with purchase, etc. ",FULFILLMENT_GROUP_ID
+ORD_ORDER_LINE,If release configuration is enabled for Deliver Together. ReleaseGroupId can be populated to act as an override for forming release group. For instance: if an order with four lines have same Fulfillment Group but releaseGroupId is 1 for first 3 lines whereas 2 for last line then there will be two groups instead of one.,RELEASE_GROUP_ID
+ORD_ORDER_LINE,"Customer shipping preference. When a customer order is placed, it is required to know what is his preference of shipping. For example, it could be Same day delivery / Next Day / Two day or prefers ground shipment",SHIPPING_METHOD_ID
+ORD_ORDER_LINE,Indicates if the item is perishable,IS_PERISHABLE
+ORD_ORDER_LINE,"Indicates if the item is being returned. If isReturn = true and an order has not yet been priced, then return price, taxes, and charges are pulled from the parent order line. For example, if sale line has unit price $200, $10 tax, and $8 SnH, then when a return line is created against this parent order line, the return line unit price is set to -$200, with -$10 line tax and -$8 SnH. If isReturn = true and no parent order line is found, then the current price and tax rates are used to calculate the refund price and tax. If isReturn = false, then the line is sent through pricing, promo, tax, and SnH per the typical sale flow, unless the line is an even exchange  see isEvenExchange ",IS_RETURN
+ORD_ORDER_LINE,"Selling location of order line, in case of multi-company orders or shared carts. This needs to be the location ID of a store existing in the system.",SELLING_LOCATION_ID
+ORD_ORDER_LINE,"Identifies the original order in case of returns or even exchanges. Parent order is used in conjunction with parent order line id while retrieving prices, charges, taxes, discounts, etc. from the original order line to be copied on return or exchange lines. Parent order id and parent order line id should only be populated in return or even exchange scenarios, since return credit is pulled from the parent order and applied to the return or exchange order. Parent order id should not be populated for sale lines or uneven exchange lines",PARENT_ORDER_ID
+ORD_ORDER_LINE,"Location from where the items are being fulfilled. Populated with the allocation origin location for ship to home items. Populated with the selling location for store sales. Populated with the ship to location for pick up in store and ship to store. Used to send the origin address to the tax engine, which calculates tax rates based on this data",PHYSICAL_ORIGIN_ID
+ORD_ORDER_LINE,Tax code of the ordered item,ITEM_TAX_CODE
+ORD_ORDER_LINE,This is the volumetric weight of an item and the same is used to calculate Shipping and Handling charges when the rate basis for Shipping and Handling charges calculation is configured as Volumetric weight,VOLUMETRIC_WEIGHT
+ORD_ORDER_LINE,Product Class of Item.,PRODUCT_CLASS
+ORD_ORDER_LINE,Id of the state transition pipeline.,PIPELINE_ID
+ORD_ORDER_LINE,"Identifies items being exchanged for an item of the same style, but in a different color or size. If isEvenExchange = true and rePriceEvenExchanges is disabled, then line price, taxes, and charges are copied from the parent order line. For example, if the original line has unit price $200, $10 tax, and $8 SnH, then an even exchange line would be created with unit price is set to $200, with $10 line tax and $8 SnH. If isEvenExchange = true and no parent order line is found or parent order line is null, then an error is thrown. If isEvenExchange = true, then isReturn cannot be set to true. If isEvenExchange = false or rePriceEvenExchanges is enabled, then the line is sent through pricing, promo, tax, and SnH per the typical sale flow.",IS_EVEN_EXCHANGE
+ORD_ORDER_LINE,"For return order lines where the delivery method is ship to return center, this flag indicates if receipt of the return item is expected by the retailer. If true, then the customer plans to ship the item back to the retailer''''s return center. If false, then the customer does not return any item to the retailer  aka field destroy . If receipt expected is false, then the retailer can decide to approve the return and issue a refund or to reject the return and issue no refund. The return configuration autoApproveReceiptNotExpected indicates whether these order lines are automatically approved on order confirmation or that a CSR needs to manually approve these lines.",IS_RECEIPT_EXPECTED
+ORD_ORDER_LINE,If return order lines with receiptedExpected as true is changed to false due to threshold validation then this flag will be updated to true. This allows selling channel to keep track of lines that were updated by the system.,JSON_STORE
+ORD_ORDER_LINE,This flag indicates its a gift card item,IS_GIFT_CARD
+ORD_ORDER_LINE,This flag indicates its a non merchandise item,IS_NON_MERCHANDISE
+ORD_ORDER_LINE,Unique identifier of the order with which the OrderLine is associated,ORDER_ID
+ORD_ORDER_LINE,Indicates if the item qualifies as hazmat,IS_HAZMAT
+ORD_ORDER_LINE,Hazardous Material code populated from hazardousMaterialId attribute of the item,HAZMAT_CODE
+ORD_ORDER_LINE,"When an order line is cancelled, populate this field with Orderline.OrderLineSubTotal value.",CANCELLED_ORDER_LINE_SUB_TOTAL
+ORD_ORDER_LINE,"When an order line is cancelled, populate this field with Orderline.TotalDiscounts value.",CANCELLED_TOTAL_DISCOUNTS
+ORD_ORDER_LINE,"Department number of the item. Ensure this value is defined as an integer, if this attribute needs to be copied to the order line entity. For example, when an order is created with item A, if item A has department number 678 defined, then this department number is saved on the order line.",ITEM_DEPARTMENT_NUMBER
+ORD_ORDER_LINE,"Department number of the item. The value of this attribute is copied from Item to the order line entity. For example, when an order is created with Item A which belongs to the department number “Softline123”, then this department number is copied and saved in the order line which contains the Item A.",ITEM_DEPT_NUMBER
+ORD_ORDER_LINE,DepartmentName of the ordered item.,ITEM_DEPARTMENT_NAME
+ORD_ORDER_LINE,This field will capture the X-ref info when we have added item using alternate UPC or X-ref,ITEM_BARCODE
+ORD_ORDER_LINE,This flag indicates if tax exempt is applicable on the item. by default all items will have this value set to true.,IS_ITEM_TAX_EXEMPTABLE
+ORD_ORDER_LINE,Indicates if item is gift card item needs to be activated freshly or if its an reload to an existing gift card,IS_ACTIVATION_REQUIRED
+ORD_ORDER_LINE,This field indicates the max amount of discount in percentage that can be applied to the item in the orderline.,ITEM_MAX_DISCOUNT_PERCENTAGE
+ORD_ORDER_LINE,This field indicates the maxBalanceDue amount of discount in money that can be applied to the item in orderline.,ITEM_MAX_DISCOUNT_AMOUNT
+ORD_ORDER_LINE,This flag indicates if tax exempt is applicable on the item. by default all items have this value set to true.,IS_ITEM_TAX_OVERRIDABLE
+ORD_ORDER_LINE,Store''''s Business Date which is set in Back Office. This can be different from the transaction created date if the store is kept open through more than one calendar date.,BUSINESS_DATE
+ORD_ORDER_LINE,Indicates transaction id under which this orderline is captured. eg Adding more store sale lines in existing order while customer comes to pick up in a store.,TRANSACTION_REFERENCE_ID
+ORD_ORDER_LINE,"This field will capture Sum of all the discount against Item, It can be discount applied directly on Item or prorated Order discount or prorated discount on entire line. It can be of any Charge Type, Promotion, Coupon, Appeasement or Discount.",TOTAL_DISCOUNT_ON_ITEM
+ORD_ORDER_LINE,"Created timestamp of the parent order line. Used in return invoice tax requests to pass the original parent order line created date to the third party tax engine, so that tax holidays can be honored.",PARENT_LINE_CREATED_TIMESTAMP
+ORD_ORDER_LINE,Ship date which was originally promised to the customer during order creation,PROMISED_SHIP_DATE
+ORD_ORDER_LINE,"This flag indicates if the order line has component items defined. This is a calculated field, if there is at least one OrderLineComponents entity for the current line then this flag should set to true.",HAS_COMPONENTS
+ORD_ORDER_LINE,"Identifies the allocation config which is used to allocate the order line. Used by the reapportionment scheduler to pick order lines for a given config id, when the config scheduler runs.",ALLOCATION_CONFIG_ID
+ORD_ORDER_LINE,"Indicates if an order line can have manual discounts applied against it. E.g. header discounts applied at POS should not be prorated to gift card items. When a header-level charge of type Discount is applied, if the chargeTypeOverride table has skipNonDiscountableItems = true for Discounts, then the header discount is only prorated to lines where isDiscountable = true. If the chargeTypeOverride config does not have skipNonDiscountableItems = true for Discounts, then header discounts are prorated across all order lines, including non-discountable items. Validations for line-level discounts should be handled in order capture systems there is no validation of line level discounts saved against order lines which are not discountable. This logic applies only to charge type Discount it does not affect appeasements, coupons, promotions, SnH, VAS, etc.",IS_DISCOUNTABLE
+ORD_ORDER_LINE,Indicates if price can be overridden for the item. Used by order capture systems such as point of sale to determine whether to allow users to override an item price.,IS_PRICE_OVERRIDEABLE
+ORD_ORDER_LINE,Indicates if item requires an activation value to be entered  e.g. variable value gift cards . This attribute is used by point of sale to determine whether to prompt a user for item value upon scanning.,VALUE_ENTRY_REQUIRED
+ORD_ORDER_LINE,"This attribute stores the link to item details page on the e-commerce site.If it is null, system will try to copy it from item.webURL",ITEM_WEB_U_R_L
+ORD_ORDER_LINE,This column used by monitoring framework to set the time at which the immediate/next event has to occur,NEXT_EVENT_TIME
+ORD_ORDER_LINE,Total number of times fulfillment short was recieved,LINE_SHORT_COUNT
+ORD_ORDER_LINE,"This field indicates the lifecycle of a released line cancellation to downstream fulfillment system. When the request is initiated then the status is Requested, when the line is successfully cancelled the status is updated to Success. If the fulfillment system rejects the cancellation for ever then the status is updated to Failure",CANCELLATION_REQUEST_STATUS
+ORD_ORDER_LINE,Indicates if item can be shipped to an address. Will be captured from item selling attributes if it is null at the time of creating the order line. Any subsequent changes to this attribute in Item component will not be propagated.,CAN_SHIP_TO_ADDRESS
+ORD_ORDER_LINE,"In case of line split because of a permitted update after the parent line got partially released, the new line is linked to the parent line using this field.",SPLIT_FROM_LINE_ID
+ORD_ORDER_LINE,"Order line quantities cannot be released before this date and time. This value can be imported on the orderline, or it can be calculated by the system as a specified amount of time after an orderline has been confirmed. To specify the amount of time from UI, this can be configured on the orderlineremorseconfig.",DO_NOT_RELEASE_BEFORE
+ORD_ORDER_LINE,This attribute is used to persist the sum of all the Order Line Informational Taxes.,JSON_STORE
+ORD_ORDER_LINE,Indicates if the order line is Reserved online pickup in store,JSON_STORE
+ORD_ORDER_LINE,"The item tax department corresponds to the VAT rate and applicable to fiscal requirements. For Italy, we need to pass on this taxDepartment to the printer so that it can calculate taxes. For ex: taxDepartment 1 means 22%, 2 means 10% and so on.",JSON_STORE
+ORD_ORDER_LINE,Sum of cancelled taxes for the order line,JSON_STORE
+ORD_ORDER_LINE,Sum of cancelled charges for the order line,JSON_STORE
+ORD_ORDER_LINE,"Sum of cancelled items, charges, discounts, and taxes for the order line",JSON_STORE
+ORD_ORDER_LINE,"This flag indicates if a recommended order line is added by a user during order creation, order edit, or return creation.",IS_RECOMMENDED_ITEM
+ORD_ORDER_LINE,Item ordered originally on the order line. This will be different from the order line item id in case of substitution by the fulfillment system.,ORIGINAL_ITEM_ID
+ORD_ORDER_LINE,"Indicates if the line has been fulfilled with at least one substituted item decided by the fulfillment system. If true, the fulfilled content of the line can be found in the fulfillment Substitution details",JSON_STORE
+ORD_ORDER_LINE,Field on the entity to store purge date ,PURGE_DATE
+ORD_ORDER_LINE,Line Type used for order line processing,LINE_TYPE_ID
+ORD_ORDER_LINE,"If isCancelled is true, this field indicates the cancel reason code",CANCEL_REASON_ID
+ORD_ORDER_LINE,"If parentOrderLineID is not null, this field indicates the type of parent line",PARENT_ORDER_LINE_TYPE_ID
+ORD_ORDER_LINE,"Method by which the ordered item s  should be delivered to the destination. For example, it could be PickupAtStore, ShipToAddress, etc",DELIVERY_METHOD_ID
+ORD_ORDER_LINE,Unique identifier of the returnAction with which the OrderLine is associated,RETURN_TYPE
+ORD_ORDER_LINE,Indicates how item is added to the order in a store,STORE_SALE_ENTRY_METHOD_ID
+ORD_ORDER_LINE,"If the Tax is overridden for this OrderLine, then the value for this property should be selected either ''''FlatAmount'''' or ''''Percentage''''",TAX_OVERRIDE_TYPE
+ORD_ORDER_LINE,"Represents the type of substitution the customer agrees with. Valid values are doNotSubstitute  in case the customer refuses substitution , bestAvailable  in case the customers lets the fulfillment system choose what item is best in case of substitution , and specificItem  in case the customer lists the items they agree to substitute the ordered item with.",FULFILLMENT_SUB_TYPE
+ORD_ORDER_LINE,Extended Attribute,EXT_ISPRESELL
+ORD_ORDER_LINE_TAX_DETAIL,Unique identifier of the tax,TAX_DETAIL_ID
+ORD_ORDER_LINE_TAX_DETAIL,Defines the type of tax,TAX_TYPE_ID
+ORD_ORDER_LINE_TAX_DETAIL,"Defines the category of charge, if tax is associated with the charge",TAX_CODE
+ORD_ORDER_LINE_TAX_DETAIL,Amount which is taxable for the tax record,TAXABLE_AMOUNT
+ORD_ORDER_LINE_TAX_DETAIL,Tax amount  Tax Amount = Tax Rate * Taxable Amount ,TAX_AMOUNT
+ORD_ORDER_LINE_TAX_DETAIL,Tax rate,TAX_RATE
+ORD_ORDER_LINE_TAX_DETAIL,"This field captures tax rate percent derived from taxRate received from external tax or local tax engine. For example, if the taxRate received is .09975, the taxRate is stored as .0998 after applying a precision or scale of four. taxRatePercent will store the taxRate in terms of percentage without any scale or precision applied, in the example, taxRatePercent will be 9.975",TAX_RATE_PERCENT
+ORD_ORDER_LINE_TAX_DETAIL,Jurisdiction in which the tax is applied,JURISDICTION
+ORD_ORDER_LINE_TAX_DETAIL,Type of jurisdiction in which the tax is applied,JURISDICTION_TYPE_ID
+ORD_ORDER_LINE_TAX_DETAIL,Date when the tax record is created,TAX_DATE
+ORD_ORDER_LINE_TAX_DETAIL,ID of the tax engine which is used to calculate the tax amount,TAX_ENGINE_ID
+ORD_ORDER_LINE_TAX_DETAIL,tax identifier,HEADER_TAX_DETAIL_ID
+ORD_ORDER_LINE_TAX_DETAIL,ID used to group items which need to be fulfilled together,FULFILLMENT_GROUP_ID
+ORD_ORDER_LINE_TAX_DETAIL,Indicates a tax is informational and is not taken into account in the order line total calculations,IS_INFORMATIONAL
+ORD_ORDER_LINE_TAX_DETAIL,"If tax detail record created during invoice, this flag will be set to true",IS_INVOICE_TAX
+ORD_ORDER_LINE_TAX_DETAIL,"Attribute to define the VAT Tax Code for a given tax rate, used only in case of informational tax.             This value is set as part of orderLineTaxDetail or orderTaxDetail while creating tax records with the corresponding tax rate.",VAT_TAX_CODE
+ORD_ORDER_LINE_TAX_DETAIL,"Attribute to uniquely identify a tax record in addition to existing tax attributes like taxcode, jurisdiction and jurisdictionTypeId",TAX_IDENTIFIER1
+ORD_ORDER_LINE_TAX_DETAIL,"Attribute to uniquely identify a tax record in addition to existing tax attributes like taxcode, jurisdiction and jurisdictionTypeId",TAX_IDENTIFIER2
+ORD_ORDER_LINE_TAX_DETAIL,"Attribute to uniquely identify a tax record in addition to existing tax attributes like taxcode, jurisdiction and jurisdictionTypeId",TAX_IDENTIFIER3
+ORD_ORDER_LINE_TAX_DETAIL,"Attribute to uniquely identify a tax record in addition to existing tax attributes like taxcode, jurisdiction and jurisdictionTypeId",TAX_IDENTIFIER4
+ORD_ORDER_LINE_TAX_DETAIL,"Attribute to uniquely identify a tax record in addition to existing tax attributes like taxcode, jurisdiction and jurisdictionTypeId",TAX_IDENTIFIER5
+ORD_ORDER_LINE_TAX_DETAIL,"Amount which is non-taxable for the tax record. For example, Gift card are non taxable during initial purchase/sale, and are taxable only when they are used as payment type. If order line is sale of a gift card, then this field will capture that amount as non-taxable. This field captures any non taxable amount and not limited to gift card sale.",JSON_STORE
+ORD_ORDER_LINE_TAX_DETAIL,"Captures more detail of the applied tax rate. For example: A tax rate applied can be classified as Standard rate, Reduced rate, Intermediate rate etc or their can be other types tax rate classification.",JSON_STORE
+ORD_ORDER_LINE_TAX_DETAIL,The tax gateway that was used to calculate the tax amount. Out of the box this is populated by Vertex tax integration or Local Tax rate configuration for all invoice and quotation tax responses,JSON_STORE
+ORD_ORDER_LINE_TAX_DETAIL,"Indicates a retail delivery fee has been calculated by the tax system. Taxes with this flag marked as true will not be included in the returnable total calculation, and will not get copied to created return orders.",JSON_STORE
+ORD_ORDER_LINE_TAX_DETAIL,"Unique identifier of the substitution detail. This id is used to identify which substitution detail relates to an invoice line, a tax detail or a fulfillment detail relates to.",JSON_STORE
+ORD_ORDER_LINE_TAX_DETAIL,Field on the entity to store purge date ,PURGE_DATE
+ORD_ORDER_LINE_HOLD,Unique identifier of order  hold type table,HOLD_TYPE
+ORD_ORDER_LINE_HOLD,Indicates the hold reason code,RESOLVE_REASON_ID
+ORD_ORDER_LINE_HOLD,"This field indicates the Hold status. Possible values: APPLY, RESOLVE, REJECT",STATUS_ID
+ORD_ORDER_LINE_HOLD,"User who applied the hold, if updated in an external system",EXTERNAL_CREATED_BY
+ORD_ORDER_LINE_HOLD,Timestamp when the hold is applied in external system,EXTERNAL_CREATED_DATE
+ORD_ORDER_LINE_HOLD,Placeholder to capture comments when hold applied,APPLY_REASON_COMMENTS
+ORD_ORDER_LINE_HOLD,Placeholder to capture comments when hold is resolved,RESOLVE_REASON_COMMENTS
+ORD_ORDER_LINE_HOLD,Field on the entity to store purge date ,PURGE_DATE
+ORD_QUANTITY_DETAIL,Unique identifier of the quantity detail record,QUANTITY_DETAIL_ID
+ORD_QUANTITY_DETAIL,Identifier of the item,ITEM_ID
+ORD_QUANTITY_DETAIL,Quantity in the specified status,QUANTITY
+ORD_QUANTITY_DETAIL,Unit of measure  UOM  of the allocated quantity,UOM
+ORD_QUANTITY_DETAIL,Status of the quantity,STATUS_ID
+ORD_QUANTITY_DETAIL,Ratio of the substituted item to the ordered item,SUBSTITUTION_RATIO
+ORD_QUANTITY_DETAIL,Field on the entity to store purge date ,PURGE_DATE
+ORD_QUANTITY_DETAIL,Type of substitution being used for this order line,SUBSTITUTION_TYPE_ID
+ORD_QUANTITY_DETAIL,Reason code associated with the quantity,REASON_ID
+ORD_QUANTITY_DETAIL,Type of reason code associated with the quantity,REASON_TYPE_ID
+ORD_ALLOCATION,Unique identifier of the allocation,ALLOCATION_ID
+ORD_ALLOCATION,The item which is being allocated,ITEM_ID
+ORD_ALLOCATION,The allocated quantity,QUANTITY
+ORD_ALLOCATION,Unit of measure  UOM  of the allocated quantity,UOM
+ORD_ALLOCATION,Location at which the item is allocated,SHIP_FROM_LOCATION_ID
+ORD_ALLOCATION,"Ship-to location ID, in case of ship to store, pick up in store, or any flow where the items are shipping to a destination which is configured as a location in the network",SHIP_TO_LOCATION_ID
+ORD_ALLOCATION,"Id of the PO, if allocated against on order inventory",PO_ID
+ORD_ALLOCATION,"Id of the PO detail, if allocated against on order inventory",PO_DETAIL_ID
+ORD_ALLOCATION,"Id of the ASN, if allocated against in transit inventory",ASN_ID
+ORD_ALLOCATION,"Id of the ASN detail, if allocated against in transit inventory",ASN_DETAIL_ID
+ORD_ALLOCATION,"Delivery date which is promised to the customer as the Estimated Time of Arrival  ETA , This is calculated by Promising and populated by the Promising Response",COMMITTED_SHIP_DATE
+ORD_ALLOCATION,Delivery date which is promised to the customer as the Estimated Time of Arrival  ETA ,COMMITTED_DELIVERY_DATE
+ORD_ALLOCATION,Latest date on which the allocation should be released to meet the latest delivery date on the order line.  This is calculated by Promising and populated by the Promising Response,LATEST_RELEASE_DATE
+ORD_ALLOCATION,Release date on which the allocation should be released. This is calculated by Promising and populated by the Promising Response,RELEASE_DATE
+ORD_ALLOCATION,Date on which the first unit on an order line is eligible to be released to meet the RDD. This is calculated by Promising and populated by the Promising Response,LATEST_RELEASE_DATE_OH_RDD
+ORD_ALLOCATION,Latest date on which items should ship to meet the latest delivery date on the order line. This is calculated by Promising and populated by the Promising Response,LATEST_SHIP_DATE
+ORD_ALLOCATION,Ratio of the substituted item to the ordered item,SUBSTITUTION_RATIO
+ORD_ALLOCATION,Type of substitution being used for this order line,SUBSTITUTION_TYPE_ID
+ORD_ALLOCATION,Segment against which order line is allocated,INVENTORY_SEGMENT_ID
+ORD_ALLOCATION,Date and time when the allocation is created or updated by order promising,ALLOCATED_ON
+ORD_ALLOCATION,"Group Id, if allocations are grouped to be fulfilled and cancelled together",GROUP_ID
+ORD_ALLOCATION,Type of allocation,ALLOCATION_TYPE
+ORD_ALLOCATION,"Id of the dependency, if applicable",ALLOCATION_DEPENDENCY_ID
+ORD_ALLOCATION,Code of the carrier which is used for scheduling the allocation,CARRIER_CODE
+ORD_ALLOCATION,Service level used for scheduling the allocation,SERVICE_LEVEL_CODE
+ORD_ALLOCATION,Country of origin of the allocated inventory,COUNTRY_OF_ORIGIN
+ORD_ALLOCATION,Batch number of the allocated inventory,BATCH_NUMBER
+ORD_ALLOCATION,Product status of the allocated inventory,PRODUCT_STATUS_ID
+ORD_ALLOCATION,Inventory type of the allocated inventory,INVENTORY_TYPE_ID
+ORD_ALLOCATION,Inventory attribute1 of the allocated inventory,INVENTORY_ATTRIBUTE1
+ORD_ALLOCATION,Inventory attribute2 of the allocated inventory,INVENTORY_ATTRIBUTE2
+ORD_ALLOCATION,Inventory attribute3 of the allocated inventory,INVENTORY_ATTRIBUTE3
+ORD_ALLOCATION,Inventory attribute4 of the allocated inventory,INVENTORY_ATTRIBUTE4
+ORD_ALLOCATION,Inventory attribute5 of the allocated inventory,INVENTORY_ATTRIBUTE5
+ORD_ALLOCATION,"Ship via which is requested to fulfill the order line. Ship via is a unique combination of carrier, mode, and service level.",SHIP_VIA_ID
+ORD_ALLOCATION,Unique Identifier of the reservation request detail in the Inventory component which maps to this allocation,RESERVATION_REQUEST_DETAIL_ID
+ORD_ALLOCATION,Unique Identifier of the parent reservation request id,RESERVATION_REQUEST_ID
+ORD_ALLOCATION,"Earliest date when the order line can be delivered, calculated by the Promising Component",EARLIEST_DELIVERY_DATE
+ORD_ALLOCATION,"Earliest date when the order line can be shipped, calculated by the Promising Component.",EARLIEST_SHIP_DATE
+ORD_ALLOCATION,"Indicates virtual reservartion, i.e. reserved against a location which doesn''''t maintain inventory",IS_VIRTUAL
+ORD_ALLOCATION,Indicates the Order line’s earliest ship date as predicted by Machine Learning. It is predicted based on historical data of time taken between order creation and order fulfilment. This attribute will be populated only when Machine learning is available.,PREDICTED_SHIP_DATE
+ORD_ALLOCATION,Indicates the Order line’s earliest delivery date as predicted by Machine Learning. It is predicted based on historical data of time taken between order creation and order delivered. This attribute will be populated only when Machine learning is available.,PREDICTED_DELIVERY_DATE
+ORD_ALLOCATION,"Indicates the Order line’s earliest ship date as computed heuristically by the Promising component. Earliest ship date represents the earliest date that the  release  order can be shipped from the location, assuming that the order is released immediately after allocation occurs. The earliest ship date takes into account the Allocation date/time or Future Supply ETA, Location receipt and processing time, Location''''s and Carrier''''s operating hours and holidays.",HEURISTIC_SHIP_DATE
+ORD_ALLOCATION,"Indicates the Order line’s earliest delivery date as computed heuristically by the Promising component. Earliest delivery date represents the date the  release  order can be delivered to the customer, assuming that the order is released immediately and shipped as soon as the location processes the order. This is calculated takes into account the Earliest ship date, Carrier zone transit time, Location''''s and Carrier''''s operating hours and holidays.",HEURISTIC_DELIVERY_DATE
+ORD_ALLOCATION,"Indicates the location’s current backlog at the time of allocation. If Location’s capacity definition or capacity utilization level is not set then current backlog will not be tracked. Current backlog is measured in terms of orders, order lines or units based on the capacity utilization level defined for a location.",LOCATION_BACKLOG
+ORD_ALLOCATION,Indicates the order line ship to address id at the time of creating the allocation. It is updated only for ship to address lines if orderCaptureConfig.preventPostReleaseUpdate is configured to true.,JSON_STORE
+ORD_ALLOCATION,Allocation ID of the originally ordered item in case of substitution. This field is only populated in the allocation of the substitution item to link it to the allocation of the ordered item.,JSON_STORE
+ORD_ALLOCATION,Field on the entity to store purge date ,PURGE_DATE
+ORD_ALLOCATION,Status of the allocation.  The allocation is in Open and status until it is released after which the status is Released ,STATUS_ID
+ORD_FULFILLMENT_DETAIL,Unique identifier of the fulfillment detail,FULFILLMENT_DETAIL_ID
+ORD_FULFILLMENT_DETAIL,Identifier of the item,ITEM_ID
+ORD_FULFILLMENT_DETAIL,Fulfillment with which the detail is associated,FULFILLMENT_ID
+ORD_FULFILLMENT_DETAIL,Quantity which is fulfilled,QUANTITY
+ORD_FULFILLMENT_DETAIL,Unit of measure  UOM  of the quantity,UOM
+ORD_FULFILLMENT_DETAIL,Identifier of the package in which the item is fulfilled,PACKAGE_ID
+ORD_FULFILLMENT_DETAIL,Identifier of the package detail in which the item is fulfilled,PACKAGE_DETAIL_ID
+ORD_FULFILLMENT_DETAIL,Unique identifier of the release,RELEASE_ID
+ORD_FULFILLMENT_DETAIL,Unique identifier of the release line,RELEASE_LINE_ID
+ORD_FULFILLMENT_DETAIL,"Tracking number of the package, if shipped",TRACKING_NUMBER
+ORD_FULFILLMENT_DETAIL,Shipping method used for package,SHIP_VIA_ID
+ORD_FULFILLMENT_DETAIL,Service level used for shipping,SERVICE_LEVEL_CODE
+ORD_FULFILLMENT_DETAIL,Carrier used for shipping,CARRIER_CODE
+ORD_FULFILLMENT_DETAIL,Date when the items are fulfilled,FULFILLMENT_DATE
+ORD_FULFILLMENT_DETAIL,ETA of the ASN,ETA
+ORD_FULFILLMENT_DETAIL,Identifier of the shipment on which the item is fulfilled,SHIPMENT_ID
+ORD_FULFILLMENT_DETAIL,"Non encrypted gift card number. Deprecated, use GcNumber instead",GIFT_CARD_NUMBER
+ORD_FULFILLMENT_DETAIL,"Non encrypted gift card PIN. Deprecated, use GcPIN instead",GIFT_CARD_P_I_N
+ORD_FULFILLMENT_DETAIL,"Gift card number. Will be encrypted in the database. Use this field instead of GiftCardNumber. During order shipping, this field will be populated with the content of the order ship event FulfillmentInfo.GiftCardNumber",GC_NUMBER
+ORD_FULFILLMENT_DETAIL,"Gift card PIN. Will be encrypted in the database. Use this field instead of GiftCardPIN. During order shipping, this field will be populated with the content of the order ship event FulfillmentInfo.GiftCardPin",GC_P_I_N
+ORD_FULFILLMENT_DETAIL,Unique serial number of the unit,SERIAL_NUMBER
+ORD_FULFILLMENT_DETAIL,Status of the fulfilled quantity,STATUS_ID
+ORD_FULFILLMENT_DETAIL,"Tracking number of the return shipment, if a return shipping label is included in the package. If the customer returns the item, this attribute is used when the carrier scans the package to identify the original order. The carrier feed event contains RTN, then the fulfillment details are searched to identify the original order and refund the customer. This number should be generated by the carrier such as FedEx or UPS.",RETURN_TRACKING_NUMBER
+ORD_FULFILLMENT_DETAIL,Unique identifier for the unit which is read by the RFID reader. This is updated with the item''''s Electronic Product Code id  i.e. EPC ID .,EPC_ID
+ORD_FULFILLMENT_DETAIL,SGTIN stands for Serialised Global Trade Number and is used to uniquely identify each unit of an item.,SGTIN
+ORD_FULFILLMENT_DETAIL,"Unique identifier of the substitution detail. This id is used to identify which substitution detail relates to an invoice line, a tax detail or a fulfillment detail relates to.",JSON_STORE
+ORD_FULFILLMENT_DETAIL,Field on the entity to store purge date ,PURGE_DATE
+ORD_LINE_PROCESS_INFO,Describes how to fulfill Pickticket Requirements when dealing with batches,BATCH_REQUIREMENT_TYPE
+ORD_LINE_PROCESS_INFO,"Defines length, width, height for cubing",CRITICAL_DIMENSION1
+ORD_LINE_PROCESS_INFO,"Defines length, width, height for cubing",CRITICAL_DIMENSION2
+ORD_LINE_PROCESS_INFO,"Defines length, width, height for cubing",CRITICAL_DIMENSION3
+ORD_LINE_PROCESS_INFO,"Defines length, width, height for cubing",CUBE_MULTIPLE_QTY
+ORD_LINE_PROCESS_INFO,Delivery Reference Number,DELIVERY_REFERENCE_NUMBER
+ORD_LINE_PROCESS_INFO,Indicates the reporting requirements and/or exemption from reporting for the electronic Shipper-s Export Declaration. Pulls from system code S 459.,EXPORT_INFO_CODE
+ORD_LINE_PROCESS_INFO,Defines if Warehouse Management prompts the user for serial number during picking,IS_SERIAL_NUMBER_REQUIRED
+ORD_LINE_PROCESS_INFO,"When converting distros to pickticket details in the wave process, distros for the same store/sku/attributes/etc will be combined onto the same pickticket detail line only if this value is the same or blank. If it is desired to have one pickticket detail",ITEM_BREAK_ATTRIBUTE
+ORD_LINE_PROCESS_INFO,"Actual price of item, only for informational use",ITEM_PRICE
+ORD_LINE_PROCESS_INFO,Dedicated for use in future TMS integration. There is no UI support for or Warehouse Management logic using this column. Do not use for custom purposes.,LPN_BREAK_ATTRIBUTE
+ORD_LINE_PROCESS_INFO,Unique Warehouse Management PickTicket Control Number,PICK_TICKET_CONTROL_NUMBER
+ORD_LINE_PROCESS_INFO,Pickup reference number,PICK_UP_REFERENCE_NUMBER
+ORD_LINE_PROCESS_INFO,"Price ticket template for the associated item  B901 . Defaulted initially from Pkt Dtl, Item, or Warehouse Master.",PRICE_TICKET_TYPE
+ORD_LINE_PROCESS_INFO,"Unit volume, used in cubing",UNIT_VOLUME
+ORD_LINE_PROCESS_INFO,"Unit weight, used in cubing",UNIT_WEIGHT
+ORD_LINE_PROCESS_INFO,"VAS Process Type: Indicates whether, and how, VAS must be performed upon the item in this detail. Based on sys code S257",VAS_PROCESS_TYPE
+ORD_LINE_PROCESS_INFO,Defines the WPT for the item.The WPT defines the process of searching for inventory for the item.,WAVE_PROCESS_TYPE
+ORD_LINE_PROCESS_INFO,Defines the item attributes associated with assigning dynamic locations,PICK_LOC_ASSIGNMENT_TYPE
+ORD_LINE_PROCESS_INFO,Price of the goods,PRICE
+ORD_LINE_PROCESS_INFO,Identifies a single unit order,SINGLE_UNIT
+ORD_LINE_PROCESS_INFO,Field on the entity to store purge date ,PURGE_DATE
+ORD_RETURN_DETAIL,"Unique identifier of the return detail entity. If not provided, then this is a generated number.",RETURN_DETAIL_ID
+ORD_RETURN_DETAIL,Location at which the return items are being received. Used for traceability and troubleshooting.,LOCATION_ID
+ORD_RETURN_DETAIL,"Item received. Used in return variance analysis. Compared with the expected item  if captured , and used to flag a return line as having an item variance.",ITEM_ID
+ORD_RETURN_DETAIL,"For Receipt events for call center returns, this identifies the return order for which the receipt occurred. For Receipt events for automated or blind returns where no return order exists, this identifies the original order against which the items are being returned. When a receipt occurs and no return order exists, a return order is created against the original order.",RETURN_ORDER_ID
+ORD_RETURN_DETAIL,"For Receipt events for call center returns, this identifies the return order line for which the receipt occurred. For Receipt events for automated or blind returns where no return order exists, this identifies the original order against which the items are being returned. When a receipt occurs and no return order exists, a return order is created against the original order.",RETURN_ORDER_LINE_ID
+ORD_RETURN_DETAIL,"Quantity received. Used in return variance analysis. Compared with the expected quantity  if captured , and used to flag a return line as having a quantity variance.",QUANTITY
+ORD_RETURN_DETAIL,Unit of measure of the quantity. Used for traceability.,U_O_M
+ORD_RETURN_DETAIL,"Indicates that the item is being returned by a gift recipient. Used to determine refund payment methods. If a return is a gift, then a refund is issued via new gift card. Otherwise, a refund is issued against the original tender, per the default refund logic.",IS_GIFT_RETURN
+ORD_RETURN_DETAIL,Unique identifier for the unit which is read by the RFID reader. This is updated with the item''''s Electronic Product Code id  i.e. EPC ID .,EPC_ID
+ORD_RETURN_DETAIL,SGTIN stands for Serialised Global Trade Number and is used to uniquely identify each unit of an item.,SGTIN
+ORD_RETURN_DETAIL,Field on the entity to store purge date ,PURGE_DATE
+ORD_RETURN_DETAIL,"Physical condition of the items, as captured by the receiving center. Used to in return variance analysis. Compared with the expected item condition  if captured , and used to flag a return line as having a condition variance.",RECEIVED_ITEM_CONDITION
+ORD_RETURN_DETAIL,"Indicates whether the item is part of an even exchange or pure refund. Captured during receiving from the return packing slip, as filled out by the customer. Can optionally be used in return fee configuration.",RETURN_TYPE
+ORD_ORDER_CHARGE_DETAIL,Unique identifier of the charge,CHARGE_DETAIL_ID
+ORD_ORDER_CHARGE_DETAIL,Defines the charge category,TAX_CODE
+ORD_ORDER_CHARGE_DETAIL,Text which should be displayed in the UI,CHARGE_DISPLAY_NAME
+ORD_ORDER_CHARGE_DETAIL,"Total charge If charge C = Ax+ B, then Charge Total = C.",CHARGE_TOTAL
+ORD_ORDER_CHARGE_DETAIL,"Charge Percent If ChargeType is Promotion, Coupon, Appeasement or Discount, in case of %Off discounts w.r.t. Order Sub Total.",CHARGE_PERCENT
+ORD_ORDER_CHARGE_DETAIL,"Indicates if tax is included in the charge. Included in the requests sent to the tax engine, so that tax can be back-calculated from the charge amount. Used for charges which are inclusive of tax such as return SnH. For example, if return SnH is $10 and taxIncluded is true, then if the tax rate is 10%, the tax engine returns a tax of $1 if isTaxIncluded = false and the taxDetail is saved with isInformational = false. If isTaxIncluded = true, then the tax engine returns a tax of $.91 and the taxDetail is saved with isInformational = true.",IS_TAX_INCLUDED
+ORD_ORDER_CHARGE_DETAIL,Indicates if the charge is overridden,IS_OVERRIDDEN
+ORD_ORDER_CHARGE_DETAIL,"If IsOverridden is true, this field includes the original charge amount",ORIGINAL_CHARGE_AMOUNT
+ORD_ORDER_CHARGE_DETAIL,Placeholder to capture comments for given charge,COMMENTS
+ORD_ORDER_CHARGE_DETAIL,Indicates a charge is informational and is not taken into account in the order total calculations,IS_INFORMATIONAL
+ORD_ORDER_CHARGE_DETAIL,Indicates a charge has been prorated across order lines,IS_PRORATED
+ORD_ORDER_CHARGE_DETAIL,"ID used to group items which need to be fulfilled together  e.g. warranties, kits, gift with purchase, etc. ",FULFILLMENT_GROUP_ID
+ORD_ORDER_CHARGE_DETAIL,DEPRECATED. PLEASE USE discountOn attribute.,IS_ORDER_DISCOUNT
+ORD_ORDER_CHARGE_DETAIL,"Unique Identifier of chargeType, if Charge Type Promotion it would PromotionId, ChargeType is Coupon, it would be CouponId",CHARGE_REFERENCE_ID
+ORD_ORDER_CHARGE_DETAIL,"Unique sub-Identifier of chargeType, if ChargeType is Coupon, it would be CouponCode",CHARGE_REFERENCE_DETAIL_ID
+ORD_ORDER_CHARGE_DETAIL,Related Charge Detail Id if Promotion/Coupon/discount needs to apply for specific charge Detail id.,RELATED_CHARGE_DETAIL_ID
+ORD_ORDER_CHARGE_DETAIL,Related Charge Type if Promotion/Coupon/Discount needs to apply for specific Charge Type e.g. all shipping Charges.,RELATED_CHARGE_TYPE
+ORD_ORDER_CHARGE_DETAIL,"Requested amount, in case of $Off discount / Flat Appeasement",REQUESTED_AMOUNT
+ORD_ORDER_CHARGE_DETAIL,"Indicates if a charge applies only to return order lines, such as a restocking or return shipping charge. If true, then header return charges are prorated across order lines where isReturn is true. Return charges are displayed separately in the call center UI and are included in separate order total calculations as part of the order response. Return charges are taxed using the return order creation date, while non-return charges on return orders are taxed using the original order fulfillment date.",IS_RETURN_CHARGE
+ORD_ORDER_CHARGE_DETAIL,This attribute is intended to support stacked discounts. This attribute governs the sequence in which discounts are evaluated.,CHARGE_SEQUENCE
+ORD_ORDER_CHARGE_DETAIL,Contains the ChargeDetailId of the discount that is prorated at line  level,PARENT_CHARGE_DETAIL_ID
+ORD_ORDER_CHARGE_DETAIL,"Indicates a discount has been prorated between unit price and other charges or between multiple charge details with the same relatedChargeType. This read-only field is updated during proration. E.g. an $11 discount is applied to a line with $100 unit price and $10 SnH. Two new charge details are be created to prorate the $11 into a $1 discount against SnH and a $10 discount against the unit price, so tax is calculated against the discounted unit price  $90  and SnH charge  $9 . The $11 discount is updated with IsProratedAtSameLevel = true. Another example is a line with two VAS charges. If a VAS discount is applied, it’s prorated between these two VAS charges and is updated with IsProratedAtSameLevel = true.",IS_PRORATED_AT_SAME_LEVEL
+ORD_ORDER_CHARGE_DETAIL,Indicates if a charge applied after one or more quantity is returned.,IS_POST_RETURN
+ORD_ORDER_CHARGE_DETAIL,Field on the entity to store purge date ,PURGE_DATE
+ORD_ORDER_CHARGE_DETAIL,ID of the charge type,CHARGE_TYPE_ID
+ORD_ORDER_CHARGE_DETAIL,"If IsOverridden is true, this field includes the reason code associated with the override",REASON_ID
+ORD_ORDER_CHARGE_DETAIL,This field guides that whether the given discount against charges or item price or both.Values are referenced from lineDiscountsLevel entity,DISCOUNT_ON
+ORD_ORDER_CHARGE_DETAIL,Defines the subtype of chargeType.The value of this field is ''''Offer Number'''' if the promotion applied is tied to an offer number if this is specific to the customer. Valid value is ''''Offer''''.,CHARGE_SUB_TYPE
+ORD_ORDER_TAX_DETAIL,Unique identifier of the tax,TAX_DETAIL_ID
+ORD_ORDER_TAX_DETAIL,Defines the type of tax,TAX_TYPE_ID
+ORD_ORDER_TAX_DETAIL,"Defines the category of charge, if tax is associated with the charge",TAX_CODE
+ORD_ORDER_TAX_DETAIL,Amount which is taxable for the tax record,TAXABLE_AMOUNT
+ORD_ORDER_TAX_DETAIL,Tax amount  Tax Amount = Tax Rate * Taxable Amount ,TAX_AMOUNT
+ORD_ORDER_TAX_DETAIL,Tax rate,TAX_RATE
+ORD_ORDER_TAX_DETAIL,"This field captures tax rate percent derived from taxRate received from external tax or local tax engine. For example, if the taxRate received is .09975, the taxRate is stored as .0998 after applying a precision or scale of four. taxRatePercent will store the taxRate in terms of percentage without any scale or precision applied, in the example, taxRatePercent will be 9.975",TAX_RATE_PERCENT
+ORD_ORDER_TAX_DETAIL,Jurisdiction in which the tax is applied,JURISDICTION
+ORD_ORDER_TAX_DETAIL,Type of jurisdiction in which the tax is applied,JURISDICTION_TYPE_ID
+ORD_ORDER_TAX_DETAIL,Timestamp when the tax record is created,TAX_DATE
+ORD_ORDER_TAX_DETAIL,ID of the tax engine which is used to calculate the tax amount,TAX_ENGINE_ID
+ORD_ORDER_TAX_DETAIL,Indicates a tax is informational and is not taken into account in the order total calculations,IS_INFORMATIONAL
+ORD_ORDER_TAX_DETAIL,Indicates a tax has been prorated across order lines,IS_PRORATED
+ORD_ORDER_TAX_DETAIL,ID used to group items which need to be fulfilled together,FULFILLMENT_GROUP_ID
+ORD_ORDER_TAX_DETAIL,"If tax detail record created during invoice, this flag will be set to true",IS_INVOICE_TAX
+ORD_ORDER_TAX_DETAIL,"Attribute to define the VAT Tax Code for a given tax rate, used only in case of informational tax.              This value is set as part of orderLineTaxDetail or orderTaxDetail while creating tax records with the corresponding tax rate.",VAT_TAX_CODE
+ORD_ORDER_TAX_DETAIL,"Attribute to uniquely identify a tax record in addition to existing tax attributes like taxcode, jurisdiction and jurisdictionTypeId",TAX_IDENTIFIER1
+ORD_ORDER_TAX_DETAIL,"Attribute to uniquely identify a tax record in addition to existing tax attributes like taxcode, jurisdiction and jurisdictionTypeId",TAX_IDENTIFIER2
+ORD_ORDER_TAX_DETAIL,"Attribute to uniquely identify a tax record in addition to existing tax attributes like taxcode, jurisdiction and jurisdictionTypeId",TAX_IDENTIFIER3
+ORD_ORDER_TAX_DETAIL,"Attribute to uniquely identify a tax record in addition to existing tax attributes like taxcode, jurisdiction and jurisdictionTypeId",TAX_IDENTIFIER4
+ORD_ORDER_TAX_DETAIL,"Attribute to uniquely identify a tax record in addition to existing tax attributes like taxcode, jurisdiction and jurisdictionTypeId",TAX_IDENTIFIER5
+ORD_ORDER_TAX_DETAIL,"Amount which is non-taxable for the tax record. For example, Gift card are non taxable during initial purchase/sale, and are taxable only when they are used as payment type. If order line is sale of a gift card, then this field will capture that amount as non-taxable. This field captures any non taxable amount and not limited to gift card sale.",JSON_STORE
+ORD_ORDER_TAX_DETAIL,"Captures more detail of the applied tax rate. For example: A tax rate applied can be classified as Standard rate, Reduced rate, Intermediate rate etc or their can be other types tax rate classification.",JSON_STORE
+ORD_ORDER_TAX_DETAIL,The tax gateway that was used to calculate the tax amount. Out of the box this is populated by Vertex tax integration or Local Tax rate configuration for all invoice and quotation tax responses,JSON_STORE
+ORD_ORDER_TAX_DETAIL,"Indicates a retail delivery fee has been calculated by the tax system. Taxes with this flag marked as true will not be included in the returnable total calculation, and will not get copied to created return orders.",JSON_STORE
+ORD_ORDER_TAX_DETAIL,Field on the entity to store purge date ,PURGE_DATE
+ORD_CANCELLED_ORDER_TAX_DETAIL,Unique identifier of the tax,TAX_DETAIL_ID
+ORD_CANCELLED_ORDER_TAX_DETAIL,Defines the type of tax,TAX_TYPE_ID
+ORD_CANCELLED_ORDER_TAX_DETAIL,"Defines the category of charge, if tax is associated with the charge",TAX_CODE
+ORD_CANCELLED_ORDER_TAX_DETAIL,Amount which is taxable for the tax record,TAXABLE_AMOUNT
+ORD_CANCELLED_ORDER_TAX_DETAIL,Tax amount  Tax Amount = Tax Rate * Taxable Amount ,TAX_AMOUNT
+ORD_CANCELLED_ORDER_TAX_DETAIL,Tax rate,TAX_RATE
+ORD_CANCELLED_ORDER_TAX_DETAIL,"This field captures tax rate percent derived from taxRate received from external tax or local tax engine. For example, if the taxRate received is .09975, the taxRate is stored as .0998 after applying a precision or scale of four. taxRatePercent will store the taxRate in terms of percentage without any scale or precision applied, in the example, taxRatePercent will be 9.975",TAX_RATE_PERCENT
+ORD_CANCELLED_ORDER_TAX_DETAIL,Jurisdiction in which the tax is applied,JURISDICTION
+ORD_CANCELLED_ORDER_TAX_DETAIL,Type of jurisdiction in which the tax is applied,JURISDICTION_TYPE_ID
+ORD_CANCELLED_ORDER_TAX_DETAIL,Timestamp when the tax record is created,TAX_DATE
+ORD_CANCELLED_ORDER_TAX_DETAIL,ID of the tax engine which is used to calculate the tax amount,TAX_ENGINE_ID
+ORD_CANCELLED_ORDER_TAX_DETAIL,Indicates a tax is informational and is not taken into account in the order total calculations,IS_INFORMATIONAL
+ORD_CANCELLED_ORDER_TAX_DETAIL,Indicates a tax has been prorated across order lines,IS_PRORATED
+ORD_CANCELLED_ORDER_TAX_DETAIL,ID used to group items which need to be fulfilled together,FULFILLMENT_GROUP_ID
+ORD_CANCELLED_ORDER_TAX_DETAIL,"If tax detail record created during invoice, this flag will be set to true",IS_INVOICE_TAX
+ORD_CANCELLED_ORDER_TAX_DETAIL,"Attribute to define the VAT Tax Code for a given tax rate, used only in case of informational tax.              This value is set as part of orderLineTaxDetail or orderTaxDetail while creating tax records with the corresponding tax rate.",VAT_TAX_CODE
+ORD_CANCELLED_ORDER_TAX_DETAIL,"Attribute to uniquely identify a tax record in addition to existing tax attributes like taxcode, jurisdiction and jurisdictionTypeId",TAX_IDENTIFIER1
+ORD_CANCELLED_ORDER_TAX_DETAIL,"Attribute to uniquely identify a tax record in addition to existing tax attributes like taxcode, jurisdiction and jurisdictionTypeId",TAX_IDENTIFIER2
+ORD_CANCELLED_ORDER_TAX_DETAIL,"Attribute to uniquely identify a tax record in addition to existing tax attributes like taxcode, jurisdiction and jurisdictionTypeId",TAX_IDENTIFIER3
+ORD_CANCELLED_ORDER_TAX_DETAIL,"Attribute to uniquely identify a tax record in addition to existing tax attributes like taxcode, jurisdiction and jurisdictionTypeId",TAX_IDENTIFIER4
+ORD_CANCELLED_ORDER_TAX_DETAIL,"Attribute to uniquely identify a tax record in addition to existing tax attributes like taxcode, jurisdiction and jurisdictionTypeId",TAX_IDENTIFIER5
+ORD_CANCELLED_ORDER_TAX_DETAIL,"Amount which is non-taxable for the tax record. For example, Gift card are non taxable during initial purchase/sale, and are taxable only when they are used as payment type. If order line is sale of a gift card, then this field will capture that amount as non-taxable. This field captures any non taxable amount and not limited to gift card sale.",NON_TAXABLE_AMOUNT
+ORD_CANCELLED_ORDER_TAX_DETAIL,"Captures more detail of the applied tax rate. For example: A tax rate applied can be classified as Standard rate, Reduced rate, Intermediate rate etc or their can be other types tax rate classification.",RATE_CLASSIFICATION
+ORD_CANCELLED_ORDER_TAX_DETAIL,The tax gateway that was used to calculate the tax amount. Out of the box this is populated by Vertex tax integration or Local Tax rate configuration for all invoice and quotation tax responses,TAX_GATEWAY
+ORD_CANCELLED_ORDER_TAX_DETAIL,"Indicates a retail delivery fee has been calculated by the tax system. Taxes with this flag marked as true will not be included in the returnable total calculation, and will not get copied to created return orders.",IS_RETAIL_DELIVERY_FEE
+ORD_CANCELLED_ORDER_TAX_DETAIL,Field on the entity to store purge date ,PURGE_DATE
+ORD_ORDER_ATTRIBUTE,Name of Attribute,ATTRIBUTE_NAME
+ORD_ORDER_ATTRIBUTE,Value of Attribute,ATTRIBUTE_VALUE
+ORD_ORDER_ATTRIBUTE,Field on the entity to store purge date ,PURGE_DATE
+ORD_ORDER_HOLD,Unique identifier of order  hold type table,HOLD_TYPE
+ORD_ORDER_HOLD,Indicates the hold reason code,RESOLVE_REASON_ID
+ORD_ORDER_HOLD,"This field indicates the Hold status. Possible values: APPLY, RESOLVE, REJECT",STATUS_ID
+ORD_ORDER_HOLD,"User who applied the hold, if updated in an external system",EXTERNAL_CREATED_BY
+ORD_ORDER_HOLD,Timestamp when the hold is applied in external system,EXTERNAL_CREATED_DATE
+ORD_ORDER_HOLD,Placeholder to capture comments when hold applied,APPLY_REASON_COMMENTS
+ORD_ORDER_HOLD,Placeholder to capture comments when hold is resolved,RESOLVE_REASON_COMMENTS
+ORD_ORDER_HOLD,Field on the entity to store purge date ,PURGE_DATE
+ORD_RELEASE,"Unique identifier of the release  concatenate orderId + - + nextUpNumber as single digit within order 1, 2, 3, etc. ",RELEASE_ID
+ORD_RELEASE,The location where the fulfillment will be executed,SHIP_FROM_LOCATION_ID
+ORD_RELEASE,"Ship-to location ID, in case of ship to store or any flow where the items are shipping to a destination which is configured as a location in the system",SHIP_TO_LOCATION_ID
+ORD_RELEASE,Service Level which is requested for the order quantities,SHIP_VIA_ID
+ORD_RELEASE,Service Level which is requested for the order quantities ,SERVICE_LEVEL_CODE
+ORD_RELEASE,Carrier which is requested for the order quantities,CARRIER_CODE
+ORD_RELEASE,"Type of release entity e.g. Customer Order, Transfer order etc",RELEASE_TYPE
+ORD_RELEASE,Method by which the ordered items should be delivered,DELIVERY_METHOD_ID
+ORD_RELEASE,This is used when the delivery mothod is ship to store to differentiate between merge and pickup orders,DESTINATION_ACTION
+ORD_RELEASE,"Rank of the release, calculated as the highest rank of all release lines",EFFECTIVE_RANK
+ORD_RELEASE,Unique identifier of the order with which the release is associated,ORDER_ID
+ORD_RELEASE,Indicates the order line ship to address id at the time of creating the release. It is updated only for ship to address lines if orderCaptureConfig.preventPostReleaseUpdate is configured to true.,JSON_STORE
+ORD_RELEASE,Field on the entity to store purge date ,PURGE_DATE
+ORD_INVOICE,"Unique identifier of the invoice, as defined by external system. If invoiceId is not provided on import, the system generates a value.",INVOICE_ID
+ORD_INVOICE,Unique ID used to identify the customer,CUSTOMER_ID
+ORD_INVOICE,Tax exemption ID,TAX_EXEMPT_ID
+ORD_INVOICE,Specific store location ID where transaction was captured. This needs to be the location ID of a store existing in the system.,SELLING_LOCATION_ID
+ORD_INVOICE,"Sum of invoice lines and header-level discounts, charges, and taxes",INVOICE_TOTAL
+ORD_INVOICE,Sum of charges for the invoice header,TOTAL_CHARGES
+ORD_INVOICE,Sum of discounts for the invoice header,TOTAL_DISCOUNTS
+ORD_INVOICE,Sum of taxes for the invoice header,TOTAL_TAXES
+ORD_INVOICE,Package associated with the invoice,PACKAGE_ID
+ORD_INVOICE,Amount processed for the invoice,AMOUNT_PROCESSED
+ORD_INVOICE,Amount for failed payment transactions,FAILED_AMOUNT
+ORD_INVOICE,Sum of item price times quantity for all invoice lines,INVOICE_SUB_TOTAL
+ORD_INVOICE,"Populated only for return invoices, and used by the payment component to transfer credit from the parent order to the return order. For example, a customer purchases an item in order A and then returns the item in order B, then order B has a return invoice with parent order id ''''A''''. When the payment component is transferring credit for the value of the return invoice, the credit is pulled from order A and applied to order B to be used as a refund or for exchange items.",PARENT_ORDER_ID
+ORD_INVOICE,"Date when the items were fulfilled. Populated based on the fulfillment detail fulfillment date. If multiple fulfillment details are invoiced together, then the invoice fulfillment date is set to the latest of all fulfillment detail dates.Included in the invoice tax request and used by the third party tax engine to determine taxability.",FULFILLMENT_DATE
+ORD_INVOICE,Indicates the number of times an Invoice has been published as Sales Posting Message.,PUBLISH_COUNT
+ORD_INVOICE,Indicates transaction id under which this orderline is captured. eg Adding more store sale lines in existing order while customer comes to pick up in a store.,TRANSACTION_REFERENCE_ID
+ORD_INVOICE,"This attribute is used to persist the sum of Invoice Informational Taxes and all the Invoice Line Informational Taxes. When roundTaxDecimalsAtInvoice is set to true in currencyConfig, then the value of this attribute is rounded down.",JSON_STORE
+ORD_INVOICE,Field on the entity to store purge date ,PURGE_DATE
+ORD_INVOICE,Indicates if the invoice has been published to external systems,PUBLISH_STATUS_ID
+ORD_INVOICE,Status of the invoice,STATUS
+ORD_INVOICE,Type of invoice,INVOICE_TYPE
+ORD_E_INVOICE,"Unique identifier of the invoice, as defined by external system. If invoiceId is not provided on import, the system generates a value.",INVOICE_ID
+ORD_E_INVOICE,Unique ID used to identify the customer,CUSTOMER_ID
+ORD_E_INVOICE,Tax exemption ID,TAX_EXEMPT_ID
+ORD_E_INVOICE,Specific store location ID where transaction was captured. This needs to be the location ID of a store existing in the system.,SELLING_LOCATION_ID
+ORD_E_INVOICE,"Sum of invoice lines and header-level discounts, charges, and taxes",INVOICE_TOTAL
+ORD_E_INVOICE,Sum of charges for the invoice header,TOTAL_CHARGES
+ORD_E_INVOICE,Sum of discounts for the invoice header,TOTAL_DISCOUNTS
+ORD_E_INVOICE,Sum of taxes for the invoice header,TOTAL_TAXES
+ORD_E_INVOICE,Package associated with the invoice,PACKAGE_ID
+ORD_E_INVOICE,Sum of item price times quantity for all invoice lines,INVOICE_SUB_TOTAL
+ORD_E_INVOICE,"Date when the items were fulfilled. Populated based on the fulfillment detail fulfillment date. If multiple fulfillment details are invoiced together, then the invoice fulfillment date is set to the latest of all fulfillment detail dates.Included in the invoice tax request and used by the third party tax engine to determine taxability.",FULFILLMENT_DATE
+ORD_E_INVOICE,Indicates the number of times an Invoice has been published as Sales Posting Message.,PUBLISH_COUNT
+ORD_E_INVOICE,Indicates transaction id under which this orderline is captured. eg Adding more store sale lines in existing order while customer comes to pick up in a store.,TRANSACTION_REFERENCE_ID
+ORD_E_INVOICE,"Unique identifier of the shipment invoice id, as defined by external system.",ORIGINAL_INVOICE_ID
+ORD_E_INVOICE,This field indicates a unique sequential einvoice number required for tax and audit purposes. This is generated either using next up number configuration provided by framework or by implementing a User exit,EXTERNAL_INVOICE_ID
+ORD_E_INVOICE,The unique Id returned by an External system to acknowledge the receipt of the eInvoice.,JSON_STORE
+ORD_E_INVOICE,Field on the entity to store purge date ,PURGE_DATE
+ORD_E_INVOICE,Indicates if the invoice has been published to external systems,PUBLISH_STATUS_ID
+ORD_E_INVOICE,Type of invoice,INVOICE_TYPE
+ORD_ORDER_PROMOTION_REQUEST,Unique business key of the Promotion Request Entity.,PROMOTION_REQUEST_ID
+ORD_ORDER_PROMOTION_REQUEST,Unique identifier of the Promotion Id. It will be used for Capture promotion or coupon id manually provided by Customer or CSR..,PROMOTION_ID
+ORD_ORDER_PROMOTION_REQUEST,If a promotion or coupon is invalid the value would be set to true.,IS_INVALID
+ORD_ORDER_PROMOTION_REQUEST,This field is to identify the promotion type of the coupon/offernumber,PROMOTION_TYPE
+ORD_ORDER_PROMOTION_REQUEST,Field on the entity to store purge date ,PURGE_DATE
+ORD_ORDER_PROMOTION_REQUEST,Placehoder to capture the reason if promotion request is invalid,INVALID_REASON_ID
+ORD_RETURN_TRACKING_DETAIL,Tracking number of the return shipment. Used to track return packages. Generated by the carrier such as FedEx or UPS.,RETURN_TRACKING_NUMBER
+ORD_RETURN_TRACKING_DETAIL,"Carrier which should be used to return the order line e.g. Fedex, UPS etc",CARRIER_CODE
+ORD_RETURN_TRACKING_DETAIL,Human readable text value of the barcode generated for printerless returns,JSON_STORE
+ORD_RETURN_TRACKING_DETAIL,"Barcode format for printerless returns e.g QR code, Data Matrix barcode etc",JSON_STORE
+ORD_RETURN_TRACKING_DETAIL,Field on the entity to store purge date ,PURGE_DATE
+ORD_ORDER_TRACKING_INFO,Tracking number assigned to the package by the carrier. Used as the key to track packages in the third party carrier systems.,TRACKING_NUMBER
+ORD_ORDER_TRACKING_INFO,"Carrier used to ship the package. Used by the delivery tracking services to select which carrier tracking API to call. Populated based on the fulfillment detail carrier, which gets created as a result of a ship event received from execution systems such as WM.",CARRIER_CODE
+ORD_ORDER_TRACKING_INFO,Field not used. Reserved for future use in delivery tracking.,SCHEDULED_DATE
+ORD_ORDER_TRACKING_INFO,Estimated delivery date provided by the carrier like FedEx or UPS for delivering the package for the assigned tracking number. Used to display the ETA for each package in the call center UI.,ESTIMATED_DELIVERY_DATE
+ORD_ORDER_TRACKING_INFO,"Actual Ship Date provided by the fulfillment system like WMS for the assigned tracking number, when package is shipped from Distribution Center or Store.",SHIPPED_DATE
+ORD_ORDER_TRACKING_INFO,"Actual Delivery Date provided by the carrier like FedEx or UPS for the assigned tracking number, when package is delivered to destination address.",DELIVERED_DATE
+ORD_ORDER_TRACKING_INFO,Original estimated delivery date provided by the carrier like FedEx or UPS for delivering the package for the assigned tracking number.,ORIGINAL_EST_DELIVERY_DATE
+ORD_ORDER_TRACKING_INFO,Field on the entity to store purge date ,PURGE_DATE
+ORD_ORDER_TRACKING_INFO,"Status of the package. If status is Open, then the package is shipped but not yet delivered, so the delivery tracking service continues to make calls to the carrier tracking API to check the status of the package. If the status is Closed, then the package has been delivered, and no additional calls to the carrier tracking API are made.",PACKAGE_STATUS
+ORD_ORDER_TRACKING_DETAIL,"Unique identifier of the record. Can be imported, if an external system such as the carrier maintains a business key for each tracking detail. Otherwise, the system generates a unique hash using a combination of the date and status code.",TRACKING_DETAIL_ID
+ORD_ORDER_TRACKING_DETAIL,Date when the package was scanned. Displayed on the call center UI.,DATE
+ORD_ORDER_TRACKING_DETAIL,City where the package was scanned. Displayed on the call center UI.,CITY
+ORD_ORDER_TRACKING_DETAIL,State where the package was scanned. Displayed on the call center UI.,STATE
+ORD_ORDER_TRACKING_DETAIL,Postal code of the location where the package was scanned. Displayed on the call center UI.,POSTAL_CODE
+ORD_ORDER_TRACKING_DETAIL,Description of the status logged by the carrier. Saved for informational purposes and to display in the call center UI. For example: ''''Arrived at FedEx Location'''' or ''''Out for delivery''''.,STATUS_DESCRIPTION
+ORD_ORDER_TRACKING_DETAIL,"Status logged by the carrier. Saved for informational purposes, if the status is not delivered. If the status maps to delivered, then the corresponding quantity is moved to Delivered status and the header TrackingInfo record is closed.",STATUS
+ORD_ORDER_TRACKING_DETAIL,Country where the package was scanned. Displayed on the call center UI.,COUNTRY
+ORD_ORDER_TRACKING_DETAIL,"The statusSubType field represents the sub status of current status field.For example, Status ''''InTransit'''' represents the package InTransit milestone in broader perspective, the precise milestone can be captured in the field statusSubType. For example, if the item is out for delivery, the broader status represents package as InTransit but the statusSubType can be OutForDelivery.",STATUS_SUB_TYPE
+ORD_ORDER_TRACKING_DETAIL,Description of the field statusSubType.,STATUS_SUB_TYPE_DESCRIPTION
+ORD_ORDER_TRACKING_DETAIL,Field on the entity to store purge date ,PURGE_DATE
+ORD_ORDER_DISCOUNT_REQUEST,Unique business key of the Discount Request Entity.,ORDER_DISCOUNT_REQUEST_ID
+ORD_ORDER_DISCOUNT_REQUEST,This field is will have the capture Discount On,REFERENCE_ID
+ORD_ORDER_DISCOUNT_REQUEST,Sum of all discounts as part of discount request.,TOTAL_DISCOUNT
+ORD_ORDER_DISCOUNT_REQUEST,Field on the entity to store purge date ,PURGE_DATE
+ORD_ORDER_DISCOUNT_REQUEST,"This field will be utilized to record discounts on packages, item prices, and similar elements",DISCOUNT_ON
+ORD_ORDER_DISCOUNT_REQUEST,"If IsOverridden is true, this field includes the reason code associated with the override",REASON_ID
+ORD_ORDER_LINE_PROMISING_INFO,"Preferred Store Location for Allocation. Ship-to location ID, in case of ship to store, pick up in store, or any flow where the items are shipping to a destination which is configured as a location in the network",SHIP_FROM_LOCATION_ID
+ORD_ORDER_LINE_PROMISING_INFO,Preferred PO ID for Allocation ,PO_ID
+ORD_ORDER_LINE_PROMISING_INFO,Preferred PO Line ID for Allocation,PO_DETAIL_ID
+ORD_ORDER_LINE_PROMISING_INFO,Preferred ASN ID for Allocation,ASN_ID
+ORD_ORDER_LINE_PROMISING_INFO,Preferred ASN  Line ID for Allocation,ASN_DETAIL_ID
+ORD_ORDER_LINE_PROMISING_INFO,Indicates if the line has to be force allocated,IS_FORCE_ALLOCATE
+ORD_ORDER_LINE_PROMISING_INFO,Preferred Segment for Allocation,INVENTORY_SEGMENT_ID
+ORD_ORDER_LINE_PROMISING_INFO,Required Capacity to fulfill per unit of the Line Item,REQ_CAPACITY_PER_UNIT
+ORD_ORDER_LINE_PROMISING_INFO,Indicates consolidation of multiple items in a single facility,CONSOLIDATATION_LOCATION_ID
+ORD_ORDER_LINE_PROMISING_INFO,"Shipping an item through a facility which does direct-to-consumer shipments, if the fulfilling facility (e.g. vendor) doesn''t ship directly to customers",SHIP_THROUGH_LOCATION_ID
+ORD_ORDER_LINE_PROMISING_INFO,"Item attribute Valid values from sys code B 064 Provides additional level of tracking/allocation for Item inventory. For example, Finished Product, Raw Materials, etc",INVENTORY_TYPE_ID
+ORD_ORDER_LINE_PROMISING_INFO,"Indicates the current status of the item, For example, Out of Stock, In Stock, etc. Valid values from B 059 ",PRODUCT_STATUS_ID
+ORD_ORDER_LINE_PROMISING_INFO,Preferred Batch Number for Allocation,BATCH_NUMBER
+ORD_ORDER_LINE_PROMISING_INFO,Country of Origin,COUNTRY_OF_ORIGIN
+ORD_ORDER_LINE_PROMISING_INFO,"SKU attributes, WM only allocates inventory w/ matching SKU attributes",ITEM_ATTRIBUTE1
+ORD_ORDER_LINE_PROMISING_INFO,"SKU attributes, WM only allocates inventory w/ matching SKU attributes",ITEM_ATTRIBUTE2
+ORD_ORDER_LINE_PROMISING_INFO,"SKU attributes, WM only allocates inventory w/ matching SKU attributes",ITEM_ATTRIBUTE3
+ORD_ORDER_LINE_PROMISING_INFO,"SKU attributes, WM only allocates inventory w/ matching SKU attributes",ITEM_ATTRIBUTE4
+ORD_ORDER_LINE_PROMISING_INFO,"SKU attributes, WM only allocates inventory w/ matching SKU attributes",ITEM_ATTRIBUTE5
+ORD_ORDER_LINE_PROMISING_INFO,"Route identifier, if a merge route is specified for the order line. If no merge route is specified, then the system selects a route based on configuration. For example, if an external routing system determines that a merge route from DC1 to DC2 to customer should be used to deliver all units for the order line in a single package, then the route id should be passed in this field. This value acts as a matching criteria for merge route configured for an inventory location during promising.",EXTERNAL_ROUTE_ID
+ORD_ORDER_LINE_PROMISING_INFO,"Last Possible Delivery Date (LPDD) is the final date before which the orderline should be delivered to the customer, if it can not be delivered before Requested Delivery Date (RDD). If a line can’t be delivered on or before LPDD, order will be backordered.",LAST_POSSIBLE_DELIVERY_DATE
+ORD_ORDER_LINE_PROMISING_INFO,Flag to determine if the order has to be delivered asap or deliver on the requested delivery date.,IS_DELIVERY_BY_REQUESTED_DATE
+ORD_ORDER_LINE_PROMISING_INFO,"If passed in the orderline with a date and time, the orderline will be part of the continuous allocation process until then with its original priority. After this time, the orderline priority will be enhanced to the highest possible priority so that no other orderline can steel its inventory.",JSON_STORE
+ORD_ORDER_LINE_PROMISING_INFO,Field on the entity to store purge date),PURGE_DATE
+ORD_ORDER_LINE_PROMISING_INFO,Indicates whether all order lines with same fulfillment group needs to be fulfilled completely or partial. For ex:- CompleteSingleSource,STRATEGY_TYPE
+ORD_ORDER_LINE_SALES_ASSOCIATE,Unique identifier of order Line Sales Associate table,ORDER_LINE_SALES_ASSOCIATE_ID
+ORD_ORDER_LINE_SALES_ASSOCIATE,Associate Type e.g. Cashier or Sales Rep,ASSOCIATE_TYPE
+ORD_ORDER_LINE_SALES_ASSOCIATE,Associate id,ASSOCIATE_ID
+ORD_ORDER_LINE_SALES_ASSOCIATE,Field on the entity to store purge date),PURGE_DATE
+ITM_MANUFACTURING_ATTRIBUTE,Country of origin where the item is manufactured,COUNTRYOF_ORIGIN
+ITM_MANUFACTURING_ATTRIBUTE,"Unique UPC of the item, for the given vendor or country of origin. UPC should not be null if SIF application is used. SIF uses this UPC to identify the item if manufacturing attributes exist for an item.",UPC
+ITM_MANUFACTURING_ATTRIBUTE,Vendor location which uses the specified UPC,VENDOR_LOCATION_ID
+ITM_MANUFACTURING_ATTRIBUTE,Style number given by the vendor,VENDOR_STYLE_NUMBER
+ITM_MANUFACTURING_ATTRIBUTE,Quantity included in scan of specified barcode,SCAN_QUANTITY
+ITM_MANUFACTURING_ATTRIBUTE,Average Purchase Price  of the item,PURCHASE_PRICE
+ITM_MANUFACTURING_ATTRIBUTE,"Average Purchase Price Currency. example USD, INR, EUR etc.",PURCHASE_PRICE_CURRENCY_CODE
+ITM_MANUFACTURING_ATTRIBUTE,Vendor of the item.,VENDOR_ID
+ITM_MANUFACTURING_ATTRIBUTE,"To identify products or items a retailer sells, they need a unique number, and each number starts with a GS1 Company Prefix. A Company Prefix contains anywhere between 6 and 11 digits. This attribute in the Item Master is used to the define the Company Prefix Length of the respective Item. It''s used to generate the EPC ID to be ''burnt'' as part of the ''Encode RFID Tags'' functionality.",GS1_COMPANY_PREFIX_LENGTH
+ITM_ITEM,Unique identifier of the item.,ITEM_ID
+ITM_ITEM,Localized. Item season,SEASON
+ITM_ITEM,Season year,SEASON_YEAR
+ITM_ITEM,Localized. Item description,DESCRIPTION
+ITM_ITEM,Localized. Short description,SHORT_DESCRIPTION
+ITM_ITEM,Localized. Item style,STYLE
+ITM_ITEM,Localized. Item color,COLOR
+ITM_ITEM,Localized. Item size,SIZE
+ITM_ITEM,Indicates if item is a gift with purchase,IS_GIFTWITH_PURCHASE
+ITM_ITEM,Indicates if item is non-merchandise,IS_NON_MERCHANDISE
+ITM_ITEM,Localized. URL of the web page for the item,WEB_U_R_L
+ITM_ITEM,Localized. URI of the large image for the item,LARGE_IMAGE_U_R_I
+ITM_ITEM,Localized. URI of the small image for the item,SMALL_IMAGE_U_R_I
+ITM_ITEM,"Localized. Base unit of measure (UOM) of item. For SIF application, Base UOM is expected to be present for all items.",BASE_U_O_M
+ITM_ITEM,Indicates raw item dimension (unpackaged),LENGTH
+ITM_ITEM,Indicates raw item dimension (unpackaged),WIDTH
+ITM_ITEM,Indicates raw item dimension (unpackaged),HEIGHT
+ITM_ITEM,"Localized. Required if Length, Width, or Height is not null",DIMENSION_U_O_M
+ITM_ITEM,Indicates raw item weight (unpackaged),WEIGHT
+ITM_ITEM,"Localized. Required if Weight is not null.For SIF application, weight UOM is expected to be present for all items as it is essential for packing/carrier integration. Permitted values are LB,KG and OZS (case sensitive)",WEIGHT_U_O_M
+ITM_ITEM,Indicates raw item volume (unpackaged),VOLUME
+ITM_ITEM,Localized. Required if Volume is not null,VOLUME_U_O_M
+ITM_ITEM,Localized. Item department,STORE_DEPARTMENT
+ITM_ITEM,Indicates if the item has been recalled,IS_RECALLED
+ITM_ITEM,Reason for the item recall,REASON_ID
+ITM_ITEM,Localized. Item brand,BRAND
+ITM_ITEM,Indicates whether the item is a gift card or not,IS_GIFT_CARD
+ITM_ITEM,Localized. Used to categorize a group of item,PRODUCT_CLASS
+ITM_ITEM,Indicates if item can be scanned,IS_SCAN_ONLY
+ITM_ITEM,Indicates if item should be put in the queue or not,IS_DISCONTINUED
+ITM_ITEM,It is used to calculate Shipping and Handling charges when the rate basis for Shipping and Handling charges calculation is configured as Volumetric weight,VOLUMETRIC_WEIGHT
+ITM_ITEM,Localized. The sub class to which it belongs,PRODUCT_SUB_CLASS
+ITM_ITEM,Localized. Color image URI of the item.,COLOR_IMAGE_U_R_I
+ITM_ITEM,Item''s department number.,DEPARTMENT_NUMBER
+ITM_ITEM,Localized. Item''s department name.,DEPARTMENT_NAME
+ITM_ITEM,Sequence in which size is displayed,SIZE_SORT_SEQUENCE
+ITM_ITEM,Sequence in which color is displayed,COLOR_SORT_SEQUENCE
+ITM_ITEM,Indicates the item status of an item,ITEM_STATUS_ID
+ITM_ITEM,Size Category Identifier. Size category Id reference from the Size category entity.,SIZE_CATEGORY_ID
+ITM_ITEM,Indicates whether an item is tagged with RFID tag or not,IS_RFID_TAGGED
+ITM_ITEM,Indicates whether an item can shipped without packing.,SHIP_READY
+ITM_ITEM,"Critical Dimension 1 of an item that can be length, width or height to be used in store cubing.",CRITICAL_DIMENSION1
+ITM_ITEM,"Critical Dimension 1 of an item that can be length, width or height to be used in store cubing.",CRITICAL_DIMENSION2
+ITM_ITEM,"Critical Dimension 1 of an item that can be length, width or height to be used in store cubing.",CRITICAL_DIMENSION3
+ITM_ITEM,Extended Attribute,EXT_FLUS_CFINCLUSION
+ITM_ITEM,Extended Attribute,EXT_VENDOR_STYLE
+ITM_ITEM,Extended Attribute,EXT_FL_BOSS_BLOCK
+ITM_ITEM,Extended Attribute,EXT_FLUSCFEXCLUSIONCH
+ITM_ITEM,Extended Attribute,EXT_IS_CASELOT
+ITM_SELLING_ATTRIBUTES,Date after which item can be sold (street date),SELL_DATE
+ITM_SELLING_ATTRIBUTES,Tax code of item,TAX_CODE
+ITM_SELLING_ATTRIBUTES,Indicates if item is taxable. Not used for any taxability calculations for order lines. Can be used for custom calculations via user exit.,IS_TAXABLE
+ITM_SELLING_ATTRIBUTES,Indicates if tax can be exempted for the item,IS_TAX_EXEMPTABLE
+ITM_SELLING_ATTRIBUTES,Not active for transaction level override. Indicates if tax can be overridden for the item,IS_TAX_OVERRIDEABLE
+ITM_SELLING_ATTRIBUTES,Indicates if price can be overridden for the item,IS_PRICE_OVERRIDEABLE
+ITM_SELLING_ATTRIBUTES,Indicates if item is sold online,SOLD_ONLINE
+ITM_SELLING_ATTRIBUTES,Not active. Indicates if item is sold in stores,SOLD_IN_STORES
+ITM_SELLING_ATTRIBUTES,Indicates if item can be shipped to an address,SHIP_TO_ADDRESS
+ITM_SELLING_ATTRIBUTES,Indicates if item can be shipped to a store for customer pick up,SHIP_TO_STORE
+ITM_SELLING_ATTRIBUTES,Indicates if item can be picked up in a store,PICK_UP_IN_STORE
+ITM_SELLING_ATTRIBUTES,"Item which are digital goods are identified with this flag. Digital goods does not need any store or warehouse fulfillment process instead are fulfilled via email confirmation.  For example, e- gift card. ",DIGITAL_GOODS
+ITM_SELLING_ATTRIBUTES,Indicates if item is returnable at store locations,IS_RETURNABLE_AT_STORE
+ITM_SELLING_ATTRIBUTES,Indicates if item is returnable at DC locations,IS_RETURNABLE_AT_D_C
+ITM_SELLING_ATTRIBUTES,Indicates if item can be exchanged,IS_EXCHANGEABLE
+ITM_SELLING_ATTRIBUTES,Indicates if item requires activation (e.g. gift cards),ACTIVATION_REQUIRED
+ITM_SELLING_ATTRIBUTES,Indicates if item requires an activation value to be entered (e.g. variable value gift cards),VALUE_ENTRY_REQUIRED
+ITM_SELLING_ATTRIBUTES,Price status of the item,PRICE_STATUS_ID
+ITM_SELLING_ATTRIBUTES,Sell through level of the item,SELL_THROUGH
+ITM_SELLING_ATTRIBUTES,"Disposition of the item (e.g. Recalled, Active, Inactive)",DISPOSITION_ID
+ITM_SELLING_ATTRIBUTES,Indicates max amount for item,MAX_DISCOUNT
+ITM_SELLING_ATTRIBUTES,Indicates max percentage for item,MAX_DISCOUNT_PERCENTAGE
+ITM_SELLING_ATTRIBUTES,Not active. Indicates max amount of discount for item,MAX_DISCOUNT_AMOUNT
+ITM_SELLING_ATTRIBUTES,Indicates if item is discountable,IS_DISCOUNTABLE
+ITM_SELLING_ATTRIBUTES,"Indicates the date,time from when an item can be sold in a store or online",AVAILABLE_TO_SELL_DATE_TIME
+ITM_SELLING_ATTRIBUTES,"The tax department number corresponds to the VAT rate and applicable to fiscal requirements. For Italy, we need to pass on this taxDepartment to the printer so that it can calculate taxes. For ex: taxDepartment 1 means 22%, 2 means 10% and so on.",TAX_DEPARTMENT
+ITM_ITEM_EXTENSION1,Unique Identifier for the itemExtension1,ITEM_EXTENSION1_ID
+ITM_ITEM_CODE,"Primary UPC, Case UPC, GTIN, EAN, Shared UPC",CODE_TYPE_ID
+ITM_ITEM_CODE,"Primary UPC, Case UPC, GTIN, EAN, Shared UPC [Will be Removed]",TYPE
+ITM_ITEM_CODE,Value of the item code,VALUE
+ITM_ITEM_CODE,"To identify products or items a retailer sells, they need a unique number, and each number starts with a GS1 Company Prefix. A Company Prefix contains anywhere between 6 and 11 digits. This attribute in the Item Master is used to the define the Company Prefix Length of the respective Item. It''s used to generate the EPC ID to be ''burnt'' as part of the ''Encode RFID Tags'' functionality.",GS1_COMPANY_PREFIX_LENGTH
+ITM_VALUE_ADDED_SERVICES,Type of Value Added Service (VAS) supported by the item,VALUE_ADDED_SERVICE_TYPE_ID
+ITM_HANDLING_ATTRIBUTES,Indicates if the Item is Hazardous or not,IS_HAZMAT
+ITM_HANDLING_ATTRIBUTES,Hazardous Material code of the item,HAZMAT_CODE
+ITM_HANDLING_ATTRIBUTES,Indicates if the item is parcel or non parcel item,IS_PARCEL_SHIPPING_ALLOWED
+ITM_HANDLING_ATTRIBUTES,Indicates if the item can be air shipped or not,IS_AIR_SHIPPING_ALLOWED
+ITM_HANDLING_ATTRIBUTES,Indicates if the item is frozen item or not,IS_FROZEN
+ITM_HANDLING_ATTRIBUTES,Indicates processing time to fulfill an item from order create to shipment in the fulfillment center,FULFILLMENT_PROCESSING_TIME
+ITM_ITEM_ATTRIBUTE,Attribute type (e.g. Print),TYPE
+ITM_ITEM_ATTRIBUTE,Localized. Attribute value,VALUE
+CI_INTERACTION,Interaction id,INTERACTION_ID
+CI_INTERACTION,"Type of the interaction eg. social, phone, email",INTERACTION_TYPE
+CI_INTERACTION,Field on the entity to store purge date),PURGE_DATE
+CI_INTERACTION,Unique ID used to identify the customer,CUSTOMER_ID
+CI_INTERACTION,Unique ID used to identify the case associated,CASE_ID
+CI_INTERACTION,Order ID reference from order component,ORDER_ID
+CI_INTERACTION,Customer first name who created interactions,CUSTOMER_FIRST_NAME
+CI_INTERACTION,Customer last name who created interactions,CUSTOMER_LAST_NAME
+CI_INTERACTION,Location id where interaction is created,LOCATION_ID
+CI_INTERACTION,Store associate who created interactions,USER_ID
+CI_SOCIAL,Type of the social media from which feed is originated,SOCIAL_TYPE_ID
+CI_SOCIAL,Indicates message ID of the social media,MESSAGE_ID
+CI_SOCIAL,Indicate external social system page id from which feed is read,PAGE_ID
+CI_SOCIAL,Field on the entity to store purge date),PURGE_DATE
+CI_SOCIAL,Message posted on the social media,MESSAGE
+CI_SOCIAL,Unique ID used to identify the customer,CUSTOMER_ID
+CI_SOCIAL,Unique ID used to identify the case associated,CASE_ID
+CI_SOCIAL,Indicates notes associated to interactions ,NOTE
+CI_SOCIAL,Indicates user id provided by the social media,SOCIAL_USER_ID
+CI_SOCIAL,Indicates number of social users liked the message,NUM_OF_LIKES
+ORG_USER,Unique identifier of user,USER_ID
+ORG_USER,Identifier of the root organization.,PRIMARY_ORG_ID
+ORG_USER,First name of the user,FIRST_NAME
+ORG_USER,Last name of the user,LAST_NAME
+ORG_USER,Password of the user,PASSWORD
+ORG_USER,Indicates if user is active. Default set to true,IS_ACTIVE
+ORG_USER,Gender of the use,GENDER
+ORG_USER,Additional email id of the user.,EMAIL2
+ORG_USER,Represents user default timezone,USER_TIME_ZONE
+ORG_USER,Password Reset Date Time,PASSWORD_RESET_DATE_TIME
+ORG_USER,Password Token,PASSWORD_TOKEN
+ORG_USER,Comma-separated security questions Id for security questions password reset,PWD_RESET_SECURITY_QUESTIONS
+ORG_USER,Date and time when the password was set/reset,PASSWORD_UPDATED_DATE_TIME
+ORG_USER,Remaining number of days for password to expire. Value of 0 indicates that the password has expired. Value of -1 indicates that the password would never expire,PASSWORD_EXPIRY
+ORG_USER,This flag indicates that the user must clock in using application to access the feature functions,MUST_CLOCK
+ORG_USER,This flag indicates whether the user has access to all business units,HAS_ACCESS_TO_ALL_B_US
+ORG_USER,This flag indicates whether the user has access to all locations,HAS_ACCESS_TO_ALL_LOCATIONS
+ORG_USER,Image URL reference for the user,IMAGE_URL
+ORG_USER,Start date for user,START_DATE
+ORG_USER,End date for user,END_DATE
+ORG_USER,User locale.,LOCALE_ID
+ORG_USER,User type of the user,USER_TYPE_ID
+ORG_USER,User account type,ACCOUNT_TYPE_ID
+ORG_USER,Identity type of the user,IDENTITY_TYPE_ID
+CUS_CUSTOMER,Unique identifier for the customer,CUSTOMER_ID
+CUS_CUSTOMER,Attribute to store the first name of the customer,FIRST_NAME
+CUS_CUSTOMER,Attribute to store the last name of the customer,LAST_NAME
+CUS_CUSTOMER,Attribute to store the phone number of the customer,PHONE
+CUS_CUSTOMER,Attribute to store the primary email ID of the customer,EMAIL
+CUS_CUSTOMER,"This property is used to categorize the customers based on various factors  known as customer type. For example, if a loyal customer is eligible for a special discount, then this customer will belong to a customer type called ''Gold''. Other customers would belong to a customerType ''Regular''. This attribute will enable to decide which of the priceListId to use while pricing an order for the customer ",CUSTOMER_TYPE
+CUS_CUSTOMER,Attribute to store the customer''s gender. This information will be used to filter items for the customer,GENDER
+CUS_CUSTOMER,Attribute to store customer''s anniversary date. This information will be used in customer engagement,ANNIVERSARY_DATE
+CUS_CUSTOMER,Attribute to store the customer''s birthday. This information will be used in customer engagement,BIRTHDAY
+CUS_CUSTOMER,"Indicates if the customer is active. The customer could be masked as inactive by the system, if another instance exists for the same customer, in which case, only one of the instances will be kept as active, and the remaining are kept as inactive",IS_ACTIVE
+CUS_CUSTOMER,"Date of customer creation, from external system",EXTERNAL_CREATED_DATE
+CUS_CUSTOMER,"Date of customer update, from external system",EXTERNAL_LAST_UPDATED_DATE
+CUS_CUSTOMER,Attribute to store the Tax exemption ID. Will be used to waver any tax if the customer is eligible for it,TAX_EXEMPT_ID
+CUS_CUSTOMER,Date since the customer has been with the retailer,CUSTOMER_SINCE_DATE
+CUS_CUSTOMER,Note description if captured by CSR during activating and deactivating customers.,NOTES
+CUS_CUSTOMER,This attribute is to capture the loyalty number of the customer. This data can be used in user exits to validate with 3rd party application and come back with rewards to the customer.,LOYALTY_NUMBER
+CUS_CUSTOMER,To capture the company/business name of the customer. Ideally this field can be used as identification along with businessTaxId during taxation.,BUSINESS_NAME
+CUS_CUSTOMER,"If the customer is running a company or business and desires to carry out taxable transactions without having a permanent establishment, you will need to obtain an TaxId or intra-community VAT number in that region. Without this TaxId or number, you will not be able to exercise your taxable activity in some regions/countries.",BUSINESS_TAX_ID
+CUS_CUSTOMER,"Tax Id of the customer. If the customer is running a company/business and desires to carry out taxable transactions without having a permanent establishment, you will need to obtain an TaxId or intra-community VAT number in that region. Without this TaxId or number, you will not be able to exercise your taxable activity in some regions/countries.",TAX_ID
+CUS_CUSTOMER,This attribute is used to store the employee id so that a customer can be linked to specific employee record.,EMPLOYEE_ID
+CUS_CUSTOMER,This attribute is used to store the locationId of where a customer was created. Not needed if created online or via contact center.,CUSTOMER_CREATION_LOCATION
+CUS_CUSTOMER,"Every customer is identified by a status by their retailer based on customer transactions, loyalty and so on. Most retailers use precious metals to identify their customers.",STATUS
+CUS_CUSTOMER,Different types of reason codes which CSR would use while activating and de-activating customers,ACTIVATION_REASON_ID
+CUS_CUSTOMER,"This attribute determines the category of customer. For example: B2B (Business to Business), B2C (Business To Consumer) etc.",CUSTOMER_CATEGORY
+CUS_SOCIAL_ACCOUNT,Social user id generated and provided by social media,SOCIAL_USER_ID
+CUS_SOCIAL_ACCOUNT,"Social Type indicates social media like Facebook, Twitter, FB messenger",SOCIAL_TYPE
+CUS_ACTIVATION_HISTORY,"Unique identifier for the entity, it''s a business key for the table used for table create and update",ACTIVATION_HISTORY_ID
+CUS_ACTIVATION_HISTORY,Note description if captured by CSR during activating and deactivating customers.,NOTES
+CUS_ACTIVATION_HISTORY,Different types of reason codes which CSR would use while activating and de-activating customers,REASON_CODE_ID
+PAY_PAYMENT_HEADER,Identifier of the order for which payment needs to be processed.,ORDER_ID
+PAY_PAYMENT_HEADER,"Identifier of the order payment group, or group of items within an order, for which payment needs to be processed. Payment groups are required for scenarios where item(s) on an order need to relate to specific payment method(s) on the order.",PAYMENT_GROUP_ID
+PAY_PAYMENT_HEADER,Field on the entity to store purge date),PURGE_DATE
+PAY_PAYMENT_HEADER,"Identifier of the customer associated with the order. Used to retrieve customer information during the payment gateway request. For example, if customer email address is required for a third party payment gateway to process e-gift cards, then the customer id is used via user exit which retrieves customer information.",CUSTOMER_ID
+PAY_PAYMENT_HEADER,"Indicates if an order has been cancelled or post voided. If true, then the payment component attempts to void each payment method on the order by reversing authorizations, voiding or refunding settlements, and voiding refunds. For cash-based payment methods, the payment component creates an open void transaction which must be closed by a system such as POS which can issue or accept cash payments. For digital payments like credit cards, the payment component can execute void transactions by sending them to the gateway.",IS_CANCELLED
+PAY_PAYMENT_HEADER,"Unique alternate identifier of order, as defined by external system",JSON_STORE
+PAY_PAYMENT_HEADER,Indicates if the paymentHeader had its customer info masked,IS_ANONYMIZED
+PAY_PAYMENT_HEADER,"Status of the order within the payment lifecycle. Payment status progresses from Awaiting Authorization to Authorized, then Awaiting Settlement to Paid, then Awaiting Refund to Refunded. Status is updated each time a payment method or transaction is updated, or when the book or debit columns are updated.",STATUS
+PAY_PAYMENT_METHOD,"Unique identifier of the payment as defined by an external system. If not defined by external system, then defined by the payment component.",PAYMENT_METHOD_ID
+PAY_PAYMENT_METHOD,Currency in which the payment is processed,CURRENCY_CODE
+PAY_PAYMENT_METHOD,"Currency in which the payment is given used to invoke currency conversion. For example, if a customer at a US-Canada  border store pays in25 CAD but the store''s base currency is USD, then the payment method is saved with alternate currency amount = 25, alternate currency code = CAD, and currency code = USD. Upon saving this payment method, the payment component converts the CAD to USD and updates the amount field with the value in USD and the conversion rate field with the conversion rate used for the calculation.",ALTERNATE_CURRENCY_CODE
+PAY_PAYMENT_METHOD,Conversion rate from the alternate currency to the payment header currency. Used for currency conversion and audit of what the conversion rate was at the time of purchase.,CONVERSION_RATE
+PAY_PAYMENT_METHOD,"Amount provided in the alternate currency. For example, if a customer at a US-Canada  border store pays in25 CAD but the store''s base currency is USD, then the payment method is saved with alternate currency amount = 25, alternate currency code = CAD, and currency code = USD. Upon saving this payment method, the payment component converts the CAD to USD and updates the amount field with the value in USD and the conversion rate field with the conversion rate used for the calculation.",ALTERNATE_CURRENCY_AMOUNT
+PAY_PAYMENT_METHOD,"Account number. For credit cards, e-check, etc., this is the payment token. Used for processing payments in the third party payment gateway.",ACCOUNT_NUMBER
+PAY_PAYMENT_METHOD,Account number text which is displayed in UIs For example: ''Visa ending in 1111''.,ACCOUNT_DISPLAY_NUMBER
+PAY_PAYMENT_METHOD,Name printed on the card. Used for processing payments in the third party payment gateway.,NAME_ON_CARD
+PAY_PAYMENT_METHOD,Data captured from the card swipe,SWIPE_DATA
+PAY_PAYMENT_METHOD,"Month in which card expires (e.g. 1 for January, 11 for November). Used for processing payments in the third party payment gateway.",CARD_EXPIRY_MONTH
+PAY_PAYMENT_METHOD,Four-digit year in which card expires. Used for processing payments in the third party payment gateway.,CARD_EXPIRY_YEAR
+PAY_PAYMENT_METHOD,Gift card PIN number. Used for processing payments in the third party payment gateway. Not required for all gift card payments.,GIFT_CARD_PIN
+PAY_PAYMENT_METHOD,Signature captured at the point of sale. Stored for informational purposes only.,CUSTOMER_SIGNATURE
+PAY_PAYMENT_METHOD,Signature captured at the point of sale in the device.,CUSTOMER_PAY_SIGNATURE
+PAY_PAYMENT_METHOD,"Amount customer is provided in change, for cash payments. Used for audit purposes. For example, if the customer pays with $20 for  $12 order, then change amount should be saved as $8.",CHANGE_AMOUNT
+PAY_PAYMENT_METHOD,"Amount customer authorized to be charged to payment method if cash-based tender, then the amount paid.",AMOUNT
+PAY_PAYMENT_METHOD,"Amount currently authorized on the card. Increased when an authorization succeeds. Decreased when an authorization expires, when an authorization reversal is processed, or when a follow-on settlement is processed against an auth.",CURRENT_AUTH_AMOUNT
+PAY_PAYMENT_METHOD,Amount settled against the card. Increased when a settlement succeeds. Decreased when a refund is processed.,CURRENT_SETTLED_AMOUNT
+PAY_PAYMENT_METHOD,Amount refunded to the card. Increased when a refund succeeds.,CURRENT_REFUND_AMOUNT
+PAY_PAYMENT_METHOD,"Sequence in which the payment should be applied, if multiple payments exist on the order and a split shipment occurs. Payments are processed using charge sequence ascending. This attribute is only used if the payment configuration charge sequence is a tie. For example, if a customer pays with a Visa with charge sequence 1 and a Mastercard with charge sequence 2, then if one unit ships, the Visa is charged first.",CHARGE_SEQUENCE
+PAY_PAYMENT_METHOD,"Indicates if the payment method is suspended. Payment methods can be suspended when a customer requests that the card is not used for future payments. Suspending a card does not affect settlements or refunds which have already been processed, but it deletes any open authorization or settlement transactions. When a payment method is suspended, the customer should provide a new payment method to be used for any remaining balance due. When a payment method is suspended, it is not considered by the payment module when selecting payment methods to authorize or settle against. Suspended payment methods are eligible for refund.",IS_SUSPENDED
+PAY_PAYMENT_METHOD,"Indicates the mode in which payment is captured, such as web or assisted selling. Included on the payment gateway request and used by the gateway to process the payment.",ENTRY_TYPE_ID
+PAY_PAYMENT_METHOD,"ID of the payment gateway used to process the payment. If multiple payment gateways are supported across channels, then this field indicates which payment gateway is used for follow-on transactions.",GATEWAY_ID
+PAY_PAYMENT_METHOD,"Bank routing number. Required if the payment method is e-check or paper check, and used in the payment gateway request. For other payment methods, this attribute is not included in the payment gateway request.",ROUTING_NUMBER
+PAY_PAYMENT_METHOD,"Bank routing number text to be displayed in the call center UI, if the payment method is e-check or paper check. This attribute is not included in any payment gateway requests.",ROUTING_DISPLAY_NUMBER
+PAY_PAYMENT_METHOD,Check number. Required if the payment method is paper check.,CHECK_NUMBER
+PAY_PAYMENT_METHOD,Driver''s license number. Required if the payment method is e-Check. Included in the payment gateway request and used for validation.,DRIVERS_LICENSE_NUMBER
+PAY_PAYMENT_METHOD,State/province of the driver''s license. Required if the payment method is e-Check. Included in the payment gateway request and used for validation.,DRIVERS_LICENSE_STATE
+PAY_PAYMENT_METHOD,Country of the driver''s license. Required if the payment method is e-Check. Included in the payment gateway request and used for validation.,DRIVERS_LICENSE_COUNTRY
+PAY_PAYMENT_METHOD,"Name of the business, if a business checking or savings account is being used for an e-check payment method. Included in the payment gateway request and used for validation.",BUSINESS_NAME
+PAY_PAYMENT_METHOD,"Tax identification number of the business, if a business checking or savings account is being used for an e-check payment method. Included in the payment gateway request and used for validation.",BUSINESS_TAX_ID
+PAY_PAYMENT_METHOD,"Quantity of checks given, in case of traveler''s check. Used for audit purposes.",CHECK_QUANTITY
+PAY_PAYMENT_METHOD,"Amount originally authorized to be paid, if the amount has since been updated. Updated when an order total decreases. For example, if a customer provided a credit card for a $100 order but later called to add a coupon, reducing the order total to $80, then the original amount is $100 and the amount is $80.",ORIGINAL_AMOUNT
+PAY_PAYMENT_METHOD,Indicates if the payment method can be edited,IS_MODIFIABLE
+PAY_PAYMENT_METHOD,Amount currently failed,CURRENT_FAILED_AMOUNT
+PAY_PAYMENT_METHOD,"Identifies the parent order from which the payment method is copied, in case of returns. For a pure return, the payment method is copied to the return order to issue a refund against the original settlement. For an exchange, the payment method is copied to be used as return credit for exchange item(s). For example, if a return line is created against an order line from order id 1001, then the return order payment method will reference parentOrderId 1001.",PARENT_ORDER_ID
+PAY_PAYMENT_METHOD,"Identifies the payment group of the parent payment method which is being copied, in case of returns. For example, if a return line is created against an order which has payment method id PM01 which is part of payment group A, then the return order payment method will reference parentPaymentGroup A.",PARENT_PAYMENT_GROUP_ID
+PAY_PAYMENT_METHOD,"Identifies the parent payment method which is being copied, in case of returns. For a pure return, the payment method is copied to the return order to issue a refund against the original settlement. For an exchange, the payment method is copied to be used as return credit for exchange item(s). For example, if a return line is created against an order which has payment method id PM01, then the return order payment method will reference parentPaymentMethodId PM01.",PARENT_PAYMENT_METHOD_ID
+PAY_PAYMENT_METHOD,"Indicates if a payment method is voided. Used when a payment method is removed from an order during a POS transaction or in case of a cancellation or post void. When isVoided is updated to true, a void transaction is attempted against any successful settlement and refund transactions. If the void against a settlement fails, then a refund is immediately attempted. If the void against a refund fails, then manual intervention is required to capture a new payment method.",IS_VOIDED
+PAY_PAYMENT_METHOD,"Indicates if a payment method is copied from the parent order, in case of returns. When a return is created, return credit is carried from the original order to the return order by copying a payment method and settlement transactions to the return order. Only settlements which are closed, successful, and valid for return are copied for a total processed amount equal to the return invoice total. These copied settlements are used for performing-follow on refunds in case of a pure return or an exchange where the exchange item value is less than the return item value.",IS_COPIED
+PAY_PAYMENT_METHOD,Account id indicates gateway configuration that is picked while contacting gateway for this payment method.,GATEWAY_ACCOUNT_ID
+PAY_PAYMENT_METHOD,"Location id indicates the location where operation is performed, also used to fetch gateway account information.",LOCATION_ID
+PAY_PAYMENT_METHOD,"Indicates the transaction/order number of the additional purchases during pick up. This is used to identify the payments done for those such items and UI to decide if certain actions be allowed or not. Example: Allow Void tender for the newly added payments, not the ones associated to original order.",TRANSACTION_REFERENCE_ID
+PAY_PAYMENT_METHOD,"Field indicates whether payment method is captured in edge mode. This is currently set by POS, when application is running in edge mode.  This value can be used to determine the follow on transaction processing mechanism. This will be used in followup",CAPTURED_IN_EDGE_MODE
+PAY_PAYMENT_METHOD,Gift card''s amount to be activated,MERCHANDISE_AMOUNT
+PAY_PAYMENT_METHOD,"The selling channel the payment was captured from. In most cases this is the same as the selling channel from the order, however, if for example, the order was captured in contact center but the payment was captured in Digital Self Service, the order and the payment will have a different source",CAPTURED_SOURCE
+PAY_PAYMENT_METHOD,The identifier of the payment method account owner. This is used by the payment provider to link tokenized payment information to the account holder when performing payment gateway transactions.,SHOPPER_REFERENCE
+PAY_PAYMENT_METHOD,"This attribute is used to persist the calculated amount value from outside the system. For example, if a retailer wants to display items that can be purchased from the available items in the cart based on the balance in the customer''s account.",SUGGESTED_AMOUNT
+PAY_PAYMENT_METHOD,Field on the entity to store purge date),PURGE_DATE
+PAY_PAYMENT_METHOD,"Identifier of the payment type. Used by the calculate and execute services to determine what type of payment transactions to create and whether third party payment gateway is required. For instance, when a cash payment method is saved, a closed, successful settlement is created and no gateway is called. When a credit card payment method is saved, an open auth is created and a gateway is called to process the auth.",PAYMENT_TYPE
+PAY_PAYMENT_METHOD,"Identifier of the card type. Used to further categorize Visa, Mastercard, and other card types within the payment type credit card.",CARD_TYPE
+PAY_PAYMENT_METHOD,"Account type, if the payment method is e-check or paper check. Included in the payment gateway request and used by the gateway to determine if the account is business checking, personal checking, etc.",ACCOUNT_TYPE
+PAY_PAYMENT_METHOD,"Identifies if a gift card is ready for payment or activation. If the value is Tender, the gift card is already activated and ready for a transaction. If the value is Merchandise, the gift card is not activated yet.",PAYMENT_CATEGORY
+PAY_BILLING_ADDRESS,Field on the entity to store purge date),PURGE_DATE
+PAY_PAYMENT_METHOD_ATTRIBUTE,Name of the field included in the corresponding value,NAME
+PAY_PAYMENT_METHOD_ATTRIBUTE,Value of the data specified by the corresponding name.,VALUE
+PAY_PAYMENT_METHOD_ATTRIBUTE,Field on the entity to store purge date),PURGE_DATE
+PAY_PAYMENT_TRANSACTION,"Unique identifier of the payment transaction, as defined by an external system. If not defined by an external system, then the payment component populates this field.",PAYMENT_TRANSACTION_ID
+PAY_PAYMENT_TRANSACTION,"Amount requested to be processed, as input by the customer. Used as a record of the requested amount as compared with the actual processed amount. For example, if a customer purchases a $200 item in store and pays using credit card, then a settlement transaction with $200 requested amount is sent to the gateway. If the gateway responds with a processed amount of only $50, then the requested amount remains $200 as a record of what was requested.",REQUESTED_AMOUNT
+PAY_PAYMENT_TRANSACTION,Identifier of the request sent to the payment processor. Populated by the payment gateway and used to uniquely identify the transaction in the third party system for any reconciliation or troubleshooting. Used to populate the followOnId for follow-on payment transactions.,REQUEST_ID
+PAY_PAYMENT_TRANSACTION,Unique token of the request sent to the payment processor. Populated by the payment gateway and used to uniquely identify the transaction in the third party system for any reconciliation or troubleshooting. Used to populate the followOnToken for follow-on payment transactions.,REQUEST_TOKEN
+PAY_PAYMENT_TRANSACTION,Timestamp that the request was sent to the payment gateway. Used for auditing purposes.,REQUESTED_DATE
+PAY_PAYMENT_TRANSACTION,"Identifier of the original requestId to be used for follow-on payment transactions. Populated only for follow-on transactions (settlements or refunds). For example, if an authorization has requestId A, then when a follow-on settlement is created, the settlement has followOnId A. Should not be populated for authorizations, standalone settlements, standalone refunds, or other transactions which are not follow-ons of an initial transaction.",FOLLOW_ON_ID
+PAY_PAYMENT_TRANSACTION,"Identifier of the original requestToken to be used for follow-on payment transactions. Populated only for follow-on transactions. For example, if an authorization has requestToken B, then when a follow-on settlement is created, the settlement has followOnToken B.",FOLLOW_ON_TOKEN
+PAY_PAYMENT_TRANSACTION,Timestamp that the transaction was processed by the payment gateway. Populated by the payment gateway. Used for auditing purposes.,TRANSACTION_DATE
+PAY_PAYMENT_TRANSACTION,"Expiration date of the transaction. Populated by the payment gateway. If not populated by the gateway, then populated using the payment configuration settlementExpiryDays or authorizationExpiryDays. Auth expiry days is used to mark an auth as expired and trigger re-authorization. Settlement expiry days is used to determine whether a follow-on refund can be performed if a settlement is expired, a standalone refund is performed.",TRANSACTION_EXPIRY_DATE
+PAY_PAYMENT_TRANSACTION,"Amount currently processed in the payment transaction If an authorization is reduced, this field contains the amount authorized in OM but is not indicative of the amount held by the bank.",PROCESSED_AMOUNT
+PAY_PAYMENT_TRANSACTION,"Amount from this transaction which has been used in follow-on transactions For example, the total amount which has been settled for an authorization transaction, or the total amount which has been refunded for a settlement transaction. Used to determine how much can be processed against this transaction. For example, if an authorization with $10 processed amount has $10 follow on processed amount, then this authorization cannot be used for further settlements.",FOLLOW_ON_PROCESSED_AMOUNT
+PAY_PAYMENT_TRANSACTION,"Number of attempts remaining for the transaction to be processed. Populated during transaction creation by reading the payment configuration. If connectivity to the gateway cannot be established and the responseStatus is unavailable, then the remaining attempts count is used to determine how many times the payment component can retry sending this transaction to the gateway. For example, if remainingAttempts is 2 and and unavailable response is received, then a new transaction is created with remainingAttempts = 1, and that transaction is sent. When remainingAttempts = 0, a transaction is not retried.",REMAINING_ATTEMPTS
+PAY_PAYMENT_TRANSACTION,"Number of follow-on payment transactions which exist against this parent payment transaction. Defaults to 0 if not included in the interface (e.g. for cash). Used for traceability. For example, if an authorization has two settlements, then the authorization followOnCount = 2.",FOLLOW_ON_COUNT
+PAY_PAYMENT_TRANSACTION,Reconciliation id provided by the payment gateway. Used for reconciling transactions between the payment component and the payment gateway.,RECONCILIATION_ID
+PAY_PAYMENT_TRANSACTION,"Response code of the payment transaction returned by the payment gateway. Unique to the gateway which processed the payment and used to gather further details about the outcome of a transaction. For each external response id, a description can be found in the gateway response mapping.",EXTERNAL_RESPONSE_ID
+PAY_PAYMENT_TRANSACTION,Reason code associated with the transaction,REASON_ID
+PAY_PAYMENT_TRANSACTION,"Indicates if a settlement transaction can be used for a follow-on refund. This flag is updated to false when a follow-on refund fails, or when a settlement is expired and the payment gateway does not support standalone refunds. For example, if a purchase is made on January 1 using a credit card, then the settlement expiry date is calculated as April 1 based on the gateway. When the customer returns the item on September 1, then because the settlement is expired, payment checks if the gateway supports standalone refunds. If not, then this flag is set to false on the settlement so that it does not get picked up for future refunds.",IS_VALID_FOR_REFUND
+PAY_PAYMENT_TRANSACTION,"Indicates if a new authorization should be created in case settlement fails. Used in PayPal flows when settlement is executed after the authorization honor period, in which case a new authorization must be secured before settling. For example, if the honor period is 3 days and an authorization is secured on Monday, then when the order ships on Friday, a settlement is executed against the auth. The response from PayPal indicates that settlement failed and a new authorization is required, so this flag is set to true on the failed settlement. Payment reads this flag and immediately creates a new authorization for the open amount remaining on the payment method. After securing a new auth, the settlement is executed against this auth.",RE_AUTH_ON_SETTLEMENT_FAILURE
+PAY_PAYMENT_TRANSACTION,"Indicates if a payment transaction is active and available for use. This is a read-only attribute which is true by default. This field is updated to false when an authorization expires. Payment transactions with isActive set to false are ignored for all payment processes, including follow-on settlements, payment summary updates, payment method updates, and payment status.",IS_ACTIVE
+PAY_PAYMENT_TRANSACTION,"Remaining account balance for gift card and store credit payments. Used for display and informational purposes. The remaining balance is populated in balance check transactions based on the payment gateway response. For example, if requested amount is 10 and account balance is 5, then remaining balance is 0. If requested amount is 10 and account balance is 100, then remaining balance is 90.",REMAINING_BALANCE
+PAY_PAYMENT_TRANSACTION,"Indicates if a transaction is copied from the parent order, in case of returns. When a return is created, return credit is carried from the original order to the return order by copying a payment method and settlement transactions to the return order. Only settlements which are closed, successful, and valid for return are copied for a total processed amount equal to the return invoice total. These copied settlements are used for performing-follow on refunds in case of a pure return or an exchange where the exchange item value is less than the return item value.",IS_COPIED
+PAY_PAYMENT_TRANSACTION,"The time at which this transaction is schedule for execution. When the payment scheduler picks up open transactions and sends them to the payment gateway for execution, it picks up transactions which have a scheduledTimestamp which is in the past or null. This timestamp is populated based on the paymentConfiguration table for the selected payment rule. For example, if the payment configuration attribute is set to 3 hours and a transaction is created on January 1 at 1:00 PM, then the scheduled timestamp is set to January 1 at 4:00 PM. ",SCHEDULED_TIMESTAMP
+PAY_PAYMENT_TRANSACTION,Order against which the payment transaction is processed. This is used to group transactions by order when executing open payment transactions.,ORDER_ID
+PAY_PAYMENT_TRANSACTION,Order payment group against which the payment transaction is processed. This is used to group transactions by payment group when executing open payment transactions. ,PAYMENT_GROUP_ID
+PAY_PAYMENT_TRANSACTION,"This field is populated with the number generated by payment collecting devices like MX terminal, when it processes the payment internally,  if it is SAF enabled. This takes place when it is unable to get the payment processed by interacting with payment processes.  This field is relevant to  Point of Sale (POS), where payment devices are in use.",STORE_AND_FORWARD_NUMBER
+PAY_PAYMENT_TRANSACTION,"Indicates if a refund transaction is a gift card activation transaction. For example, if a customer returns an item and is issued a refund in the form of a new gift card, then an activation transaction is processed in the payment gateway to issue the new gift card, and a refund payment transaction is saved with isActivation = true. This differs from transactions with transaction type Activation, which is used to represent the purchasing of a gift card item and activation of the card, as opposed to activating a new gift card for a refund. This field is informational and does not affect the payment calculations.",IS_ACTIVATION
+PAY_PAYMENT_TRANSACTION,This flag indicates if the payment transaction is on hold from processing,ON_HOLD
+PAY_PAYMENT_TRANSACTION,Network transaction identifier that was returned for a previous authorization in the series. This field is supported only for merchant-initiated transactions. The value for this field was returned in the ccAuthReply_paymentNetworkTransactionID field in the reply message for either the original authorization in the series or the previous authorization in the series.,NETWORK_TRANSACTION_ID
+PAY_PAYMENT_TRANSACTION,A unique identifier for a given transaction,UNIQUE_TRANSACTION_ID
+PAY_PAYMENT_TRANSACTION,This flag indicates if the payment transaction is for Chargeback from the customer by the reatiler,IS_CHARGEBACK
+PAY_PAYMENT_TRANSACTION,"Timestamp in which the callback event has occured. This value will only be populated for gateway that uses callback to update the transaction status.  For example Adyen uses callback to update the payment transaction status. In most cases, this field and the payment transaction date will hold the same value, however, if the implementation requires any payment transaction to be closed prior to recieving the callback, these fields may hold different valeus for reporting purposes.",NOTIFICATION_TIMESTAMP
+PAY_PAYMENT_TRANSACTION,"Unique alternate identifier of order, as defined by external system",JSON_STORE
+PAY_PAYMENT_TRANSACTION,Field on the entity to store purge date),PURGE_DATE
+PAY_PAYMENT_TRANSACTION,Type of payment transaction. Used by the third party gateway to determine what type of transaction to process (e.g. settlement or refund). Used by payment to determine what updates are made to the payment summary.,TRANSACTION_TYPE
+PAY_PAYMENT_TRANSACTION,"Status of the transaction, indicating whether it is open, in progress, or closed. If open, a transaction has not yet been sent to the gateway. If in progress, a transaction has been sent to the gateway, but no response has been received. If closed, then a transaction has been processed by the gateway and the responseStatus can be used to see the outcome. Used to identify open transactions which need to be sent to the payment gateway, or in progress transactions which need to be reconciled.",STATUS
+PAY_PAYMENT_TRANSACTION,"Indicates the nature of the authorization payment transaction. Valid values are New Authorization, Advance Authorization and Reauthorization. This field will be populated only for transaction type Authorization.",AUTHORIZATION_TYPE
+PAY_PAYMENT_TRANSACTION,Indicates how the transaction is processed by the Payment component. Refer to the processing mode entity for details about each mode. This flag is read by the execute service to determine if a payment transaction should be picked up or ignored.,PROCESSING_MODE
+PAY_PAYMENT_TRANSACTION,"Response identifier E.g. Success, Failure, etc.",PAYMENT_RESPONSE_STATUS
+PAY_PAYMENT_TRANSACTION,"Status of the payment transaction message sent to third party payment processors. If status is open, then the transaction has not yet been sent to the gateway. If status is in progress, then the transaction has been sent but connectivity has not been established to the gateway. If status is closed, then connectivity to the gateway has been established.",TRANSMISSION_STATUS
+PAY_PAYMENT_TRANSACTION,"Indicates mode in which customer is interacting with the retailer. Used to automatically create a case if interaction mode is CustomerNotPresent and an authorization transaction fails. For example, if a scheduled re-authorization job tries to authorize an order, and the authorization transaction fails, then a case is automatically created in the case management component so that a CSR can follow up.",INTERACTION_MODE
+PAY_PAYMENT_TRANSACTION,"Notification response status from gateway. This value should only be set by gateways which are using callback, and is used in base for responses processed through the callback endpoint. For example, Adyen uses callback to update the payment transaction status with the final response decision. In most cases, this field and the payment transaction status will hold the same value, however, if the implementation requires any payment transaction to be closed prior to recieving the callback, these fields may hold different valeus for reporting purposes.",NOTIFICATION_STATUS
+PAY_PARENT_TRANSACTION,Parent payment method against which the follow-on transaction is processed.,PARENT_PAYMENT_METHOD_ID
+PAY_PARENT_TRANSACTION,Parent payment transaction against which the follow-on transaction is processed.,PARENT_PAYMENT_TRAN_ID
+PAY_PARENT_TRANSACTION,Follow-on amount which is processed against the parent transaction.,AMOUNT
+PAY_PARENT_TRANSACTION,Field on the entity to store purge date),PURGE_DATE
+PAY_PAYMENT_TRANSACTION_DETAIL,Unique identifier of the payment transaction detail,PAYMENT_TRANSACTION_DETAIL_ID
+PAY_PAYMENT_TRANSACTION_DETAIL,"Reference identifier. If referenceTypeId is Invoice, then the referenceId is the invoiceId.",REFERENCE_ID
+PAY_PAYMENT_TRANSACTION_DETAIL,"Amount associated with the reference. Used to determine the amount from each invoice which is processed against a payment transaction. For instance, if a $100 shipment invoiceId ABC has $40 settled on credit card 1 and $60 settled on credit card 2, then the credit card 1 settlement has a record in this table with invoiceId ABC, amount $40, and the credit card 2 settlement record has a record in this table with invoiceId ABC, amount $60.",AMOUNT
+PAY_PAYMENT_TRANSACTION_DETAIL,Field on the entity to store purge date),PURGE_DATE
+PAY_PAYMENT_TRANSACTION_DETAIL,"Reference type identifier. If Invoice, then the transaction processed amount is used to update the invoice processed amount. Used to determine which invoices have been processed against which payment transactions.",REFERENCE_TYPE
+PAY_PAYMENT_TRAN_DETAIL_GROUP,Payment hint group name for which the parentPaymentTransactionDetail was created.,GROUP_NAME
+PAY_PAYMENT_TRAN_DETAIL_GROUP,Field on the entity to store purge date),PURGE_DATE
+PAY_PAYMENT_TRANSACTION_GROUP,Unique identifier of the group,GROUP_NAME
+PAY_PAYMENT_TRANSACTION_GROUP,Reference type identifier,GROUP_TYPE
+PAY_PAYMENT_TRANSACTION_GROUP,Amount associated with the group,AMOUNT
+PAY_PAYMENT_TRANSACTION_GROUP,Field on the entity to store purge date),PURGE_DATE
+PAY_PARENT_ORD_PAY_METHOD,"Identifier of the order for which payment needs to be processed. When payment processes a payment request, payment makes a get order details call for this order id and updates the payment summary accordingly.",PARENT_ORDER_ID
+PAY_PARENT_ORD_PAY_METHOD,"Identifier of the order payment group, or group of items within an order, for which payment needs to be processed.",PARENT_PAYMENT_GROUP_ID
+PAY_PARENT_ORD_PAY_METHOD,"Identifies the parent payment method from which the return credit has been borrowed. For example, if a return is created against an order which has payment method id PM01, then the return order payment method will reference PaymentMethodId PM01 if return credit was issued via a standalone return.",PARENT_PAYMENT_METHOD_ID
+PAY_PARENT_ORD_PAY_METHOD,"Amount of return credit which has been borrowed from the parent order. For example, if a $30 cash refund is issued on a return order, and the parent order was paid in $50 cash, then the return credit amount is $30. This creates a return credit transaction for $30 against the $50 cash settlement, leaving $20 available to be refunded in future transactions.",AMOUNT
+PAY_PARENT_ORD_PAY_METHOD,Field on the entity to store purge date),PURGE_DATE
+PRC_ITEM_PRICE,"External unique identifier of the price, can be used during imports of prices from external application. Generated by system, if not specified on import.",PRICE_ID
+PRC_ITEM_PRICE,Field on the entity to store purge date),PURGE_DATE
+PRC_ITEM_PRICE,"List name for which the price record is applicable. Prices can be grouped into various lists based on various factors, such as SummerSaleList or GoldCustomerList etc.",LIST_ID
+PRC_ITEM_PRICE,"Identifier of the location, if location-specific pricing exists. If this property is populated, then the price is said to be a ''store price'' or a ''web price'' otherwise",LOCATION_ID
+PRC_ITEM_PRICE,"Identifier of the item. This property defines the itemId of the Item entity, for which the price is being saved",ITEM_ID
+PRC_ITEM_PRICE,"Indicates base price at which the item is sold this field is used for display only and is not used in calculations. However, It is used to compare with Sale price attribute to determine if item is on sale, which will be used in promotion evaluation.",BASE_PRICE
+PRC_ITEM_PRICE,Current selling price of the item price which the customer is charged,SELLING_PRICE
+PRC_ITEM_PRICE,Currency code for the price record,CURRENCY_CODE
+PRC_ITEM_PRICE,Date from which the price record is active,EFFECTIVE_START_DATE
+PRC_ITEM_PRICE,Date after which this Item Price will expire,EFFECTIVE_END_DATE
+PRC_ITEM_PRICE,Reserved for possible future use in base.,BEHAVIOR_AFTER_END_DATE
+PRC_ITEM_PRICE,Reserved for possible future use in base.,HAS_ALERTS
+PRC_ITEM_PRICE,Rank of the price if multiple active price records exist for an item then the lowest-ranked price is selected. Rank must be unique for an item-location combination.,RANK_X
+PRC_COMBO_PROMOTION_CONFIG,Unique name for the promotion within a profile. This name will be communicated to order to Id the promo,PROMO_ID
+PRC_COMBO_PROMOTION_CONFIG,Text describing promotion...full text for it,PROMO_DESC
+PRC_COMBO_PROMOTION_CONFIG,Short Text describing promotion...limited to 25 Characters from UI,PROMO_SHORT_DESC
+PRC_COMBO_PROMOTION_CONFIG,Short description of combo qualifier,PROMO_QUAL_SHORT_DESC
+PRC_COMBO_PROMOTION_CONFIG,"If non-blank, coupon code required to qualify for the promotion.",COUPON_CODE
+PRC_COMBO_PROMOTION_CONFIG,Event Id attached to the promo. This can help filter promotions attached to an event.,EVENT_ID
+PRC_COMBO_PROMOTION_CONFIG,Qualifying template type.  Used for directing the UI to show right fields,QUAL_TEMPLATE
+PRC_COMBO_PROMOTION_CONFIG,Target template type.  Used for directing the UI to show right fields,TARGET_TEMPLATE
+PRC_COMBO_PROMOTION_CONFIG,Benefit template type. Used for directing the UI to show right fields,BENEFIT_TEMPLATE
+PRC_COMBO_PROMOTION_CONFIG,Group code for the promotion. Stacking of promotions can be excluded within a group.Promotions are evaluated in sequence of their groups. Promotions across groups stack unless explicitly prevented by promotion exclusion codes,PROMO_GROUP
+PRC_COMBO_PROMOTION_CONFIG,Min amount of qualifying items to be eligible for the promotion,MIN_QUAL_AMOUNT
+PRC_COMBO_PROMOTION_CONFIG,Min units of qualifying items to be eligible for the promotion,MIN_QUAL_UNITS
+PRC_COMBO_PROMOTION_CONFIG,"If highest price item should be used for qualification. If set to false, lowest price item is selected",USE_HIGHEST_UNIT_PRICE_FOR_Q
+PRC_COMBO_PROMOTION_CONFIG,"Select individual units for qualifying for promotion. if set to false, the whole group is marked as used and will not be eligible for any other promotion",UNIT_LEVEL_QUAL_SELECTION
+PRC_COMBO_PROMOTION_CONFIG,Indicates if items that are used for qualification should be excluded for targeting,EXCLUDE_QUAL_FROM_TARGET
+PRC_COMBO_PROMOTION_CONFIG,Min unit price of an item for it to be considered as qualifying purchase,MIN_UNIT_PRICE_FOR_QUAL
+PRC_COMBO_PROMOTION_CONFIG,Maximum unit price of an item for it to be considered as qualifying purchase,MAX_UNIT_PRICE_FOR_QUAL
+PRC_COMBO_PROMOTION_CONFIG,Min unit price of an item for it to be considered as a target for promotion,MIN_UNIT_PRICE_FOR_TARGET
+PRC_COMBO_PROMOTION_CONFIG,Maximum unit price of an item for it to be considered as a target for promotion,MAX_UNIT_PRICE_FOR_TARGET
+PRC_COMBO_PROMOTION_CONFIG,Indicates if all items that qualify are automitically the target too,TARGET_SAME_AS_QUAL
+PRC_COMBO_PROMOTION_CONFIG,Max units to apply promotion to for each redemption of a promotion. Promotion can have multiple redemptions,MAX_TARGET_UNITS
+PRC_COMBO_PROMOTION_CONFIG,"Min units required to apply promotion to for each redemption of a promotion. If this many units are not available, no redemption will be done",MIN_TARGET_UNITS
+PRC_COMBO_PROMOTION_CONFIG,"Select individual units for targeting for promotion. if set to false, the whole group is marked as used and will not be eligible for any other promotion",UNIT_LEVEL_TARGET_SELECTION
+PRC_COMBO_PROMOTION_CONFIG,Use minimum target units required to apply promotion to allow remaining available for other promotions,MINIMIZE_TARGET_UNITS_USED
+PRC_COMBO_PROMOTION_CONFIG,"Promotiom amount is calculated at header level (e.g., shipping charge discount). It can still be pro-rated but no individual target units selected",HEADER_LEVEL_PROMO
+PRC_COMBO_PROMOTION_CONFIG,maximum number of redemptions for the promotion,MAX_REDEMPTIONS
+PRC_COMBO_PROMOTION_CONFIG,"Once promotion amount is calcualted, pro-rate it across qualifying and target units",PRORATE_ACROSS_QUAL_AND_TARGET
+PRC_COMBO_PROMOTION_CONFIG,Percentage amount to be applied as promotion. 0 indicates other types of benefits,BENEFIT_PERCENTAGE
+PRC_COMBO_PROMOTION_CONFIG,Fixed amount of discount to be applied to each target unit. $x off every unit,BENEFIT_FIXED_DISC_PER_UNIT
+PRC_COMBO_PROMOTION_CONFIG,results in a fixed price for each item. do something...get each of something for $x,BENEFIT_FIXED_PRICE_FOR_UNIT
+PRC_COMBO_PROMOTION_CONFIG,results in a fixed price for the group. do something...get the whole group for $x,BENEFIT_FIXED_PRICE_FOR_GROUP
+PRC_COMBO_PROMOTION_CONFIG,Target units are free,BENEFIT_FREE_UNIT
+PRC_COMBO_PROMOTION_CONFIG,A fixed discount is applied to the whole group. It will be pro-rated. do something get $20 off shirts,BENEFIT_FIXED_DISC_FOR_GROUP
+PRC_COMBO_PROMOTION_CONFIG,Promotion capped at this maximum amount for each redemption. 20% off. get upto $100 off your transaction,MAX_PROMO_AMOUNT
+PRC_COMBO_PROMOTION_CONFIG,Promotion capped at this maximum amount for each redemption. 20% off. get upto $100 off your transaction,MAX_TARGET_AMOUNT
+PRC_COMBO_PROMOTION_CONFIG,Currency code for the price record,CURRENCY_CODE
+PRC_COMBO_PROMOTION_CONFIG,Date from which the promotion is active,EFFECTIVE_START_DATE
+PRC_COMBO_PROMOTION_CONFIG,Date after which this Promotion will expire,EFFECTIVE_END_DATE
+PRC_COMBO_PROMOTION_CONFIG,"If set to true, this promotion is stacked on top of other promos in order of stacking sequence",STACKABLE
+PRC_COMBO_PROMOTION_CONFIG,Stacked promotions are applied in sequence and always apply on top price calculted after subtracting the previous applied promotion value. They always apply on current price. You can exclude sale items from consideration if so required but stackable promotions cannot be calculated using base price,STACK_SEQUENCE
+PRC_COMBO_PROMOTION_CONFIG,"If set to true, sale items will be considered for the promotion",INCLUDE_SALE_ITEMS
+PRC_COMBO_PROMOTION_CONFIG,This is a comma separated Promotion Id that are exception to the exlcude rules set above. Specific set of Promo ids can be called out that are allowed to be applied on top of these promos. * notation can be used to match any promo string. * matches all promos,EXCLUDE_EXCEPTIONS
+PRC_COMBO_PROMOTION_CONFIG,For order header level promotions..Typically this would be shipping charge. The charge type to use used as the promo discount,CHARGE_TYPE
+PRC_COMBO_PROMOTION_CONFIG,"Store group location id, indicating list of stores where this promo can be applied",PROMO_LOCATION_GROUP
+PRC_COMBO_PROMOTION_CONFIG,Indicates if items that are used for qualification in other promos should be excluded for qualification in this promotion,PRC_EX_OTHER_PROMO_Q_FROM_Q
+PRC_COMBO_PROMOTION_CONFIG,Indicates if items that are used for qualification in other promos should be excluded for targeting in this promotion,PRC_EX_OTHER_PROMO_Q_FROM_T
+PRC_COMBO_PROMOTION_CONFIG,Indicates if items that are used for targeting in other promos should be excluded for qualification in this promotion,PRC_EX_OTHER_PROMO_T_FROM_Q
+PRC_COMBO_PROMOTION_CONFIG,"Coupon can only be used X times per transaction - Integer, initial default 99. VALIDATION - deal record cannot be saved as null or 0.",COUPON_MAX_REDEMPTIONS
+PRC_COMBO_PROMOTION_CONFIG,"If this falg is false, then entering a coupon one time can trigger multiple applications of the deal associated to that coupon. For combo deal, this will be limited only by the maxRedemptions setting. if this setting is true,then if a specific coupon is entered X times into a transaction, the associated deal cannot be applied more than X times. X is dynamically determined transactionally by the number of times per transaction the coupon is added.",COUPON_USE_DRIVES_PROMO
+PRC_COMBO_PROMOTION_CONFIG,"This flag determines if the deal is eligible to be prompted as suggested deal when the defined criteria is met.  If this is not required, keep it false",ENABLE_PROMPTING
+PRC_COMBO_PROMOTION_CONFIG,This is the minimum transaction amount to be met for prompting the deal as a suggested one.,PRC_MIN_QUAL_PROMPT_TRANS_AMT
+PRC_COMBO_PROMOTION_CONFIG,Indicates the minimum number of qualifying units to be present  to suggest the deal.,PRC_MIN_QUALIFY_PROMPT_UNITS
+PRC_COMBO_PROMOTION_CONFIG,"If set to true, this promotion will be applied only on the units which qualified for this promotion",RESTRICT_TO_QUALIFIED_UNITS
+PRC_COMBO_PROMOTION_CONFIG,"If set to true, offer numbers will be generated for the deal",IS_OFFER_NUMBER_REQUIRED
+PRC_COMBO_PROMOTION_CONFIG,"If set to true, offer numbers will be generated by price promo component(RnD Base). If set to false, offer numbers will be generated by third party then will be imported to RnD Base.",IS_OFFER_NUMBER_GENERATED
+PRC_COMBO_PROMOTION_CONFIG,Indicates total number of offer numbers that will generated for the deal,COUNT_OF_OFFER_NUMBER
+PRC_COMBO_PROMOTION_CONFIG,Indicates total number of redemptions that can be given to offer number in its entire lifetime.,OFFER_NUMBER_MAX_REDEMPTIONS
+PRC_COMBO_PROMOTION_CONFIG,Contains a tag or a list of comma separated tags that user wants to assign to this deal. One use case of this assignment is that the tag will further define which deals to be excluded when this deal is applied based on the promo tag exclusions.,TAG_NAMES
+PRC_COMBO_PROMOTION_CONFIG,Timezone of effectiveStartDate and effectiveEndDate,TIME_ZONE
+PRC_COMBO_PROMOTION_CONFIG,Container reference number under which the offer number for the given promotion deal is created in the external system.,OFFER_REFERENCE_NUMBER
+PRC_COMBO_PROMOTION_CONFIG,"If true, it means this is a bounceback promotion",BENEFIT_BOUNCEBACK
+PRC_COMBO_PROMOTION_CONFIG,This holds the Bounceback coupon code or deal code. Deal code is provided when bounceback of is for issuing unique offer numbers.,BOUNCEBACK_CODE
+PRC_COMBO_PROMOTION_CONFIG,The bounceback coupon text that will be presented and printed on the receipt,BOUNCEBACK_DESC
+PRC_COMBO_PROMOTION_CONFIG,Apply on regular price,APPLY_ON_REGULAR_PRICE
+PRC_COMBO_PROMOTION_CONFIG,"If set to true, full price items will be considered for the promotion evaluation",INCLUDE_FULL_PRICE_ITEMS
+PRC_COMBO_PROMOTION_CONFIG,"If set to true, every redemption will be prorated on its own",PRORATE_PER_REDEMPTION
+PRC_COMBO_PROMOTION_CONFIG,Defines the type of Promotion. Used by UI to manage categorization of Promos and display them correctly.,PROMO_TYPE_ID
+PRC_COMBO_PROMOTION_CONFIG,Type of bounceback coupon that will be issued to the customer,BOUNCEBACK_COUPON_TYPE
+PRC_COMBO_ITEM_QUAL_EXCLUSIONS,Sequence of the qualifier. Each of the exclusion must be met for promotion to be eligible. Typically only one sequence should be set,SEQUENCE
+PRC_COMBO_ITEM_QUAL_EXCLUSIONS,Text describing the qualifiers,EXCLUSION_DESC
+PRC_COMBO_ITEM_QUAL_EXCLUSIONS,Set the type to longest text. This is a comma separated exclusion name:value pairs. It is treated as an OR between these name:value pairs,PROMO_CONDITION
+PRC_COMBO_ITEM_QUAL_EXCLUSIONS,Set the type to longest text. This is a comma separated qualifier name:value pairs. It is treated as an OR between these name:value pairs,PROMO_COND
+PRC_COMBO_EMPLOYEE_QUALIFIERS,Sequence of the qualifier. Each of the qualifier must be met for promotion to be eligible,SEQUENCE
+PRC_COMBO_EMPLOYEE_QUALIFIERS,Text describing the qualifiers,QUALIFIER_DESC
+PRC_COMBO_EMPLOYEE_QUALIFIERS,Set the type to longest text. This is a comma separated qualifier name:value pairs. It is treated as an OR between these name:value pairs,PROMO_CONDITION
+PRC_COMBO_EMPLOYEE_QUALIFIERS,Set the type to longest text. This is a comma separated qualifier name:value pairs. It is treated as an OR between these name:value pairs,PROMO_COND
+PRC_COMBO_CUSTOMER_QUALIFIERS,Sequence of the qualifier. Each of the qualifier must be met for promotion to be eligible,SEQUENCE
+PRC_COMBO_CUSTOMER_QUALIFIERS,Text describing the qualifiers,QUALIFIER_DESC
+PRC_COMBO_CUSTOMER_QUALIFIERS,Set the type to longest text. This is a comma separated qualifier name:value pairs. It is treated as an OR between these name:value pairs,PROMO_CONDITION
+PRC_COMBO_CUSTOMER_QUALIFIERS,Set the type to longest text. This is a comma separated qualifier name:value pairs. It is treated as an OR between these name:value pairs,PROMO_COND
+PRC_COMBO_ORDER_QUALIFIERS,Sequence of the qualifier. Each of the qualifier must be met for promotion to be eligible,SEQUENCE
+PRC_COMBO_ORDER_QUALIFIERS,Text describing the qualifiers,QUALIFIER_DESC
+PRC_COMBO_ORDER_QUALIFIERS,Set the type to longest text. This is a comma separated qualifier name:value pairs. It is treated as an OR between these name:value pairs,PROMO_CONDITION
+PRC_COMBO_ORDER_QUALIFIERS,Set the type to longest text. This is a comma separated qualifier name:value pairs. It is treated as an OR between these name:value pairs,PROMO_COND
+PRC_COMBO_ITEM_QUALIFIERS,Sequence of the qualifier. Each of the qualifier must be met for promotion to be eligible,SEQUENCE
+PRC_COMBO_ITEM_QUALIFIERS,Text describing the qualifiers,QUALIFIER_DESC
+PRC_COMBO_ITEM_QUALIFIERS,Set the type to longest text. This is a comma separated qualifier name:value pairs. It is treated as an OR between these name:value pairs,PROMO_CONDITION
+PRC_COMBO_ITEM_QUALIFIERS,Set the type to longest text. This is a comma separated qualifier name:value pairs. It is treated as an OR between these name:value pairs,PROMO_COND
+PRC_ITEM_ORDER_QUALIFIERS,Sequence of the qualifier. Each of the qualifier must be met for promotion to be eligible,SEQUENCE
+PRC_ITEM_ORDER_QUALIFIERS,Text describing the qualifiers,QUALIFIER_DESC
+PRC_ITEM_ORDER_QUALIFIERS,Set the type to longest text. This is a comma separated qualifier name:value pairs. It is treated as an OR between these name:value pairs,PROMO_CONDITION
+PRC_ITEM_ORDER_QUALIFIERS,Set the type to longest text. This is a comma separated qualifier name:value pairs. It is treated as an OR between these name:value pairs,PROMO_COND
+PRC_PROMOTION_TYPE,Unique id to identify promotion type( Item / Order /Customer / Payment),PROMO_TYPE_ID
+PRC_PROMOTION_TYPE,This field stores a numeric value for the promotion type which eventually maps to promoGroup in comboPromotionConfig,PROMO_TYPE_NUMERIC
+PRC_PROMOTION_TYPE,Description of the promotion type,DESCRIPTION
+PRC_ITEM_PROMOTION_CONFIG,Unique name for the promotion within a profile. This name will be communicated to order to Id the promo,PROMO_ID
+PRC_ITEM_PROMOTION_CONFIG,Text describing promotion...full text for it,PROMO_DESC
+PRC_ITEM_PROMOTION_CONFIG,Short Text describing promotion...limited to 25 Characters from UI,PROMO_SHORT_DESC
+PRC_ITEM_PROMOTION_CONFIG,"If non-blank, coupon code required to qualify for the promotion",COUPON_CODE
+PRC_ITEM_PROMOTION_CONFIG,Group code for the promotion. Stacking of promotions can be excluded within a group code,PROMO_GROUP
+PRC_ITEM_PROMOTION_CONFIG,Event Id attached to the promo. This can help filter promotions attached to an event,EVENT_ID
+PRC_ITEM_PROMOTION_CONFIG,Date from which the promotion is active,EFFECTIVE_START_DATE
+PRC_ITEM_PROMOTION_CONFIG,Date after which this Promotion will expire,EFFECTIVE_END_DATE
+PRC_ITEM_PROMOTION_CONFIG,"Store group location id, indicating list of stores where this promo can be applied",PROMO_LOCATION_GROUP
+PRC_ITEM_PROMOTION_CONFIG,"Once promotion amount is calcualted, pro-rate it across qualifying and target units",PRORATE_ACROSS_QUAL_AND_TARGET
+PRC_ITEM_PROMOTION_CONFIG,"Coupon can only be used X times per transaction - Integer, initial default 99. VALIDATION - deal record cannot be saved as null or 0.",COUPON_MAX_REDEMPTIONS
+PRC_ITEM_PROMOTION_CONFIG,"If set to true, deal applies no more than Coupons used",COUPON_USE_DRIVES_PROMO
+PRC_ITEM_PROMOTION_CONFIG,"This flag determines if the deal is eligible to be prompted as suggested deal when the defined criteria is met.  If this is not required, keep it false",ENABLE_PROMPTING
+PRC_ITEM_PROMOTION_CONFIG,Indicates the qualifying units to be present to suggest the deal.,PRC_MIN_QUALIFY_PROMPT_UNITS
+PRC_ITEM_PROMOTION_CONFIG,"If set to true, this promotion will be applied only on the units which qualified for this promotion.",RESTRICT_TO_QUALIFIED_UNITS
+PRC_ITEM_PROMOTION_CONFIG,"If set to true, offer numbers will be generated for the deal",IS_OFFER_NUMBER_REQUIRED
+PRC_ITEM_PROMOTION_CONFIG,"If set to true, offer numbers will be generated by price promo component(RnD Base). If set to false, offer numbers will be generated by third party then will be imported to RnD Base.",IS_OFFER_NUMBER_GENERATED
+PRC_ITEM_PROMOTION_CONFIG,Indicates total number of offer numbers that will generated for the deal,COUNT_OF_OFFER_NUMBER
+PRC_ITEM_PROMOTION_CONFIG,Indicates total number of redemptions that can be given to offer number in its entire lifetime.,OFFER_NUMBER_MAX_REDEMPTIONS
+PRC_ITEM_PROMOTION_CONFIG,maximum number of redemptions for the single item promotion,MAX_REDEMPTIONS
+PRC_ITEM_PROMOTION_CONFIG,Contains a tag or a list of comma separated tags that user wants to assign to this deal. One use case of this assignment is that the tag will further define which deals to be excluded when this deal is applied based on the promo tag  exclusions.,TAG_NAMES
+PRC_ITEM_PROMOTION_CONFIG,Timezone of effectiveStartDate and effectiveEndDate,TIME_ZONE
+PRC_ITEM_PROMOTION_CONFIG,Container reference number under which the offer number for the given promotion deal is created in the external system.,OFFER_REFERENCE_NUMBER
+PRC_ITEM_PROMOTION_CONFIG,Apply on regular price,APPLY_ON_REGULAR_PRICE
+PRC_ITEM_PROMOTION_CONFIG,"If set to true, every redemption will be prorated on its own",PRORATE_PER_REDEMPTION
+PRC_ITEM_PROMOTION_BENEFIT,Unique name for the promotion within a profile. This name will be communicated to order to Id the promo,PROMO_ID
+PRC_ITEM_PROMOTION_BENEFIT,Item Id for the promotion,ITEM_ID
+PRC_ITEM_PROMOTION_BENEFIT,Min units of qualifying items to be eligible for the promotion,MIN_QUAL_UNITS
+PRC_ITEM_PROMOTION_BENEFIT,Indicates if items that are used for qualification should be excluded for targeting,EXCLUDE_QUAL_FROM_TARGET
+PRC_ITEM_PROMOTION_BENEFIT,Max units to apply promotion to for each redemption of a promotion. Promotion can have multiple redemptions,MAX_TARGET_UNITS
+PRC_ITEM_PROMOTION_BENEFIT,Percentage amount to be applied as promotion. 0 indicates other types of benefits,BENEFIT_PERCENTAGE
+PRC_ITEM_PROMOTION_BENEFIT,Fixed amount of discount to be applied to each target unit. $x off every unit,BENEFIT_FIXED_DISC_PER_UNIT
+PRC_ITEM_PROMOTION_BENEFIT,results in a fixed price for each item. do something...get each of something for $x,BENEFIT_FIXED_PRICE_FOR_UNIT
+PRC_ITEM_PROMOTION_BENEFIT,A fixed discount is applied to the whole group. It will be pro-rated. do something get $20 off shirts,BENEFIT_FIXED_DISC_FOR_GROUP
+PRC_ITEM_PROMOTION_BENEFIT,results in a fixed price for the group. do something...get the whole group for $x,BENEFIT_FIXED_PRICE_FOR_GROUP
+PRC_ITEM_PROMOTION_BENEFIT,Promotion capped at this maximum amount for each redemption. 20% off. get upto $100 off your transaction,MAX_PROMO_AMOUNT
+PRC_ITEM_PROMOTION_BENEFIT,Date from which the promotion is active,EFFECTIVE_START_DATE
+PRC_ITEM_PROMOTION_BENEFIT,Date after which this Promotion will expire,EFFECTIVE_END_DATE
+PRC_ITEM_PROMOTION_BENEFIT,"If set to true, sale items will be considered for the promotion",INCLUDE_SALE_ITEMS
+PRC_ITEM_PROMOTION_BENEFIT,Benefit template type. Used for directing the UI to show right fields,BENEFIT_TEMPLATE
+PRC_ITEM_PROMOTION_BENEFIT,Target units are free,BENEFIT_FREE_UNIT
+PRC_ITEM_PROMOTION_BENEFIT,Indicates if items that are used for qualification in other promos should be excluded for qualification in this promotion,PRC_EX_OTHER_PROMO_Q_FROM_Q
+PRC_ITEM_PROMOTION_BENEFIT,Indicates if items that are used for qualification in other promos should be excluded for targeting in this promotion,PRC_EX_OTHER_PROMO_Q_FROM_T
+PRC_ITEM_PROMOTION_BENEFIT,Indicates if items that are used for targeting in other promos should be excluded for qualification in this promotion,PRC_EX_OTHER_PROMO_T_FROM_Q
+PRC_ITEM_PROMOTION_BENEFIT,"If set to true, full price items will be considered for the promotion evaluation",INCLUDE_FULL_PRICE_ITEMS

@@ -1,0 +1,51 @@
+version: 2
+
+sources:
+  - name: src_promo_silver
+    database: "{{ env_var('DBT_SILVER_DATABASE') | as_text }}"
+    schema: "{{ env_var('DBT_SILVER_SCHEMA') | as_text }}"
+    tables:
+      - name: mao_prc_combo_customer_qualifiers_v
+        config:
+          meta:
+            description: "This is a silver view for combo qualifiers details"
+      - name: mao_prc_combo_employee_qualifiers_v
+        config:
+          meta:
+            description: "This is a silver view for employee qualifiers details"
+      - name: mao_prc_combo_item_qualifiers_v
+        config:
+          meta:
+            description: "This is a silver view for combo qualifiers details"
+      - name: mao_prc_combo_item_qual_exclusions_v
+        config:
+          meta:
+            description: "This is a silver view for employee qualifiers details"
+      - name: mao_prc_combo_order_qualifiers_v
+        config:
+          meta:
+            description: "This is a silver view for combo qualifiers details"
+      - name: mao_prc_combo_promotion_config_v
+        config:
+          meta:
+            description: "This is a silver view for employee qualifiers details"
+      - name: mao_prc_item_order_qualifiers_v
+        config:
+          meta:
+            description: "This is a silver view for combo qualifiers details"
+      - name: mao_prc_item_price_v
+        config:
+          meta:
+            description: "This is a silver view for employee qualifiers details"
+      - name: mao_prc_item_promotion_benefit_v
+        config:
+          meta:
+            description: "This is a silver view for combo qualifiers details"
+      - name: mao_prc_item_promotion_config_v
+        config:
+          meta:
+            description: "This is a silver view for employee qualifiers details"
+      - name: mao_prc_promotion_type_v
+        config:
+          meta:
+            description: "This is a silver view for combo qualifiers details"

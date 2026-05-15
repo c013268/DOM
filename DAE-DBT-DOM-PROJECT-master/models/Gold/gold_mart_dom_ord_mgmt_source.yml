@@ -1,0 +1,139 @@
+version: 2
+
+sources:
+  - name: src_ord_mgmt_silver
+    database: "{{ env_var('DBT_SILVER_DATABASE') | as_text }}"
+    schema: "{{ env_var('DBT_SILVER_SCHEMA') | as_text }}"
+    tables:
+      - name: mao_ord_order_v
+        config:
+          meta:
+            description: "This is a silver view for Order Header details"
+      - name: mao_ord_order_line_v
+        config:
+          meta:
+            description: "This is a silver view for Order Line details"
+      - name: mao_ord_invoice_v
+        config:
+          meta:
+            description: "This is a silver view for Order Invoice details"
+      - name: mao_ord_e_invoice_v
+        config:
+          meta:
+            description: "This is a silver view for Order E Invoice details"
+      - name: mao_ord_order_tracking_info_v
+        config:
+          meta:
+            description: "This is a silver view for Order Tracking Info details"
+      - name: mao_ord_order_hold_v
+        config:
+          meta:
+            description: "This is a silver view for Order Hold details"
+      - name: mao_ord_order_type_v
+        config:
+          meta:
+            description: "This is a silver view for Order Type details"
+      - name: mao_ord_reason_v
+        config:
+          meta:
+            description: "This is a silver view for Order Reason details"
+      - name: mao_ord_order_attribute_v
+        config:
+          meta:
+            description: "This is a silver view for Order Attribute details"
+      - name: mao_ord_order_line_promising_info_v
+        config:
+          meta:
+            description: "This is a silver view for Order Line Promising info details"
+      - name: mao_ord_allocation_v
+        config:
+          meta:
+            description: "This is a silver view for Order Allocation details"
+      - name: mao_fw_status_definition_v
+        config:
+          meta:
+            description: "This is a silver view for Order Status details"
+      - name: mao_ord_invoice_line_v
+        config:
+          meta:
+            description: "This is a silver view for Order Invoice Line details"
+      - name: mao_ord_e_invoice_line_v
+        config:
+          meta:
+            description: "This is a silver view for Order E Invoice Line details"
+      - name: mao_ord_order_line_charge_detail_v
+        config:
+          meta:
+            description: "This is a silver view for Order Line Charge details"
+      - name: mao_ord_order_line_tax_detail_v
+        config:
+          meta:
+            description: "This is a silver view for Order Line Tax details"
+      - name: mao_ord_fulfillment_detail_v
+        config:
+          meta:
+            description: "This is a silver view for Order Fulfilment details"
+      - name: mao_ord_release_v
+        config:
+          meta:
+            description: "This is a silver view for Order release details"
+      - name: mao_ord_release_line_v
+        config:
+          meta:
+            description: "This is a silver view for Order release line details"
+      - name: mao_ord_ship_to_address_v
+        config:
+          meta:
+            description: "This is a silver view for Order Ship to Address details"
+      - name: mao_ord_order_line_note_v
+        config:
+          meta:
+            description: "This is a silver view for Order line Notes"
+      - name: mao_ord_return_detail_v
+        config:
+          meta:
+            description: "This is a silver view for Order Return Details"
+      - name: mao_ord_return_tracking_detail_v
+        config:
+          meta:
+            description: "This is a silver view for Order Return Tracking Details"
+      - name: mao_ord_order_line_additional_v
+        config:
+          meta:
+            description: "This is a silver view for Order Line Additional Details"
+      - name: mao_ord_order_line_cancel_history_v
+        config:
+          meta:
+            description: "This is a silver view for Order Line Cancel History Details"
+      - name: mao_ord_order_note_v
+        config:
+          meta:
+            description: "This is a silver view for Order Note Details"
+      - name: mao_ord_order_milestone_v
+        config:
+          meta:
+            description: "This is a silver view for Order Milestone Details"
+      - name: mao_ord_order_charge_detail_v
+        config:
+          meta:
+            description: "This is a silver view for Order Charge Details"
+      - name: mao_ord_order_tax_detail_v
+        config:
+          meta:
+            description: "This is a silver view for Order Tax Details"
+      - name: mao_ord_cancelled_charge_detail_v
+        config:
+          meta:
+            description: "This is a silver view for Cancelled Order Charge Details"
+      - name: mao_ord_cancelled_order_tax_detail_v
+        config:
+          meta:
+            description: "This is a silver view for Cancelled Order Tax Details"
+      - name: mao_ord_cancel_line_charge_detail_v
+        config:
+          meta:
+            description: "This is a silver view for Cancelled Order Line Charge Details"
+      - name: mao_ord_cancel_line_tax_detail_v
+        config:
+          meta:
+            description: "This is a silver view for Cancelled Order Line Tax Details"

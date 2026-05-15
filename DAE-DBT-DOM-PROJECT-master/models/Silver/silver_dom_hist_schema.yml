@@ -1,0 +1,67 @@
+version: 2
+
+models:
+  - name: mao_ful_fulfillment_line_t
+    description: "This model loads fulflmnt line from Bronze to silver"
+    config:
+      tags: ["load_dom_bronze_to_silver_hist_tag"]
+
+  - name: mao_ful_packages_t
+    description: "This model loads package header from Bronze to silver"
+    config:
+      tags: ["load_dom_bronze_to_silver_hist_tag"]
+
+  - name: mao_ord_allocation_t
+    description: "This model loads allocation details from Bronze to silver"
+    config:
+      tags: ["load_dom_bronze_to_silver_hist_tag"]
+
+  - name: mao_ord_order_line_t
+    description: "This model loads order line from Bronze to silver"
+    config:
+      tags: ["load_dom_bronze_to_silver_hist_tag"]
+
+  - name: mao_ord_order_history_t
+    description: "This model loads order hdr History from Bronze to silver"
+    config:
+      tags: ["load_dom_bronze_to_silver_hist_tag"]
+
+  - name: mao_ord_order_line_tax_detail_hist_t
+    description: "This model loads mao_ord_order_line_tax_detail_hist from Bronze to silver"
+    config:
+      tags: ["load_dom_bronze_to_silver_hist_tag"]
+
+  - name: mao_ord_order_line_charge_detail_hist_t
+    description: "This model loads mao_ord_order_line_charge_detail_hist from Bronze to silver"
+    config:
+      tags: ["load_dom_bronze_to_silver_hist_tag"]
+
+  - name: mao_ord_cancel_line_tax_detail_hist_t
+    description: "This model loads mao_ord_cancel_line_tax_detail_hist from Bronze to silver"
+    config:
+      tags: ["load_dom_bronze_to_silver_hist_tag"]
+
+  - name: mao_ord_cancel_line_charge_detail_hist_t
+    description: "This model loads mao_ord_cancel_line_charge_detail_hist from Bronze to silver"
+    config:
+      tags: ["load_dom_bronze_to_silver_hist_tag"]
+
+  - name: mao_ord_order_charge_detail_hist_t
+    description: "This model loads mao_ord_order_charge_detail_hist from Bronze to silver"
+    config:
+      tags: ["load_dom_bronze_to_silver_hist_tag"]
+
+  - name: mao_ord_order_tax_detail_hist_t
+    description: "This model loads mao_ord_order_tax_detail_hist from Bronze to silver"
+    config:
+      tags: ["load_dom_bronze_to_silver_hist_tag"]
+
+  - name: mao_ord_cancelled_charge_detail_hist_t
+    description: "This model loads mao_ord_cancelled_charge_detail_hist from Bronze to silver"
+    config:
+      tags: ["load_dom_bronze_to_silver_hist_tag"]
+
+  - name: mao_ord_cancelled_order_tax_detail_hist_t
+    description: "This model loads mao_ord_cancelled_order_tax_detail_hist from Bronze to silver"
+    config:
+      tags: ["load_dom_bronze_to_silver_hist_tag"]

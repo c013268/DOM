@@ -1,0 +1,31 @@
+version: 2
+
+sources:
+  - name: src_inv_mgmt_silver
+    database: "{{ env_var('DBT_SILVER_DATABASE') | as_text }}"
+    schema: "{{ env_var('DBT_SILVER_SCHEMA') | as_text }}"
+    tables:
+      - name: mao_inv_reservation_request_v
+        config:
+          meta:
+            description: "This is a silver view for reservation request details"
+      - name: mao_network_atp_v
+        config:
+          meta:
+            description: "This is a silver view for network_atp"
+      - name: mao_inv_location_atp_v
+        config:
+          meta:
+            description: "Silver incremental table for both full sync and delta location ATP."
+      - name: mao_inv_supply_v
+        config:
+          meta:
+            description: "This is a silver view for location_atp delta"
+      - name: mao_inv_supply_allocation_v
+        config:
+          meta:
+            description: "This is a silver view for location_atp delta"
+      - name: mao_sku_exclusion_v
+        config:
+          meta:
+            description: "This is a silver view for SKU exclusion details"

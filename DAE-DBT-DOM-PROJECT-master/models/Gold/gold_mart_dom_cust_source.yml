@@ -1,0 +1,11 @@
+version: 2
+
+sources:
+  - name: src_cust_silver
+    database: "{{ env_var('DBT_SILVER_DATABASE') | as_text }}"
+    schema: "{{ env_var('DBT_SILVER_SCHEMA') | as_text }}"
+    tables:
+      - name: mao_cus_customer_v
+        config:
+          meta:
+            description: "This is a silver view for customer details"

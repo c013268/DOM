@@ -1,0 +1,42 @@
+version: 2
+
+models:
+  - name: product_master_v
+    description: "This model loads Product_Master in DBIMART_CUSTOMER_REPORTING"
+    config:
+      tags: ["load_dom_gold_to_dbimart_refactored_tag"]
+
+  - name: order_header
+    description: "This model loads Order_Header in DBIMART_CUSTOMER_REPORTING"
+    config:
+      tags: ["load_dom_gold_to_dbimart_refactored_tag"]
+
+  - name: order_line
+    description: "This model loads Order_Line in DBIMART_CUSTOMER_REPORTING"
+    config:
+      tags: ["load_dom_gold_to_dbimart_refactored_tag"]
+
+  - name: consignments
+    description: "This model loads Consignments in DBIMART_CUSTOMER_REPORTING"
+    config:
+      tags: ["load_dom_gold_to_dbimart_refactored_tag"]
+
+  - name: obf_order_status_history
+    description: "This model loads obf_order_status_history in DBIMART_CUSTOMER_REPORTING"
+    config:
+      tags: ["load_dom_gold_to_dbimart_refactored_tag"]
+
+  - name: returns
+    description: "This model loads Returns in DBIMART_CUSTOMER_REPORTING"
+    config:
+      tags: ["load_dom_gold_to_dbimart_refactored_tag"]
+
+  - name: refunds
+    description: "This model loads Refunds in DBIMART_CUSTOMER_REPORTING"
+    config:
+      tags: ["load_dom_gold_to_dbimart_refactored_tag"]
+
+  - name: exchanges
+    description: "This model loads Exchanges in DBIMART_CUSTOMER_REPORTING"
+    config:
+      tags: ["load_dom_gold_to_dbimart_refactored_tag"]

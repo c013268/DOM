@@ -1,0 +1,380 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.footlocker.spark</groupId>
+    <artifactId>oms_ingestion</artifactId>
+    <version>${project.version}</version>
+    <packaging>jar</packaging>
+
+    <name>oms_ingestion</name>
+    <url>http://maven.apache.org</url>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!--
+        =====================================================================
+        CHANGED for Scala 2.12 + Spark 3.5.2 (Databricks 16.4 LTS Scala 2.12 pool)
+        ORIGINAL (2.13):
+            <scala.version>2.13</scala.version>
+            <scala.fullVersion>2.13.12</scala.fullVersion>
+        =====================================================================
+        -->
+        <scala.version>2.12</scala.version>
+        <scala.fullVersion>2.12.18</scala.fullVersion>
+        <spark.version>3.5.2</spark.version>
+        <hadoop.version>3.3.6</hadoop.version>
+        <scala-maven-plugin.version>4.8.0</scala-maven-plugin.version>
+        <scalatest.version>3.2.18</scalatest.version>
+        <junit.version>4.4</junit.version>
+        <java.version>1.8</java.version>
+    </properties>
+
+    <!-- =====================================================================
+         BEGIN: Project Contributors
+         ===================================================================== -->
+    <developers>
+        <developer>
+            <id>c010565</id>
+            <name>Manoj Kumar</name>
+            <email>c010565@footlocker.com</email>
+        </developer>
+        <developer>
+            <id>c013268</id>
+            <name>Pavan Kalyan Kotha</name>
+            <email>c013268@footlocker.com</email>
+        </developer>
+        <developer>
+            <id>c013266</id>
+            <name>Venkatesh Mannepati</name>
+            <email>c013266@footlocker.com</email>
+        </developer>
+    </developers>
+    <!-- =====================================================================
+         END: Project Contributors
+         ===================================================================== -->
+
+    <!-- =====================================================================
+     BEGIN: Artifact Distribution
+     ===================================================================== -->
+    <distributionManagement>
+        <repository>
+            <id>maven-releases</id>
+            <name>maven-releases</name>
+            <url>https://pkgs.dev.azure.com/FootLockerCorporation/01c30bc5-a289-4fd0-afd5-3f8973ec39d8/_packaging/maven-releases/maven/v1</url>
+        </repository>
+        <snapshotRepository>
+            <id>maven-snapshots</id>
+            <name>maven-snapshots</name>
+            <url>https://pkgs.dev.azure.com/FootLockerCorporation/01c30bc5-a289-4fd0-afd5-3f8973ec39d8/_packaging/maven-snapshots/maven/v1</url>
+            <uniqueVersion>true</uniqueVersion>
+        </snapshotRepository>
+    </distributionManagement>
+    <!-- =====================================================================
+         END: Artifact Distribution
+         ===================================================================== -->
+
+    <repositories>
+        <repository>
+            <id>central</id>
+            <name>Maven Central Repository</name>
+            <url>https://repo1.maven.org/maven2/</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+
+        <repository>
+            <id>maven-releases</id>
+            <name>maven-releases</name>
+            <url>https://pkgs.dev.azure.com/FootLockerCorporation/01c30bc5-a289-4fd0-afd5-3f8973ec39d8/_packaging/maven-releases/maven/v1</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+
+        <repository>
+            <id>maven-snapshots</id>
+            <name>maven-snapshots</name>
+            <url>https://pkgs.dev.azure.com/FootLockerCorporation/01c30bc5-a289-4fd0-afd5-3f8973ec39d8/_packaging/maven-snapshots/maven/v1</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+        </repository>
+
+        <repository>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <id>maven-central</id>
+            <name>maven-central</name>
+            <url>https://pkgs.dev.azure.com/FootLockerCorporation/01c30bc5-a289-4fd0-afd5-3f8973ec39d8/_packaging/maven-central/maven/v1</url>
+        </repository>
+
+        <repository>
+            <id>spark-packages</id>
+            <name>Spark Packages Repository</name>
+            <url>https://repos.spark-packages.org/</url>
+        </repository>
+    </repositories>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>commons-codec</groupId>
+                <artifactId>commons-codec</artifactId>
+                <version>1.14</version>
+            </dependency>
+            <dependency>
+                <groupId>org.scala-lang</groupId>
+                <artifactId>scala-library</artifactId>
+                <version>${scala.fullVersion}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.17</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-core_${scala.version}</artifactId>
+            <version>${spark.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-streaming_${scala.version}</artifactId>
+            <version>${spark.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!--
+        =====================================================================
+        CHANGED: uap-scala version 0.17.0 -> 0.16.0 for Scala 2.12
+        (uap-scala 0.17.0 is only published for 2.13; 0.16.0 is the
+        latest available for _2.12)
+        ORIGINAL: <version>0.17.0</version>
+        =====================================================================
+        -->
+        <dependency>
+            <groupId>org.uaparser</groupId>
+            <artifactId>uap-scala_${scala.version}</artifactId>
+            <version>0.16.0</version>
+        </dependency>
+
+        <!--
+        =====================================================================
+        CHANGED: play-json 2.8.2 -> 2.9.4 for better Scala 2.12 support
+        (2.8.2 with _2.12 also works, but 2.9.4 brings bug fixes and is
+        the latest 2.x release with _2.12 cross-build)
+        ORIGINAL: <version>2.8.2</version>
+        =====================================================================
+        -->
+        <dependency>
+            <groupId>com.typesafe.play</groupId>
+            <artifactId>play-json_${scala.version}</artifactId>
+            <version>2.9.4</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-sql_${scala.version}</artifactId>
+            <version>${spark.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-streaming-kafka-0-10_${scala.version}</artifactId>
+            <version>${spark.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-sql-kafka-0-10_${scala.version}</artifactId>
+            <version>${spark.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.scala-lang</groupId>
+            <artifactId>scala-library</artifactId>
+            <version>${scala.fullVersion}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>io.delta</groupId>
+            <artifactId>delta-spark_${scala.version}</artifactId>
+            <version>3.2.1</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!--
+        =====================================================================
+        CHANGED: spark-snowflake connector suffix updated for Scala 2.12
+        The artifact ID uses ${scala.version} which now resolves to _2.12.
+        Version kept at 2.16.0-spark_3.4 (still compatible with Spark 3.5.x).
+        ORIGINAL: spark-snowflake_2.13 (hardcoded _2.13) → now uses ${scala.version}
+        =====================================================================
+        -->
+        <dependency>
+            <groupId>net.snowflake</groupId>
+            <artifactId>spark-snowflake_${scala.version}</artifactId>
+            <version>2.16.0-spark_3.4</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.microsoft.azure</groupId>
+            <artifactId>adal4j</artifactId>
+            <version>1.6.7</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.5.13</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpmime</artifactId>
+            <version>4.5.13</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.typesafe</groupId>
+            <artifactId>config</artifactId>
+            <version>1.4.2</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!--
+        =====================================================================
+        NOTE: dbutils-api is only published as _2.12 — this was already
+        correct for 2.12 clusters. No change needed.
+        =====================================================================
+        -->
+        <dependency>
+            <groupId>com.databricks</groupId>
+            <artifactId>dbutils-api_2.12</artifactId>
+            <version>0.0.6</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>net.alchim31.maven</groupId>
+                <artifactId>scala-maven-plugin</artifactId>
+                <version>${scala-maven-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>compile</goal>
+                            <goal>testCompile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <scalaVersion>${scala.fullVersion}</scalaVersion>
+                    <args>
+                        <arg>-target:jvm-1.8</arg>
+                    </args>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.2.1</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <transformers>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <mainClass>com.footlocker.oms_streaming.apps.AdlsLoadMain_Gen2</mainClass>
+                                </transformer>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
+                            </transformers>
+                            <filters>
+                                <filter>
+                                    <artifact>*:*</artifact>
+                                    <excludes>
+                                        <exclude>META-INF/maven/**</exclude>
+                                        <exclude>META-INF/*.SF</exclude>
+                                        <exclude>META-INF/*.DSA</exclude>
+                                        <exclude>META-INF/*.RSA</exclude>
+                                    </excludes>
+                                </filter>
+                            </filters>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <version>3.2.1</version>
+                <executions>
+                    <execution>
+                        <id>enforce</id>
+                        <configuration>
+                            <rules>
+                                <dependencyConvergence/>
+                            </rules>
+                        </configuration>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>8</source>
+                    <target>8</target>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.3.1</version>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.0.0</version>
+                <configuration>
+                    <skipTests>true</skipTests>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
