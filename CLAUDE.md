@@ -50,9 +50,10 @@ Power BI Dashboards
 
 ### `DAE-databricks-ingestion-streaming-scala-oms-master/`
 - **Language:** Scala 2.12 on Spark (Databricks)
-- **Purpose:** Real-time Kafka → ADLS Delta ingestion
-- **Entry points:** `AdlsLoadMain_DOM` (OMS), `OBF_Order_Status_History_DOM` (OBF)
-- **Key patterns:** Structured Streaming, Future-based parallel writes, merge upserts
+- **Purpose:** Two distinct job types in one codebase:
+  1. **`_DOM` jobs (Active):** Batch SQL execution with Delta MERGE — reads from Snowflake Stage, transforms via multi-statement SQL files, merges into Delta tables. Entry point: `AdlsLoadMain_DOM`. Triggered every 15 min by Airflow.
+  2. **`_Gen2` jobs (Legacy/Maintenance):** Kafka Structured Streaming with `foreachBatch` — reads from Confluent Kafka, parses by messageType, writes to ADLS + Snowflake. Entry point: `AdlsLoadMain_Gen2`.
+- **Key patterns:** `Future`-based parallel view registration (DOM), `foreachBatch` streaming (Gen2), audit watermarking (DOM), Delta MERGE upserts
 
 ### `DAE-DBT-DOM-PROJECT-master/`
 - **Language:** SQL (dbt on Snowflake)
@@ -81,7 +82,10 @@ Power BI Dashboards
 ## Job Architecture
 - **dbt Jobs:** Triggered via dbt Cloud API through Airflow operators
   - Batch Start → Journal to Bronze → Stage to Silver → Bronze to Silver Hist → Silver to Gold → Gold to Refactored → Post-Gold DQ → Batch End
-- **Databricks Jobs:** Dynamic clusters per job, custom resource allocation
-  - OMS Streaming (orders, consignments, returns, refunds, exchanges, tenders)
-  - OBF Streaming (order status history)
-  - Scala FUTURE module for parallel writes
+- **Databricks Jobs (DOM — `_DOM` suffix):** Batch SQL + Delta MERGE, per-table parallelism
+  - Entry: `AdlsLoadMain_DOM` → routes to entity handlers (orders, consignments, returns, refunds, exchanges, tenders, obf_order_history)
+  - Dynamic table groups from `dom_table_groups` config → separate clusters per group
+  - Audit watermarking for incremental loads, weekly VACUUM/OPTIMIZE
+- **Databricks Jobs (Legacy OMS — `_Gen2` suffix):** Kafka Structured Streaming
+  - Entry: `AdlsLoadMain_Gen2` → reads Kafka → `foreachBatch` → routes by messageType
+  - Maintenance mode — avoid changes unless necessary

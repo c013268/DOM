@@ -18,10 +18,25 @@
 
 ## DAG Dependencies
 
-### `dbx_dom_global_daily` (runs first — data must land before dbt transforms)
-- **Depends on:** Kafka topic availability, Databricks cluster pool
-- **Produces:** Landing + Refined Delta tables in ADLS
-- **Gated by:** `ProductMasterSensor` (waits for product master to finish)
+### `dbx_dom_global_daily` — Databricks Jobs (runs first)
+Contains TWO sub-architectures:
+
+**A) DOM Jobs (`_DOM` suffix) — Active/Primary:**
+- **Trigger:** Airflow `DatabricksSubmitRunOperator` every 15 min
+- **Entry Point:** `AdlsLoadMain_DOM` (main class)
+- **Mechanism:** Reads from Snowflake Stage → SQL transforms → Delta MERGE
+- **Produces:** Landing + Refined Delta tables
+- **Config:** `dom_scala` section + `dom_table_groups` for parallel execution
+- **Audit:** Writes to `prod.etl_stats_npii.dom_oms_etl_audit`
+- **Gated by:** `ProductMasterSensor`
+
+**B) Legacy OMS Streaming (`_Gen2` suffix) — Maintenance Mode:**
+- **Trigger:** Airflow `DatabricksSubmitRunOperator` (streaming mode)
+- **Entry Point:** `AdlsLoadMain_Gen2` (main class)
+- **Mechanism:** Kafka Structured Streaming → parse messageType → write to ADLS + Snowflake
+- **Produces:** Raw string landing + entity-specific Delta tables
+- **Config:** `dom_oms_scala` section + `dom_oms_params` ordered args
+- **Source:** Confluent Kafka topic
 
 ### `dbt_dom_global_daily` (runs after streaming lands data)
 - **Depends on:** Fresh data in Snowflake Stage (from Databricks writes)

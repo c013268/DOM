@@ -3,26 +3,53 @@
 ## Databricks Delta Tables
 
 ### Landing Tables (`sales_landing_npii`)
-| Table | Key Columns | Grain |
-|-------|-------------|-------|
-| `oms_orders` | order_id, order_line_id, status | Order status event |
-| `oms_consignments` | consignment_id | Consignment event |
-| `oms_returns` | return_id | Return event |
-| `oms_refunds` | refund_id | Refund event |
-| `oms_exchanges` | exchange_id | Exchange event |
+| Table | Key Columns | Grain | Written By |
+|-------|-------------|-------|------------|
+| `oms_orders` | order_id, order_line_id, status | Order status event | Both `_Gen2` and `_DOM` |
+| `oms_consignments` | consignment_id | Consignment event | Both `_Gen2` and `_DOM` |
+| `oms_returns` | return_id | Return event | Both `_Gen2` and `_DOM` |
+| `oms_refunds` | refund_id | Refund event | Both `_Gen2` and `_DOM` |
+| `oms_exchanges` | exchange_id | Exchange event | `_DOM` only |
 
 ### Refined Tables (`sales_npii`)
-| Table | Key Columns | Grain |
-|-------|-------------|-------|
-| `oms_orders` | order_id, order_line_id | Latest order status |
-| `oms_consignments` | consignment_id | Latest consignment |
-| `oms_returns` | return_id | Latest return |
-| `oms_refunds` | refund_id | Latest refund |
+| Table | Key Columns | Grain | Written By |
+|-------|-------------|-------|------------|
+| `oms_orders` | order_id, order_line_id | Latest order status | Both `_Gen2` and `_DOM` |
+| `oms_consignments` | consignment_id | Latest consignment | Both `_Gen2` and `_DOM` |
+| `oms_returns` | return_id | Latest return | Both `_Gen2` and `_DOM` |
+| `oms_refunds` | refund_id | Latest refund | Both `_Gen2` and `_DOM` |
+| `oms_parsed_tender` | tender_id | Parsed tender data | `_DOM` only |
 
 ### OBF Tables (`fulfillment_npii`)
-| Table | Key Columns | Grain |
-|-------|-------------|-------|
-| `obf_order_status_history` | order_id, status_ts | Status history |
+| Table | Key Columns | Grain | Written By |
+|-------|-------------|-------|------------|
+| `obf_order_status_history` | order_id, status_ts | Status history | `_DOM` |
+
+### Audit Table (`etl_stats_npii`)
+| Table | Key Columns | Purpose | Used By |
+|-------|-------------|---------|---------|
+| `dom_oms_etl_audit` | job_name, run_id | Watermark tracking, execution audit | `_DOM` jobs only |
+
+## Job Architecture — SQL File Patterns
+
+### DOM SQL Files (`src/main/resources/sqls/DOM-*.sql`)
+Multi-statement SQL files with this structure:
+```
+1. CREATE OR REPLACE TEMP VIEW source_view AS (SELECT ... FROM snowflake_stage)
+2. CREATE OR REPLACE TEMP VIEW transform_view AS (SELECT ... business logic ...)
+3. ... additional transform views (registered in parallel via Future) ...
+4. MERGE INTO target_table USING final_view ON match_keys
+     WHEN MATCHED THEN UPDATE SET ...
+     WHEN NOT MATCHED THEN INSERT (...)
+```
+
+### Legacy OMS SQL Files (`merge*.sql`, `order*.sql`)
+Simple single-statement merge/transform SQL:
+```
+MERGE INTO target USING source ON keys
+WHEN MATCHED THEN UPDATE
+WHEN NOT MATCHED THEN INSERT
+```
 
 ## Snowflake — Gold Layer (Star Schema)
 
