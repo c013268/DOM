@@ -123,8 +123,7 @@ fct_mao_ord_line_with_fv as (
     join ${dom_gold_db}.${dom_gold_schema}.fct_mao_ord_hdr_v ord_hdr on ord_line.org_id = ord_hdr.org_id and ord_line.ord_id = ord_hdr.ord_id
     where ord_hdr.doc_type_id = 'CustomerOrder'
         and not (ord_line.max_fulflmnt_status_id is null or ord_line.max_fulflmnt_status_id > 9000)
-        and ord_line.prnt_ord_id is null
-        and ord_line.is_even_exchg = 0
+        and (ord_line.prnt_ord_id is null or ord_line.is_even_exchg = 1)
     ) where fv_rn = 1
 ),
 fct_mao_ord_line_agg as (
@@ -489,9 +488,8 @@ from
   left join ${dom_gold_db}.${dom_gold_schema}.lkp_cancel_code_reason_v  cnl_reason on (ord_line.cnl_reason_id =cnl_reason.cancel_reason_id)
  WHERE  ord_hdr.doc_type_id = 'CustomerOrder'
         AND NOT (ord_line.max_fulflmnt_status_id IS NULL OR ord_line.max_fulflmnt_status_id > 9000)
-        AND ord_line.prnt_ord_id IS NULL
-        AND ord_line.is_even_exchg = 0
-        and ord_line.etl_updt_ts > '${lookback_date}'
+        AND (ord_line.prnt_ord_id IS NULL OR ord_line.is_even_exchg = 1)
+        AND ord_line.etl_updt_ts > '${lookback_date}'
 );
 
 
@@ -544,9 +542,7 @@ with
       join ${dom_gold_db}.${dom_gold_schema}.fct_mao_ord_hdr_v ord_hdr on ord_line.org_id = ord_hdr.org_id and ord_line.ord_id = ord_hdr.ord_id
       WHERE ord_hdr.doc_type_id = 'CustomerOrder'
       AND NOT (ord_line.max_fulflmnt_status_id IS NULL OR ord_line.max_fulflmnt_status_id > 9000)
-      AND ord_line.prnt_ord_id IS NULL
-      AND ord_line.is_even_exchg = 0
-      and ord_line.etl_updt_ts > '${lookback_date}'
+      AND (ord_line.prnt_ord_id IS NULL OR ord_line.is_even_exchg = 1)
   ),
   fct_mao_ord_line as (
     select *
@@ -554,7 +550,7 @@ with
       (select ord_line.*,
         row_number() over (partition by org_id,ord_id,ord_ln_id,order_status order by updated_ts desc) as ord_ln_status_rnk
       from fct_mao_ord_line_stg ord_line )
-    where ord_ln_status_rnk=1
+    where ord_ln_status_rnk=1 and etl_updt_ts > '${lookback_date}'
   ),
   fct_mao_ord_line_agg as (
     -- Same pattern as orders (refined): pick ONE row per (org_id, ord_id, ord_ln_id),

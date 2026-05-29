@@ -54,119 +54,6 @@ product_master_div AS (
     WHERE banner_id IN ('03', '16', '18', '76', '77')
     GROUP BY ALL
 ),
-payment AS (
-    SELECT
-        *,
-        ROW_NUMBER() OVER (
-            PARTITION BY org_id, ord_id, pymt_method_id, pymt_txn_id
-            ORDER BY NVL(PYMT_TXN_DETAIL_ID, '') DESC
-        ) AS rnk
-    FROM {{ source('dom_gold', 'fct_mao_ord_pymt_line_v') }}
-),
-payment_grouped AS (
-    SELECT
-        org_id,
-        ord_id,
-        ARRAY_AGG(
-            OBJECT_CONSTRUCT(
-                'amount', CAST(pymt_method_amt AS STRING),
-                'authCode', CAST(auth_cd AS STRING),
-                'cardLast4', CAST(txn_card_last4 AS STRING),
-                'cegrRefId', CAST(inv_id AS STRING),
-                'paymentTransactionId', CAST(PYMT_TXN_ID AS STRING),
-                'paymentTransactionSubType', NULL,
-                'paymentTransactionType', CAST(PYMT_TXN_TYPE AS STRING),
-                'paymentType', CAST(CASE WHEN pymt_type = 'Gift Card' THEN 'GIFTCARD' WHEN pymt_type = 'Credit Card' THEN 'CREDITCARD' ELSE UPPER(pymt_type) END AS STRING),
-                'creditCardType', CAST(PYMT_CARD_TYPE AS STRING),
-                'date', CAST(COALESCE(PYMT_TXN_DT, pymt_txn_req_dt) AS STRING),
-                'shippingTaxAmount', NULL,
-                'taxAmount', NULL,
-                'authorization', OBJECT_CONSTRUCT(
-                    'attributes', OBJECT_CONSTRUCT(
-                        'authResponse', CAST(pymt_txn_status_desc AS STRING),
-                        'avsCode', CAST(attrib_avs_code AS STRING),
-                        'cardAlias', CAST(card_alias AS STRING),
-                        'cardBin', CAST(pymt_grp_id AS STRING),
-                        'cardLast4', CAST(attrib_card_last4 AS STRING),
-                        'cardToken', CAST(card_token AS STRING),
-                        'cardType', CAST(attrib_card_type_display AS STRING),
-                        'confirmationCode', NULL,
-                        'cvvResponse', CAST(attrib_cvv_response AS STRING),
-                        'email', CAST(addr_email AS STRING),
-                        'expirationDate', CAST(attrib_card_expiry_dt AS STRING),
-                        'giftCardNumber', CAST(CASE WHEN pymt_type = 'Gift Card' THEN attrib_card_last4 END AS STRING),
-                        'sellerProtection', CAST(CASE WHEN pymt_type = 'Gift Card' THEN SELLER_PROTECTION_STATUS END AS STRING)
-                    ),
-                    'authAmount', CAST(pymt_txn_req_amt AS STRING),
-                    'authCode', CAST(auth_cd AS STRING),
-                    'errorMessage', NULL,
-                    'id', NULL,
-                    'originalOrderNumber', CAST(ord_id AS STRING),
-                    'paymentType', CAST(pymt_type AS STRING),
-                    'preSettled', NULL,
-                    'transactionDate', CAST(COALESCE(PYMT_TXN_DT, pymt_txn_req_dt) AS STRING),
-                    'transactionId', CAST(pymt_txn_id AS STRING)
-                ),
-                'creditCard', CASE WHEN pymt_type = 'Credit Card' THEN
-                    OBJECT_CONSTRUCT(
-                        'authInfo', OBJECT_CONSTRUCT(
-                            'authAmount', CAST(pymt_txn_req_amt AS STRING),
-                            'authCode', CAST(auth_cd AS STRING),
-                            'authResponse', CAST(pymt_txn_status_desc AS STRING),
-                            'authTime', CAST(pymt_txn_req_dt AS STRING),
-                            'avsCode', CAST(attrib_avs_code AS STRING),
-                            'cvvResponse', CAST(attrib_cvv_response AS STRING),
-                            'originalOrderNumber', CAST(ord_id AS STRING),
-                            'preSettled', NULL,
-                            'referenceNumber', CAST(transaction_ref_id AS STRING),
-                            'transactionId', CAST(pymt_txn_id AS STRING)
-                        ),
-                        'cardAlias', CAST(card_alias AS STRING),
-                        'cardBin', CAST(pymt_grp_id AS STRING),
-                        'cardLast4', CAST(txn_card_last4 AS STRING),
-                        'cardToken', CAST(card_token AS STRING),
-                        'expirationDate', CAST(attrib_card_expiry_dt AS STRING),
-                        'type', CAST(attrib_card_type_display AS STRING)
-                    )
-                ELSE NULL END,
-                'giftCard', CASE WHEN pymt_type = 'Gift Card' THEN
-                    OBJECT_CONSTRUCT(
-                        'amount', CAST(pymt_method_amt AS STRING),
-                        'authCode', CAST(auth_cd AS STRING),
-                        'giftCardNumber', CAST(attrib_card_last4 AS STRING),
-                        'originalOrderNumber', CAST(ord_id AS STRING),
-                        'preSettled', NULL,
-                        'transactionDate', CAST(COALESCE(PYMT_TXN_DT, pymt_txn_req_dt) AS STRING),
-                        'transactionId', CAST(pymt_txn_id AS STRING)
-                    )
-                ELSE NULL END,
-                'paypal', CASE WHEN pymt_type = 'PayPal' THEN
-                    OBJECT_CONSTRUCT(
-                        'amount', CAST(pymt_method_amt AS STRING),
-                        'authInfo', OBJECT_CONSTRUCT(
-                            'authAmount', CAST(crnt_auth_amt AS STRING),
-                            'authCode', CAST(auth_cd AS STRING),
-                            'authResponse', CAST(pymt_txn_status_desc AS STRING),
-                            'authTime', CAST(pymt_txn_req_dt AS STRING),
-                            'avsCode', CAST(attrib_avs_code AS STRING),
-                            'cvvResponse', CAST(attrib_cvv_response AS STRING),
-                            'originalOrderNumber', CAST(ord_id AS STRING),
-                            'preSettled', NULL,
-                            'referenceNumber', CAST(transaction_ref_id AS STRING),
-                            'transactionId', CAST(pymt_txn_id AS STRING)
-                        ),
-                        'paypalEmailId', CAST(addr_email AS STRING),
-                        'transactionDate', CAST(COALESCE(PYMT_TXN_DT, pymt_txn_req_dt) AS STRING),
-                        'transactionId', CAST(pymt_txn_id AS STRING)
-                    )
-                ELSE NULL END
-            )
-        ) AS payments_info,
-        ARRAY_AGG(pymt_txn_type) AS pymt_txn_types
-    FROM payment
-    WHERE rnk = 1
-    GROUP BY org_id, ord_id
-),
 pymt_txn_status AS (
     SELECT *
     FROM (
@@ -232,33 +119,6 @@ mao_ord_fulfillment_detail AS (
         {% if is_incremental() %}
             AND etl_updt_ts >= {{ v_inc_load_ts }}::timestamp - interval '{{ env_var("DBT_T_MINUS_INTERVAL_DBIMART") | as_text }}'
         {% endif %}
-),
-fct_mao_ord_line_fv AS (
-    SELECT
-        ord_line.org_id,
-        ord_line.ord_id,
-        ord_line.ord_ln_id,
-		FIRST_VALUE(ord_line.orig_unit_price) OVER (PARTITION BY ord_line.org_id, ord_line.ord_id, ord_line.ord_ln_id ORDER BY ord_line.max_fulflmnt_status_id ASC, ord_line.updated_ts ASC) AS fv_orig_unit_price,
-        FIRST_VALUE(ord_line.unit_price) OVER (PARTITION BY ord_line.org_id, ord_line.ord_id, ord_line.ord_ln_id ORDER BY ord_line.max_fulflmnt_status_id ASC, ord_line.updated_ts ASC) AS fv_unit_price,
-        FIRST_VALUE(ord_line.cnlled_total_disc) OVER (PARTITION BY ord_line.org_id, ord_line.ord_id, ord_line.ord_ln_id ORDER BY ord_line.max_fulflmnt_status_id ASC, ord_line.updated_ts ASC) AS fv_cnlled_total_disc,
-        FIRST_VALUE(ord_line.total_disc) OVER (PARTITION BY ord_line.org_id, ord_line.ord_id, ord_line.ord_ln_id ORDER BY ord_line.max_fulflmnt_status_id ASC, ord_line.updated_ts ASC) AS fv_total_disc,
-        FIRST_VALUE(ord_line.cnlled_ord_ln_total) OVER (PARTITION BY ord_line.org_id, ord_line.ord_id, ord_line.ord_ln_id ORDER BY ord_line.max_fulflmnt_status_id ASC, ord_line.updated_ts ASC) AS fv_cnlled_ord_ln_total,
-        FIRST_VALUE(ord_line.ord_ln_total) OVER (PARTITION BY ord_line.org_id, ord_line.ord_id, ord_line.ord_ln_id ORDER BY ord_line.max_fulflmnt_status_id ASC, ord_line.updated_ts ASC) AS fv_ord_ln_total,
-        FIRST_VALUE(ord_line.cnlled_total_charges) OVER (PARTITION BY ord_line.org_id, ord_line.ord_id, ord_line.ord_ln_id ORDER BY ord_line.max_fulflmnt_status_id ASC, ord_line.updated_ts ASC) AS fv_cnlled_total_charges,
-        FIRST_VALUE(ord_line.total_charges) OVER (PARTITION BY ord_line.org_id, ord_line.ord_id, ord_line.ord_ln_id ORDER BY ord_line.max_fulflmnt_status_id ASC, ord_line.updated_ts ASC) AS fv_total_charges,
-        FIRST_VALUE(ord_line.cnlled_total_taxes) OVER (PARTITION BY ord_line.org_id, ord_line.ord_id, ord_line.ord_ln_id ORDER BY ord_line.max_fulflmnt_status_id ASC, ord_line.updated_ts ASC) AS fv_cnlled_total_taxes,
-        FIRST_VALUE(ord_line.total_taxes) OVER (PARTITION BY ord_line.org_id, ord_line.ord_id, ord_line.ord_ln_id ORDER BY ord_line.max_fulflmnt_status_id ASC, ord_line.updated_ts ASC) AS fv_total_taxes,
-        FIRST_VALUE(ord_line.cnlled_orig_ord_shipping_tax_amt) OVER (PARTITION BY ord_line.org_id, ord_line.ord_id, ord_line.ord_ln_id ORDER BY ord_line.max_fulflmnt_status_id ASC, ord_line.updated_ts ASC) AS fv_cnlled_ord_shipping_tax_amt,
-        FIRST_VALUE(ord_line.cnlled_orig_ord_shipping_amt) OVER (PARTITION BY ord_line.org_id, ord_line.ord_id, ord_line.ord_ln_id ORDER BY ord_line.max_fulflmnt_status_id ASC, ord_line.updated_ts ASC) AS fv_cnlled_ord_shipping_amt,
-        FIRST_VALUE(ord_line.orig_ord_shipping_amt) OVER (PARTITION BY ord_line.org_id, ord_line.ord_id, ord_line.ord_ln_id ORDER BY ord_line.max_fulflmnt_status_id ASC, ord_line.updated_ts ASC) AS fv_ord_shipping_amt,
-        FIRST_VALUE(ord_line.orig_ord_shipping_tax_amt) OVER (PARTITION BY ord_line.org_id, ord_line.ord_id, ord_line.ord_ln_id ORDER BY ord_line.max_fulflmnt_status_id ASC, ord_line.updated_ts ASC) AS fv_ord_shipping_tax_amt,
-        FIRST_VALUE(ord_line.cnlled_ord_ln_sub_total) OVER (PARTITION BY ord_line.org_id, ord_line.ord_id, ord_line.ord_ln_id ORDER BY ord_line.max_fulflmnt_status_id ASC, ord_line.updated_ts ASC) AS fv_cnlled_ord_ln_sub_total,
-        FIRST_VALUE(ord_line.ord_ln_sub_total) OVER (PARTITION BY ord_line.org_id, ord_line.ord_id, ord_line.ord_ln_id ORDER BY ord_line.max_fulflmnt_status_id ASC, ord_line.updated_ts ASC) AS fv_ord_ln_sub_total,
-        FIRST_VALUE(ord_line.cnlled_orig_ord_sales_tax_amt) OVER (PARTITION BY ord_line.org_id, ord_line.ord_id, ord_line.ord_ln_id ORDER BY ord_line.max_fulflmnt_status_id ASC, ord_line.updated_ts ASC) AS fv_cnlled_ord_sales_tax_amt,
-        FIRST_VALUE(ord_line.orig_ord_sales_tax_amt) OVER (PARTITION BY ord_line.org_id, ord_line.ord_id, ord_line.ord_ln_id ORDER BY ord_line.max_fulflmnt_status_id ASC, ord_line.updated_ts ASC) AS fv_ord_sales_tax_amt,
-		FIRST_VALUE(ord_line.gift_card_value) OVER (PARTITION BY ord_line.org_id, ord_line.ord_id, ord_line.ord_ln_id ORDER BY ord_line.max_fulflmnt_status_id ASC, ord_line.updated_ts ASC) AS fv_gift_card_value,
-        ROW_NUMBER() OVER (PARTITION BY ord_line.org_id, ord_line.ord_id, ord_line.ord_ln_id ORDER BY ord_line.max_fulflmnt_status_id ASC, ord_line.updated_ts ASC) AS fv_rnk
-    FROM {{ source('dom_gold', 'fct_mao_ord_line_hist_v') }} ord_line
 ),
 fct_mao_ord_line AS (
     SELECT
@@ -328,24 +188,25 @@ fct_mao_ord_line AS (
         ol.updated_ts,
         ol.updated_by,
         ol.etl_updt_ts,
-		fv.fv_orig_unit_price,
-		fv.fv_unit_price,
-        fv.fv_cnlled_total_disc,
-        fv.fv_total_disc,
-        fv.fv_cnlled_ord_ln_total,
-        fv.fv_ord_ln_total,
-        fv.fv_cnlled_total_charges,
-        fv.fv_total_charges,
-		fv.fv_cnlled_total_taxes,
-		fv.fv_total_taxes,
-		fv.fv_cnlled_ord_shipping_amt,
-		fv.fv_ord_shipping_amt,
-        fv.fv_cnlled_ord_shipping_tax_amt,
-        fv.fv_ord_shipping_tax_amt,
-        fv.fv_cnlled_ord_ln_sub_total,
-        fv.fv_ord_ln_sub_total,
-        fv.fv_cnlled_ord_sales_tax_amt,
-        fv.fv_ord_sales_tax_amt,
+        FIRST_VALUE(ol.orig_unit_price) OVER (PARTITION BY ol.org_id, ol.ord_id, ol.ord_ln_id ORDER BY ol.max_fulflmnt_status_id ASC, ol.updated_ts ASC) AS fv_orig_unit_price,
+        FIRST_VALUE(ol.unit_price) OVER (PARTITION BY ol.org_id, ol.ord_id, ol.ord_ln_id ORDER BY ol.max_fulflmnt_status_id ASC, ol.updated_ts ASC) AS fv_unit_price,
+        FIRST_VALUE(ol.cnlled_total_disc) OVER (PARTITION BY ol.org_id, ol.ord_id, ol.ord_ln_id ORDER BY ol.max_fulflmnt_status_id ASC, ol.updated_ts ASC) AS fv_cnlled_total_disc,
+        FIRST_VALUE(ol.total_disc) OVER (PARTITION BY ol.org_id, ol.ord_id, ol.ord_ln_id ORDER BY ol.max_fulflmnt_status_id ASC, ol.updated_ts ASC) AS fv_total_disc,
+        FIRST_VALUE(ol.cnlled_ord_ln_total) OVER (PARTITION BY ol.org_id, ol.ord_id, ol.ord_ln_id ORDER BY ol.max_fulflmnt_status_id ASC, ol.updated_ts ASC) AS fv_cnlled_ord_ln_total,
+        FIRST_VALUE(ol.ord_ln_total) OVER (PARTITION BY ol.org_id, ol.ord_id, ol.ord_ln_id ORDER BY ol.max_fulflmnt_status_id ASC, ol.updated_ts ASC) AS fv_ord_ln_total,
+        FIRST_VALUE(ol.cnlled_total_charges) OVER (PARTITION BY ol.org_id, ol.ord_id, ol.ord_ln_id ORDER BY ol.max_fulflmnt_status_id ASC, ol.updated_ts ASC) AS fv_cnlled_total_charges,
+        FIRST_VALUE(ol.total_charges) OVER (PARTITION BY ol.org_id, ol.ord_id, ol.ord_ln_id ORDER BY ol.max_fulflmnt_status_id ASC, ol.updated_ts ASC) AS fv_total_charges,
+        FIRST_VALUE(ol.cnlled_total_taxes) OVER (PARTITION BY ol.org_id, ol.ord_id, ol.ord_ln_id ORDER BY ol.max_fulflmnt_status_id ASC, ol.updated_ts ASC) AS fv_cnlled_total_taxes,
+        FIRST_VALUE(ol.total_taxes) OVER (PARTITION BY ol.org_id, ol.ord_id, ol.ord_ln_id ORDER BY ol.max_fulflmnt_status_id ASC, ol.updated_ts ASC) AS fv_total_taxes,
+        FIRST_VALUE(ol.cnlled_orig_ord_shipping_tax_amt) OVER (PARTITION BY ol.org_id, ol.ord_id, ol.ord_ln_id ORDER BY ol.max_fulflmnt_status_id ASC, ol.updated_ts ASC) AS fv_cnlled_ord_shipping_tax_amt,
+        FIRST_VALUE(ol.cnlled_orig_ord_shipping_amt) OVER (PARTITION BY ol.org_id, ol.ord_id, ol.ord_ln_id ORDER BY ol.max_fulflmnt_status_id ASC, ol.updated_ts ASC) AS fv_cnlled_ord_shipping_amt,
+        FIRST_VALUE(ol.orig_ord_shipping_amt) OVER (PARTITION BY ol.org_id, ol.ord_id, ol.ord_ln_id ORDER BY ol.max_fulflmnt_status_id ASC, ol.updated_ts ASC) AS fv_ord_shipping_amt,
+        FIRST_VALUE(ol.orig_ord_shipping_tax_amt) OVER (PARTITION BY ol.org_id, ol.ord_id, ol.ord_ln_id ORDER BY ol.max_fulflmnt_status_id ASC, ol.updated_ts ASC) AS fv_ord_shipping_tax_amt,
+        FIRST_VALUE(ol.cnlled_ord_ln_sub_total) OVER (PARTITION BY ol.org_id, ol.ord_id, ol.ord_ln_id ORDER BY ol.max_fulflmnt_status_id ASC, ol.updated_ts ASC) AS fv_cnlled_ord_ln_sub_total,
+        FIRST_VALUE(ol.ord_ln_sub_total) OVER (PARTITION BY ol.org_id, ol.ord_id, ol.ord_ln_id ORDER BY ol.max_fulflmnt_status_id ASC, ol.updated_ts ASC) AS fv_ord_ln_sub_total,
+        FIRST_VALUE(ol.cnlled_orig_ord_sales_tax_amt) OVER (PARTITION BY ol.org_id, ol.ord_id, ol.ord_ln_id ORDER BY ol.max_fulflmnt_status_id ASC, ol.updated_ts ASC) AS fv_cnlled_ord_sales_tax_amt,
+        FIRST_VALUE(ol.orig_ord_sales_tax_amt) OVER (PARTITION BY ol.org_id, ol.ord_id, ol.ord_ln_id ORDER BY ol.max_fulflmnt_status_id ASC, ol.updated_ts ASC) AS fv_ord_sales_tax_amt,
+        FIRST_VALUE(ol.gift_card_value) OVER (PARTITION BY ol.org_id, ol.ord_id, ol.ord_ln_id ORDER BY ol.max_fulflmnt_status_id ASC, ol.updated_ts ASC) AS fv_gift_card_value,
         ROW_NUMBER() OVER (
             PARTITION BY ol.org_id, ol.ord_id, ol.ord_ln_id
             ORDER BY ol.updated_ts DESC
@@ -353,12 +214,9 @@ fct_mao_ord_line AS (
     FROM {{ source('dom_gold', 'fct_mao_ord_line_hist_v') }} ol
     JOIN {{ source('dom_gold', 'fct_mao_ord_hdr_v') }} oh
         ON oh.org_id = ol.org_id AND oh.ord_id = ol.ord_id
-    LEFT JOIN fct_mao_ord_line_fv fv
-        ON ol.org_id = fv.org_id AND ol.ord_id = fv.ord_id AND ol.ord_ln_id = fv.ord_ln_id AND fv.fv_rnk = 1
     WHERE oh.doc_type_id = 'CustomerOrder'
         AND NOT (ol.max_fulflmnt_status_id IS NULL OR ol.max_fulflmnt_status_id > 9000)
-        AND ol.prnt_ord_id IS NULL
-        AND ol.is_even_exchg = 0
+        AND (ol.prnt_ord_id IS NULL OR ol.is_even_exchg = 1)
         AND ol.max_fulflmnt_status_id NOT IN ('8000', '8500')
 ),
 fct_mao_ful_line AS (
@@ -412,7 +270,7 @@ fct_mao_ful_line AS (
         ol.cnlled_total_charges,
         ol.ord_sales_tax_amt,
         ol.cnlled_ord_sales_tax_amt,
-		ol.fv_orig_unit_price,
+        ol.fv_orig_unit_price,
 		ol.fv_unit_price,
         ol.fv_cnlled_total_disc,
         ol.fv_total_disc,
@@ -465,6 +323,18 @@ store_fulflmnts AS (
     SELECT rel_id, rel_ln_id
     FROM fct_mao_ful_line
     GROUP BY all
+),
+mao_rejections AS (
+    SELECT
+        fd.org_id,
+        fd.ord_id,
+        fd.ord_ln_id,
+        fd.rel_id,
+        fd.rel_ln_id
+    FROM mao_ord_fulfillment_detail fd
+    JOIN fct_mao_ord_line ol
+        ON fd.org_id = ol.org_id AND fd.ord_id = ol.ord_id AND fd.ord_ln_id = ol.ord_ln_id
+    WHERE fd.is_rejected = 1 AND fd.status_id <= '3500' AND ol.max_fulflmnt_status_id < '3500'
 ),
 mao_consignments AS (
     SELECT
@@ -566,8 +436,8 @@ mao_consignments AS (
         fd.is_rejected,
         NULL::STRING AS short_reason_id,
         NULL::STRING AS rejected_flg,
-        COALESCE(fd.rel_created_ts, fd.created_ts) AS rel_created_ts,
-		ol.fv_orig_unit_price,
+        fd.created_ts AS rel_created_ts,
+        ol.fv_orig_unit_price,
 		ol.fv_unit_price,
         ol.fv_cnlled_total_disc,
         ol.fv_total_disc,
@@ -589,6 +459,7 @@ mao_consignments AS (
     JOIN fct_mao_ord_line ol
         ON fd.org_id = ol.org_id AND fd.ord_id = ol.ord_id AND fd.ord_ln_id = ol.ord_ln_id
     WHERE NOT EXISTS (SELECT 'x' FROM store_fulflmnts sf WHERE fd.rel_id = sf.rel_id AND fd.rel_ln_id = sf.rel_ln_id)
+        AND NOT EXISTS (SELECT 'x' FROM mao_rejections r WHERE fd.org_id = r.org_id AND fd.ord_id = r.ord_id AND fd.ord_ln_id = r.ord_ln_id AND fd.rel_id = r.rel_id AND fd.rel_ln_id = r.rel_ln_id)
     UNION ALL
     SELECT
         'StoreFulfillment' AS fulflmnt_type,
@@ -690,7 +561,7 @@ mao_consignments AS (
         fl.short_reason_id,
         fl.rejected_flg,
         fl.created_ts AS rel_created_ts,
-		fl.fv_orig_unit_price,
+        fl.fv_orig_unit_price,
 		fl.fv_unit_price,
         fl.fv_cnlled_total_disc,
         fl.fv_total_disc,
@@ -711,6 +582,7 @@ mao_consignments AS (
     FROM mao_ord_fulfillment_detail fd
     JOIN fct_mao_ful_line fl
         ON fd.rel_id = fl.rel_id AND fd.rel_ln_id = fl.rel_ln_id
+    WHERE NOT EXISTS (SELECT 'x' FROM mao_rejections r WHERE fd.org_id = r.org_id AND fd.ord_id = r.ord_id AND fd.ord_ln_id = r.ord_ln_id AND fd.rel_id = r.rel_id AND fd.rel_ln_id = r.rel_ln_id)
 ),
 consignments AS (
     SELECT
@@ -960,6 +832,143 @@ consignment_entries AS (
         ON ent.cnl_reason_id = cnl_reason.cancel_reason_id
     WHERE ent.entry_rnk = 1
     GROUP BY ALL
+),
+order_line_tax as (
+    select org_id con_org_id,ord_id con_ord_id,ord_ln_id as con_ord_ln_id,
+    	ABS(SUM(COALESCE(fv.fv_cnlled_ord_shipping_tax_amt, 0) + COALESCE(fv.fv_ord_shipping_tax_amt, 0))) AS shippingtaxamount,
+        ABS(SUM(COALESCE(fv.fv_cnlled_ord_sales_tax_amt, 0) + COALESCE(fv.fv_ord_sales_tax_amt, 0))) AS taxamount
+    from 
+		fct_mao_ord_line fv
+    WHERE ord_ln_rnk = 1
+    group by all
+),
+payment as (
+    select 
+        pymt.* exclude(pymt_txn_amt),
+        case 
+            when pymt.pymt_txn_cnt = 1 then coalesce(pymt.inv_ln_total, pymt.pymt_txn_amt, 0)
+            else coalesce(pymt.pymt_txn_amt, 0)
+        end as pymt_txn_amt
+    from (
+        SELECT
+            *,
+            ROW_NUMBER() OVER (
+                PARTITION BY org_id, ord_id, ord_ln_id, pymt_txn_id,pymt_txn_dtl_id, inv_id,inv_ln_id
+                ORDER BY inv_ln_updated_ts desc, src_load_ts desc
+            ) AS pymt_rnk,
+            COUNT(DISTINCT pymt_txn_id || '~' || coalesce(pymt_txn_dtl_id, '')) OVER (
+                PARTITION BY org_id, ord_id, ord_ln_id, inv_id,inv_ln_id
+            ) AS pymt_txn_cnt
+        FROM {{ source('dom_gold', 'fct_mao_ord_pymt_line_v') }}
+        WHERE lower(pymt_txn_type) not in ('authorization', 'authorization reversal','refund')
+    ) pymt 
+    where pymt.pymt_rnk = 1
+),
+payment_grouped AS (
+    SELECT
+        org_id,
+        ord_id,
+		ord_ln_id,
+        ARRAY_AGG(
+            OBJECT_CONSTRUCT(
+                'amount', CAST(ABS(COALESCE(pymt_txn_amt,0)) AS STRING),
+                'authCode', CAST(auth_cd AS STRING),
+                'cardLast4', CAST(txn_card_last4 AS STRING),
+                'cegrRefId', CAST(inv_id AS STRING),
+                'paymentTransactionId', CAST(pymt_txn_id AS STRING),
+                'paymentTransactionSubType', NULL,
+                'paymentTransactionType', CAST(pymt_txn_type AS STRING),
+                'paymentType', CAST(CASE WHEN pymt_type = 'Gift Card' THEN 'GIFTCARD' WHEN pymt_type = 'Credit Card' THEN 'CREDITCARD' ELSE UPPER(pymt_type) END AS STRING),
+                'creditCardType', CAST(pymt_card_type AS STRING),
+                'date', CAST(created_ts AS STRING),
+                'shippingTaxAmount', CAST(shippingtaxamount AS STRING),
+                'taxAmount', CAST(taxamount AS STRING),
+                'authorization', OBJECT_CONSTRUCT(
+                    'attributes', OBJECT_CONSTRUCT(
+                        'authResponse', CAST(pymt_txn_status_desc AS STRING),
+                        'avsCode', CAST(attrib_avs_code AS STRING),
+                        'cardAlias', CAST(card_alias AS STRING),
+                        'cardBin', CAST(pymt_grp_id AS STRING),
+                        'cardLast4', CAST(attrib_card_last4 AS STRING),
+                        'cardToken', CAST(card_token AS STRING),
+                        'cardType', CAST(attrib_card_type_display AS STRING),
+                        'confirmationCode', NULL,
+                        'cvvResponse', CAST(attrib_cvv_response AS STRING),
+                        'email', CAST(addr_email AS STRING),
+                        'expirationDate', CAST(attrib_card_expiry_dt AS STRING),
+                        'giftCardNumber', CAST(CASE WHEN pymt_type = 'Gift Card' THEN attrib_card_last4 END AS STRING),
+                        'sellerProtection', CAST(CASE WHEN pymt_type = 'Gift Card' THEN SELLER_PROTECTION_STATUS END AS STRING)
+                    ),
+                    'authAmount', CAST(ABS(COALESCE(pymt_txn_req_amt,0)) AS STRING),
+                    'authCode', CAST(auth_cd AS STRING),
+                    'errorMessage', NULL,
+                    'id', NULL,
+                    'originalOrderNumber', CAST(ord_id AS STRING),
+                    'paymentType', CAST(pymt_type AS STRING),
+                    'preSettled', NULL,
+                    'transactionDate', CAST(COALESCE(pymt_txn_dt, pymt_txn_req_dt, created_ts) AS STRING),
+                    'transactionId', CAST(pymt_txn_id AS STRING)
+                ),
+                'creditCard', CASE WHEN pymt_type = 'Credit Card' THEN
+                    OBJECT_CONSTRUCT(
+                        'authInfo', OBJECT_CONSTRUCT(
+                            'authAmount', CAST(ABS(COALESCE(pymt_txn_req_amt,0)) AS STRING),
+                            'authCode', CAST(auth_cd AS STRING),
+                            'authResponse', CAST(pymt_txn_status_desc AS STRING),
+                            'authTime', CAST(COALESCE(pymt_txn_dt, pymt_txn_req_dt, created_ts) AS STRING),
+                            'avsCode', CAST(attrib_avs_code AS STRING),
+                            'cvvResponse', CAST(attrib_cvv_response AS STRING),
+                            'originalOrderNumber', CAST(ord_id AS STRING),
+                            'preSettled', NULL,
+                            'referenceNumber', CAST(transaction_ref_id AS STRING),
+                            'transactionId', CAST(pymt_txn_id AS STRING)
+                        ),
+                        'cardAlias', CAST(card_alias AS STRING),
+                        'cardBin', CAST(pymt_grp_id AS STRING),
+                        'cardLast4', CAST(txn_card_last4 AS STRING),
+                        'cardToken', CAST(card_token AS STRING),
+                        'expirationDate', CAST(attrib_card_expiry_dt AS STRING),
+                        'type', CAST(attrib_card_type_display AS STRING)
+                    )
+                ELSE NULL END,
+                'giftCard', CASE WHEN pymt_type = 'Gift Card' THEN
+                    OBJECT_CONSTRUCT(
+                        'amount', CAST(ABS(COALESCE(pymt_txn_amt,0)) AS STRING),
+                        'authCode', CAST(auth_cd AS STRING),
+                        'giftCardNumber', CAST(attrib_card_last4 AS STRING),
+                        'originalOrderNumber', CAST(ord_id AS STRING),
+                        'preSettled', NULL,
+                        'transactionDate', CAST(COALESCE(pymt_txn_dt, pymt_txn_req_dt, created_ts) AS STRING),
+                        'transactionId', CAST(pymt_txn_id AS STRING)
+                    )
+                ELSE NULL END,
+                'paypal', CASE WHEN pymt_type = 'PayPal' THEN
+                    OBJECT_CONSTRUCT(
+                        'amount', CAST(ABS(COALESCE(pymt_txn_amt,0)) AS STRING),
+                        'authInfo', OBJECT_CONSTRUCT(
+                            'authAmount', CAST(ABS(COALESCE(pymt_txn_req_amt,0)) AS STRING),
+                            'authCode', CAST(auth_cd AS STRING),
+                            'authResponse', CAST(pymt_txn_status_desc AS STRING),
+                            'authTime', CAST(COALESCE(pymt_txn_dt, pymt_txn_req_dt, created_ts) AS STRING),
+                            'avsCode', CAST(attrib_avs_code AS STRING),
+                            'cvvResponse', CAST(attrib_cvv_response AS STRING),
+                            'originalOrderNumber', CAST(ord_id AS STRING),
+                            'preSettled', NULL,
+                            'referenceNumber', CAST(transaction_ref_id AS STRING),
+                            'transactionId', CAST(pymt_txn_id AS STRING)
+                        ),
+                        'paypalEmailId', CAST(addr_email AS STRING),
+                        'transactionDate', CAST(COALESCE(pymt_txn_dt, pymt_txn_req_dt, created_ts) AS STRING),
+                        'transactionId', CAST(pymt_txn_id AS STRING)
+                    )
+                ELSE NULL END
+            )
+        ) AS payments_info,
+        ARRAY_AGG(pymt_txn_type) AS pymt_txn_types
+    FROM payment pymt left 
+		join order_line_tax con on  (pymt.org_id=con.con_org_id and pymt.ord_id=con.con_ord_id and pymt.ord_ln_id=con.con_ord_ln_id)
+    WHERE pymt_rnk = 1
+    GROUP BY all
 )
 SELECT
     con.ord_id::STRING AS order_id,
@@ -1048,7 +1057,7 @@ JOIN consignment_entries ent
     AND con.consignment_id = ent.consignment_id
     AND con.consignment_status = ent.consignment_status
 LEFT JOIN payment_grouped pymt_line
-    ON con.org_id = pymt_line.org_id AND con.ord_id = pymt_line.ord_id
+    ON con.org_id = pymt_line.org_id AND con.ord_id = pymt_line.ord_id AND con.ord_ln_id = pymt_line.ord_ln_id
 LEFT JOIN bill_address_dtl bill_dtl
     ON bill_dtl.org_id = con.org_id AND bill_dtl.ord_id = con.ord_id
 LEFT JOIN {{ source('dom_gold', 'dim_mao_loc_v') }} loc

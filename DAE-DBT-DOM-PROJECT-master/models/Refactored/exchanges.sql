@@ -71,15 +71,6 @@ product_master_div AS (
     WHERE banner_id IN ('03', '16', '18', '76', '77')
     GROUP BY ALL
 ),
-payment AS (
-    SELECT
-        *,
-        ROW_NUMBER() OVER (
-            PARTITION BY org_id, ord_id, pymt_method_id, pymt_txn_id
-            ORDER BY NVL(PYMT_TXN_DETAIL_ID, '') DESC
-        ) AS rnk
-    FROM {{ source('dom_gold', 'fct_mao_ord_pymt_line_v') }}
-),
 fct_mao_ord_line_stg AS (
     SELECT
         ord_line.*,
@@ -105,7 +96,8 @@ fct_mao_ord_line_stg AS (
         FIRST_VALUE(ord_line.ord_ln_sub_total) OVER (PARTITION BY ord_line.org_id, ord_line.ord_id, ord_line.ord_ln_id ORDER BY ord_line.max_fulflmnt_status_id ASC, ord_line.updated_ts ASC) AS fv_ord_ln_sub_total,
         FIRST_VALUE(ord_line.cnlled_orig_ord_sales_tax_amt) OVER (PARTITION BY ord_line.org_id, ord_line.ord_id, ord_line.ord_ln_id ORDER BY ord_line.max_fulflmnt_status_id ASC, ord_line.updated_ts ASC) AS fv_cnlled_ord_sales_tax_amt,
         FIRST_VALUE(ord_line.orig_ord_sales_tax_amt) OVER (PARTITION BY ord_line.org_id, ord_line.ord_id, ord_line.ord_ln_id ORDER BY ord_line.max_fulflmnt_status_id ASC, ord_line.updated_ts ASC) AS fv_ord_sales_tax_amt,
-		FIRST_VALUE(ord_line.gift_card_value) OVER (PARTITION BY ord_line.org_id, ord_line.ord_id, ord_line.ord_ln_id ORDER BY ord_line.max_fulflmnt_status_id ASC, ord_line.updated_ts ASC) AS fv_gift_card_value
+		FIRST_VALUE(ord_line.gift_card_value) OVER (PARTITION BY ord_line.org_id, ord_line.ord_id, ord_line.ord_ln_id ORDER BY ord_line.max_fulflmnt_status_id ASC, ord_line.updated_ts ASC) AS fv_gift_card_value,
+        ROW_NUMBER() OVER (PARTITION BY ord_line.org_id, ord_line.ord_id, ord_line.ord_ln_id ORDER BY ord_line.max_fulflmnt_status_id ASC, ord_line.updated_ts ASC) AS fv_rnk
     FROM base_ord_line_hist ord_line
     JOIN base_ord_hdr ord_hdr
         ON ord_line.org_id = ord_hdr.org_id AND ord_line.ord_id = ord_hdr.ord_id
@@ -125,24 +117,57 @@ fct_mao_ord_line AS (
     )
     WHERE ord_ln_status_rnk = 1
 ),
+fct_mao_ord_tax_agg as (
+	select org_id ol_org_id,ord_id as ol_ord_id, ord_ln_id as ol_ord_ln_id,
+		ABS(SUM(COALESCE(fv.fv_cnlled_ord_shipping_tax_amt, 0) + COALESCE(fv.fv_ord_shipping_tax_amt, 0))) AS shippingtaxamount,
+		ABS(SUM(COALESCE(fv.fv_cnlled_ord_sales_tax_amt, 0) + COALESCE(fv.fv_ord_sales_tax_amt, 0))) AS taxamount
+	from 
+		fct_mao_ord_line fv
+    where 
+        fv_rnk = 1
+	group by all
+),
+payment as (
+    select 
+        pymt.* exclude(pymt_txn_amt),
+        case 
+            when pymt.pymt_txn_cnt = 1 then coalesce(pymt.inv_ln_total, pymt.pymt_txn_amt, 0)
+            else coalesce(pymt.pymt_txn_amt, 0)
+        end as pymt_txn_amt
+    from (
+        SELECT
+            *,
+            ROW_NUMBER() OVER (
+                PARTITION BY org_id, ord_id, ord_ln_id, pymt_txn_id,pymt_txn_dtl_id, inv_id,inv_ln_id
+                ORDER BY inv_ln_updated_ts desc, src_load_ts desc
+            ) AS pymt_rnk,
+            COUNT(DISTINCT pymt_txn_id || '~' || coalesce(pymt_txn_dtl_id, '')) OVER (
+                PARTITION BY org_id, ord_id, ord_ln_id, inv_id,inv_ln_id
+            ) AS pymt_txn_cnt
+        FROM {{ source('dom_gold', 'fct_mao_ord_pymt_line_v') }}
+        WHERE lower(pymt_txn_type) not in ('authorization', 'authorization reversal','refund')
+    ) pymt 
+    where pymt.pymt_rnk = 1
+),
 payment_grouped AS (
     SELECT
         org_id,
         ord_id,
+		ord_ln_id,
         ARRAY_AGG(
             OBJECT_CONSTRUCT(
-                'amount', CAST(pymt_method_amt AS VARCHAR),
+                'amount', CAST(ABS(COALESCE(pymt_txn_amt,0)) AS VARCHAR),
                 'authCode', CAST(auth_cd AS VARCHAR),
                 'cardLast4', CAST(txn_card_last4 AS VARCHAR),
                 'cegrRefId', CAST(inv_id AS VARCHAR),
-                'paymentTransactionId', CAST(PYMT_TXN_ID AS VARCHAR),
+                'paymentTransactionId', CAST(pymt_txn_id AS VARCHAR),
                 'paymentTransactionSubType', CAST(NULL AS VARCHAR),
-                'paymentTransactionType', CAST(PYMT_TXN_TYPE AS VARCHAR),
+                'paymentTransactionType', CAST(pymt_txn_type AS VARCHAR),
                 'paymentType', CAST(CASE WHEN pymt_type = 'Gift Card' THEN 'GIFTCARD' WHEN pymt_type = 'Credit Card' THEN 'CREDITCARD' ELSE UPPER(pymt_type) END AS STRING),
-                'creditCardType', CAST(PYMT_CARD_TYPE AS VARCHAR),
-                'date', CAST(COALESCE(PYMT_TXN_DT, pymt_txn_req_dt) AS VARCHAR),
-                'shippingTaxAmount', CAST(NULL AS VARCHAR),
-                'taxAmount', CAST(NULL AS VARCHAR),
+                'creditCardType', CAST(pymt_card_type AS VARCHAR),
+                'date', CAST(created_ts AS VARCHAR),
+                'shippingTaxAmount', CAST(shippingtaxamount AS VARCHAR),
+                'taxAmount', CAST(taxamount AS VARCHAR),
                 'authorization', OBJECT_CONSTRUCT(
                     'attributes', OBJECT_CONSTRUCT(
                         'authResponse', CAST(pymt_txn_status_desc AS VARCHAR),
@@ -159,23 +184,23 @@ payment_grouped AS (
                         'giftCardNumber', CAST(CASE WHEN pymt_type = 'Gift Card' THEN attrib_card_last4 END AS VARCHAR),
                         'sellerProtection', CAST(CASE WHEN pymt_type = 'Gift Card' THEN SELLER_PROTECTION_STATUS END AS VARCHAR)
                     ),
-                    'authAmount', CAST(pymt_txn_req_amt AS VARCHAR),
+                    'authAmount', CAST(ABS(COALESCE(pymt_txn_req_amt,0)) AS VARCHAR),
                     'authCode', CAST(auth_cd AS VARCHAR),
                     'errorMessage', CAST(NULL AS VARCHAR),
                     'id', CAST(NULL AS VARCHAR),
                     'originalOrderNumber', CAST(ord_id AS VARCHAR),
                     'paymentType', CAST(pymt_type AS VARCHAR),
                     'preSettled', CAST(NULL AS VARCHAR),
-                    'transactionDate', CAST(COALESCE(PYMT_TXN_DT, pymt_txn_req_dt) AS VARCHAR),
+                    'transactionDate', CAST(COALESCE(pymt_txn_dt, pymt_txn_req_dt, created_ts) AS VARCHAR),
                     'transactionId', CAST(pymt_txn_id AS VARCHAR)
                 ),
                 'creditCard', CASE WHEN pymt_type = 'Credit Card' THEN
                     OBJECT_CONSTRUCT(
                         'authInfo', OBJECT_CONSTRUCT(
-                            'authAmount', CAST(pymt_txn_req_amt AS VARCHAR),
+                            'authAmount', CAST(ABS(COALESCE(pymt_txn_req_amt,0)) AS VARCHAR),
                             'authCode', CAST(auth_cd AS VARCHAR),
                             'authResponse', CAST(pymt_txn_status_desc AS VARCHAR),
-                            'authTime', CAST(pymt_txn_req_dt AS VARCHAR),
+                            'authTime', CAST(COALESCE(pymt_txn_dt, pymt_txn_req_dt, created_ts) AS VARCHAR),
                             'avsCode', CAST(attrib_avs_code AS VARCHAR),
                             'cvvResponse', CAST(attrib_cvv_response AS VARCHAR),
                             'originalOrderNumber', CAST(ord_id AS VARCHAR),
@@ -193,20 +218,20 @@ payment_grouped AS (
                 ELSE NULL END,
                 'giftCard', CASE WHEN pymt_type = 'Gift Card' THEN
                     OBJECT_CONSTRUCT(
-                        'amount', CAST(pymt_method_amt AS VARCHAR),
+                        'amount', CAST(ABS(COALESCE(pymt_txn_amt,0)) AS VARCHAR),
                         'authCode', CAST(auth_cd AS VARCHAR),
                         'giftCardNumber', CAST(attrib_card_last4 AS VARCHAR),
                         'originalOrderNumber', CAST(ord_id AS VARCHAR),
                         'preSettled', CAST(NULL AS VARCHAR),
-                        'transactionDate', CAST(COALESCE(PYMT_TXN_DT, pymt_txn_req_dt) AS VARCHAR),
+                        'transactionDate', CAST(COALESCE(pymt_txn_dt, pymt_txn_req_dt, created_ts) AS VARCHAR),
                         'transactionId', CAST(pymt_txn_id AS VARCHAR)
                     )
                 ELSE NULL END,
                 'paypal', CASE WHEN pymt_type = 'PayPal' THEN
                     OBJECT_CONSTRUCT(
-                        'amount', CAST(pymt_method_amt AS VARCHAR),
+                        'amount', CAST(ABS(COALESCE(pymt_txn_amt,0)) AS VARCHAR),
                         'authInfo', OBJECT_CONSTRUCT(
-                            'authAmount', CAST(crnt_auth_amt AS VARCHAR),
+                            'authAmount', CAST(ABS(COALESCE(pymt_txn_req_amt,0)) AS VARCHAR),
                             'authCode', CAST(auth_cd AS VARCHAR),
                             'authResponse', CAST(pymt_txn_status_desc AS VARCHAR),
                             'authTime', CAST(pymt_txn_req_dt AS VARCHAR),
@@ -218,15 +243,15 @@ payment_grouped AS (
                             'transactionId', CAST(pymt_txn_id AS VARCHAR)
                         ),
                         'paypalEmailId', CAST(addr_email AS VARCHAR),
-                        'transactionDate', CAST(COALESCE(PYMT_TXN_DT, pymt_txn_req_dt) AS VARCHAR),
+                        'transactionDate', CAST(COALESCE(pymt_txn_dt, pymt_txn_req_dt, created_ts) AS VARCHAR),
                         'transactionId', CAST(pymt_txn_id AS VARCHAR)
                     )
                 ELSE NULL END
             )
         ) AS payments_info
-    FROM payment
-    WHERE rnk = 1
-    GROUP BY org_id, ord_id
+    FROM payment pymt left join fct_mao_ord_tax_agg ord on  (pymt.org_id=ord.ol_org_id and pymt.ord_id=ord.ol_ord_id and pymt.ord_ln_id=ord.ol_ord_ln_id)
+    WHERE pymt.pymt_rnk = 1
+    GROUP BY all
 ),
 exchanges AS (
 SELECT
@@ -393,7 +418,7 @@ FROM fct_mao_ord_line ord_line
 JOIN base_ord_hdr ord_hdr
     ON ord_line.org_id = ord_hdr.org_id AND ord_line.ord_id = ord_hdr.ord_id
 LEFT JOIN payment_grouped pmt
-    ON ord_line.ord_id = pmt.ord_id AND ord_line.org_id = pmt.org_id
+    ON (ord_line.org_id = pmt.org_id and ord_line.prnt_ord_id = pmt.ord_id and ord_line.prnt_ord_ln_id = pmt.ord_ln_id)
 LEFT JOIN {{ source('dom_gold', 'dim_mao_employee_v') }} emp
     ON ord_line.created_by = emp.user_id
 LEFT JOIN product_master pm

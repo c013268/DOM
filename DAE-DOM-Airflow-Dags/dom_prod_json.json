@@ -1,0 +1,172 @@
+{
+  "dom_dbt_journal_to_bronze_nonpriority": "987078",
+  "dom_dbt_stage_to_silver_nonpriority": "987079",
+  "schedule_interval": "*/15 * * * *",
+  "dom_non_priority_hour": 18,
+  "dom_dbt_job_id_batch_start": "987065",
+  "dom_dbt_job_id_journal_to_bronze": "993944",
+  "dom_dbt_job_id_stage_to_silver": "993947",
+  "dom_dbt_job_id_bronze_to_silver_hist": "987068",
+  "dom_dbt_job_id_silver_to_gold": "987080",
+  "dom_dbt_job_id_gold_to_dbimart_refactored": "1046380",
+  "dom_dbt_job_id_post_gold_dq": "987072",
+  "dbx_dom_refactored_run": "648310680446618",
+  "dom_dbt_job_id_batch_end": "987067",
+  "databricks": "databricks",
+  "delta_initial_path": "",
+  "exchange_landing_table": "dev.sales_landing_npii.oms_exchanges",
+  "obf_order_history_table": "dev.fulfillment_npii.obf_order_status_history",
+  "refund_refined_table": "dev.sales_npii.oms_refunds",
+  "refund_landing_table": "dev.sales_landing_npii.oms_refunds",
+  "return_refined_table": "dev.sales_npii.oms_returns",
+  "return_landing_table": "dev.sales_landing_npii.oms_returns",
+  "order_refined_table": "dev.sales_npii.oms_orders",
+  "order_landing_table": "dev.sales_landing_npii.oms_orders",
+  "consignments_refined_table": "dev.sales_npii.oms_consignments",
+  "consignments_landing_table": "dev.sales_landing_npii.oms_consignments",
+  "oms_parsed_tender_table": "dev.sales_npii.oms_parsed_tender",
+  "loadType": "INCREMENTAL",
+  "SnowflakeDBScope":"snowflake-dbi-scope",
+  "varSubstitutions": "dom_gold_db=sf_gold_test_db;dom_gold_schema=dom_gold_test;source_lookback_days=5",
+  "run_oms_streaming_job": true,
+  "run_oms_obf_streaming_job": true,
+  "dom_scala": {
+    "spark_version": "16.4.x-scala2.12",
+    "node_type_id": "instance_pool_id",
+    "instance_pool_id": "0504-133333-pluck131-pool-qw3rs6u7",
+    "mainclass": "com.footlocker.oms_streaming.apps.AdlsLoadMain_DOM",
+    "jar_path": "/Volumes/dev/analysis_npii/jars_wheels/oms_ingestion-1.4.3.jar",
+    "data_security_mode": "USER_ISOLATION",
+    "cluster_scale": {
+      "autoscale": {
+        "max_workers": 8,
+        "min_workers": 1
+      }
+    }
+  },
+  "dom_oms_scala": {
+    "spark_version": "13.3.x-scala2.12",
+    "node_type_id": "Standard_D8s_v3",
+    "instance_pool_id": "0516-134405-snowy54-pool-7vqzm5jz",
+    "mainclass": "com.footlocker.oms_streaming.apps.AdlsLoadMain_Gen2",
+    "jar_path": "dbfs:/FileStore/jars/9bac1a7f_8dbb_4b22_8415_0f380dd57b00-oms_ingestion_1_0_0-e9b45.jar",
+    "cluster_scale": {
+      "autoscale": {
+        "max_workers": 8,
+        "min_workers": 1
+      }
+    }
+  },
+  "dom_oms_params": [
+    "azure",
+    "com_footlocker_dap_pii_oms_order_events",
+    "lkc-qrozg7.domzpn33klw.eastus2.azure.confluent.cloud:9092",
+    "abfss://refined@dap0dev0gen2std0datanpii.dfs.core.windows.net",
+    "abfss://landing@dap0dev0gen2std0datanpii.dfs.core.windows.net/repo/oms/streaming/gen2_run_uat",
+    "abfss://landing@dap0dev0gen2std0datanpii.dfs.core.windows.net/",
+    "abfss://landing@dap0dev0gen2std0datanpii.dfs.core.windows.net/landing/sales/oms/schema/",
+    "off",
+    "https://api.powerbi.com/v1.0/myorg/groups/4e7cee6e-b1e2/datasets/fa79f085-c268-41ea-b98f-b40e01c553c8/refreshes -1 24",
+    "https://api.powerbi.com/v1.0/myorg/groups/9f604a0f-cf4f/datasets/981dc75d-7c09-4b5d-8c40-23228bc988df/refreshes 5 18",
+    "https://api.powerbi.com/v1.0/myorg/groups/a99e5454/datasets/78746c78-6d42-4b64-b8dc-37b86ce8a2a4/refreshes -1 24",
+    "oms_ingestion_uat",
+    "kafka-us-scope",
+    "com-footlocker-dap-pii-oms-prod-rw-api-key",
+    "com-footlocker-dap-pii-oms-prod-rw-api-secret",
+    "dap0dev0gen2std0datanpii",
+    "datalake-gen2-npii-rw",
+    "dap0dev0gen2std0datanpii",
+    "datalake-gen2-pii-rw",
+    "no",
+    "snowflake-dbi-scope",
+    "abfss://landing@dap0dev0gen2std0datanpii.dfs.core.windows.net/sales/uat/oms/parsed_temp_daily",
+    "abfss://refined@dap0dev0gen2std0datanpii.dfs.core.windows.net/sales/uat/oms/parsed_tender_daily",
+    "sales_gen2.oms_parsed_temp_uat",
+    "1000000",
+    "batch"
+  ],
+  "dom_obf_scala": {
+    "spark_version": "13.3.x-scala2.12",
+    "node_type_id": "Standard_D8s_v3",
+    "instance_pool_id": "0516-134405-snowy54-pool-7vqzm5jz",
+    "mainclass": "com.footlocker.obf.ObfStreamMain_Gen2",
+    "jar_path": "dbfs:/FileStore/jars/633058eb_84f0_49b8_b5ea_ace7a3f0a11e-obf_streaming_1_0_0_OBF_UAT-63dc9.jar",
+    "cluster_scale": {
+      "autoscale": {
+        "max_workers": 8,
+        "min_workers": 1
+      }
+    }
+  },
+  "dom_obf_params": [
+    "lkc-qrozg7.domzpn33klw.eastus2.azure.confluent.cloud:9092",
+    "com_footlocker_cr_obf_fl_na_fulfillment_order_status_updates",
+    "abfss://dev@dap0stg0stg10datanpii.dfs.core.windows.net/raw/fulfillment/uat/",
+    "abfss://dev@dap0stg0stg10datanpii.dfs.core.windows.net/refined/fulfillment/uat/",
+    "abfss://dev@dap0stg0stg10datanpii.dfs.core.windows.net/checkpoint/fulfillment/uat/",
+    "databricks",
+    "datalake-gen2-stag-rw",
+    "dap0stg0stg10datanpii.dfs.core.windows.net",
+    "datalake-gen2-stag-rw",
+    "dap0stg0stg10datanpii.dfs.core.windows.net",
+    "https://notifications.dev.dap.corp.footlocker.net/v1/notifications",
+    "no",
+    "1450000",
+    "batch",
+    "kafka-us-scope",
+    "com-footlocker-cr-obf-ccore-api-key",
+    "com-footlocker-cr-obf-ccore-api-secret",
+    "com_footlocker_cr_obf_fl_na_fulfillment_order_status_updates_uat"
+  ],
+  "dbt_default_args": {
+    "dbt_cloud_conn_id": "dbt_cloud_connection_id",
+    "account_id": 142915
+  },
+  "dom_table_groups": [
+    ["consignments"],
+    ["refunds"],
+    ["returns"],
+    ["obf_order_history"],
+    ["orders"],
+    ["exchanges","tenders"]
+  ],
+
+  "tableLoadTypes": {
+    "consignments": "INCREMENTAL",
+    "refunds": "INCREMENTAL",
+    "returns": "INCREMENTAL",
+    "obf_order_history": "INCREMENTAL",
+    "orders": "INCREMENTAL",
+    "exchanges": "INCREMENTAL",
+    "tenders": "INCREMENTAL"
+  },
+  "powerbi_config": {
+    "enabled": true,
+    "tenant_id": "xxx",
+    "client_id_airflow_var": "xxx",
+    "client_secret_airflow_var": "xxx",
+    "datasets": [
+      {
+        "name": "OpenOrders",
+        "group_id": "6bd65108-53ad-497d-ace0-130f78ef0335",
+        "dataset_id": "54ef8858-3403-40a2-981f-d1b0c29eafc2",
+        "min_hour": -1,
+        "max_hour": 24
+      },
+      {
+        "name": "Zendesk",
+        "group_id": "6bd65108-53ad-497d-ace0-130f78ef0335",
+        "dataset_id": "2f925578-3566-4b02-8866-d137309f2860",
+        "min_hour": 5,
+        "max_hour": 18
+      },
+      {
+        "name": "OrderTiming",
+        "group_id": "6bd65108-53ad-497d-ace0-130f78ef0335",
+        "dataset_id": "471b7c05-bfe9-4413-933f-cabfba505c0a",
+        "min_hour": -1,
+        "max_hour": 24
+      }
+    ]
+  }
+}

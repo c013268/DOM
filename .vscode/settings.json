@@ -1,0 +1,5 @@
+{
+    "dbt.dbtPythonPathOverride": "'); print(sys.executable); print('",
+    "python-envs.defaultEnvManager": "ms-python.python:system",
+    "python-envs.pythonProjects": []
+}

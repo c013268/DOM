@@ -1,0 +1,11 @@
+version: 2
+
+sources:
+  - name: src_dom_lkp_gold
+    database: "{{ env_var('DBT_GOLD_DATABASE') | as_text }}"
+    schema: "{{ env_var('DBT_GOLD_SCHEMA') | as_text }}"
+    tables:
+      - name: lkp_mao_warehouses_t
+        config:
+          meta:
+            description: "This is a silver view for User details"

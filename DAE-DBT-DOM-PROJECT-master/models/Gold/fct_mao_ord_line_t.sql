@@ -375,6 +375,10 @@ with
             ) re on ch.cancel_reason = re.reason_id
         qualify row_number() over (partition by ch.org_id, ch.order_line_pk order by ch.updated_timestamp desc) = 1
     ),
+    mao_warehouses as (
+        select org_id, wh_id, wh_str_snum
+        from {{ source('src_dom_lkp_gold','lkp_mao_warehouses_t') }}
+    ),
     ord_line as (
         select
             ol.order_pk as ord_pk
@@ -587,13 +591,22 @@ with
             left join order_note_main no on ol.org_id = no.org_id and ol.pk = no.order_line_pk
             left join itm_item_attrib it on ol.item_id = it.item_id
     ),
+    ord_line_wh as (
+        select
+            src.* exclude(ship_from_loc_id, ship_from_loc_type),
+            coalesce(wh.wh_str_snum, src.ship_from_loc_id) as ship_from_loc_id,
+            loc.loc_type_id as ship_from_loc_type
+        from ord_line src
+            left join mao_warehouses wh on wh.org_id = src.org_id and wh.wh_id = src.ship_from_loc_id
+            left join dim_mao_loc_t loc on coalesce(wh.wh_str_snum, src.ship_from_loc_id) = loc.loc_id
+    ),
     ord_line_hash as (
         select
             src.*,
             {{ fl_utils.m_prep_hash_key_from_column_list(target_key_column_list) }} as hash_sk,
             {{ fl_utils.m_prep_hash_key_from_column_list(target_context_typ2_column_list) }} as hash_seq_num
         from
-            ord_line as src
+            ord_line_wh as src
     )
 select
     src.* exclude(src_load_ts),

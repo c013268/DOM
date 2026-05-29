@@ -123,8 +123,7 @@ fct_mao_ord_line_stg AS (
         ON ord_line.org_id = ord_hdr.org_id AND ord_line.ord_id = ord_hdr.ord_id
     WHERE ord_hdr.doc_type_id = 'CustomerOrder'
         AND NOT (ord_line.max_fulflmnt_status_id IS NULL OR ord_line.max_fulflmnt_status_id > 9000)
-        AND ord_line.prnt_ord_id IS NULL
-        AND ord_line.is_even_exchg = 0
+        AND (ord_line.prnt_ord_id IS NULL OR ord_line.is_even_exchg = 1)
         {% if is_incremental() %}
             AND ord_line.etl_updt_ts >= {{ v_inc_load_ts }}::timestamp - interval '{{ env_var("DBT_T_MINUS_INTERVAL_DBIMART") | as_text }}'
         {% endif %}

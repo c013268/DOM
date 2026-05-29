@@ -70,7 +70,8 @@ mao_ord_fulfillment_detail as (
     select * from (
         select fd.*,
             row_number() over (partition by fd.org_id,fd.ord_id,fd.ord_ln_id,fd.rel_id,fd.rel_ln_id order by updated_ts desc) ful_det_rnk
-        from ${dom_gold_db}.${dom_gold_schema}.fct_mao_ord_fulfillment_dtl_v fd 
+        from ${dom_gold_db}.${dom_gold_schema}.fct_mao_ord_fulfillment_dtl_v fd
+        where fd.etl_updt_ts > '${lookback_date}'
         ) where ful_det_rnk = 1
 ),
 fct_mao_ord_line as (
@@ -81,8 +82,7 @@ fct_mao_ord_line as (
         join ${dom_gold_db}.${dom_gold_schema}.fct_mao_ord_hdr_v oh on (oh.org_id = ol.org_id and oh.ord_id = ol.ord_id)
     where oh.doc_type_id = 'CustomerOrder'
         and not(ol.max_fulflmnt_status_id is null or ol.max_fulflmnt_status_id>9000)
-		and ol.prnt_ord_id is null
-		and ol.is_even_exchg = 0
+		and (ol.prnt_ord_id is null or ol.is_even_exchg = 1)
         and ol.max_fulflmnt_status_id not in ('8000','8500')
         and ol.etl_updt_ts > '${lookback_date}'
 ),
@@ -98,127 +98,385 @@ fct_mao_ful_line as (
     from ${dom_gold_db}.${dom_gold_schema}.fct_mao_fulfillment_line_hist_v fl
         join ${dom_gold_db}.${dom_gold_schema}.fct_mao_fulfillment_hdr_v fh on (fh.org_id = fl.org_id and fh.fulflmnt_id = fl.fulflmnt_id)
         join fct_mao_ord_line ol on (fl.ord_id = ol.ord_id and fl.ord_ln_id = ol.ord_ln_id and ol.ord_ln_rnk = 1)
-        where fl.etl_updt_ts > '${lookback_date}'
 ),
 store_fulflmnts as (
     select distinct rel_id, rel_ln_id from fct_mao_ful_line
 ),
-mao_consignments as (
-    select 'DCFulfillment' as fulflmnt_type, fd.org_id, fd.fulflmnt_dtl_pk, fd.fulflmnt_dtl_id, fd.ord_id, fd.ord_ln_id, fd.rel_id as fulflmnt_id, fd.rel_ln_id as fulflmnt_ln_id,
-        fd.rel_id, fd.rel_ln_id, fd.shipment_id, fd.item_id, fd.pkg_id, fd.pkg_dtl_id, fd.inv_id, fd.dlvry_method_id, fd.dlvry_method_sub_type, fd.ship_via_id, fd.gift_card_no,
-        fd.gift_card_pin, fd.gift_card_value, fd.carrier_cd, fd.tracking_num, fd.serial_num, fd.sgtin, ol.channel,
-        ol.max_fulflmnt_status_id as fulflmnt_ln_status_id, ol.max_fulflmnt_status_desc as fulflmnt_ln_status_desc, ol.cnl_reason_id, ol.cnl_reason_desc,
-        ol.unit_price as item_unit_price, fd.ord_qty as odrd_qty, null as picked_qty, null as pked_qty, null as shipped_qty, fd.cnl_qty as cnlled_qty, fd.fulfld_qty,
-        fd.fulflmnt_dt, fd.shpd_dt, ol.created_ts, ol.created_by, ol.updated_ts, ol.updated_by, ol.is_base_shipping_charged, ol.ord_note, ol.ccy_cd,
-        ol.total_disc_on_item, ol.total_disc, ol.orig_unit_price, ol.ord_shipping_amt, ol.ord_shipping_tax_amt, ol.ord_ln_sub_total, ol.total_taxes,
-        ol.ord_ln_total, ol.unit_price, concat(fd.rel_id, fd.rel_ln_id) as consignment_id, ol.product_type, ol.qty, ol.is_gift_card, ol.is_pre_sale,
-        ol.physical_org_id, fd.ship_from_loc_id, ol.doc_type_id, ol.confirmed_ts, ol.captured_ts, ol.etl_updt_ts,
-        ol.ship_to_addr_first_name, ol.ship_to_addr_last_name, ol.ship_to_addr_email, ol.ship_to_addr_phone, ol.ship_to_addr_addr1, ol.ship_to_addr_phone,
-        ol.ship_to_addr_addr2, ol.ship_to_addr_city, ol.ship_to_addr_country, ol.ship_to_addr_state, ol.ship_to_addr_postal_cd, ol.ship_to_addr_email,
-        ol.cust_id, ol.flx_id, ol.ord_total, ol.cart_shpmnt_method, ol.shpmnt_method, ol.ord_locale, ol.ship_to_addr_postal_cd, ol.itm_size,
-        fd.fulflmnt_dtl_id as entryId, ol.pymt_status_id, ol.is_backorderFlg,ol.promised_dlvry_dt,fd.is_rejected,null as short_reason_id, null rejected_flg,coalesce(fd.rel_created_ts,fd.created_ts) as rel_created_ts
+mao_rejections as (
+    select
+        'Rejections' as fulflmnt_type,
+        fd.org_id,
+        fd.fulflmnt_dtl_pk,
+        fd.fulflmnt_dtl_id,
+        fd.ord_id,
+        fd.ord_ln_id,
+        fd.rel_id as fulflmnt_id,
+        fd.rel_ln_id as fulflmnt_ln_id,
+        fd.rel_id,
+        fd.rel_ln_id,
+        fd.shipment_id,
+        fd.item_id,
+        fd.pkg_id,
+        fd.pkg_dtl_id,
+        fd.inv_id,
+        fd.dlvry_method_id,
+        fd.dlvry_method_sub_type,
+        fd.ship_via_id,
+        fd.gift_card_no,
+        fd.gift_card_pin,
+        fd.gift_card_value,
+        fd.carrier_cd,
+        fd.tracking_num,
+        fd.serial_num,
+        fd.sgtin,
+        ol.channel,
+        ol.max_fulflmnt_status_id as fulflmnt_ln_status_id,
+        ol.max_fulflmnt_status_desc as fulflmnt_ln_status_desc,
+        ol.cnl_reason_id,
+        ol.cnl_reason_desc,
+        ol.unit_price as item_unit_price,
+        fd.ord_qty as odrd_qty,
+        null as picked_qty,
+        null as pked_qty,
+        null as shipped_qty,
+        fd.cnl_qty as cnlled_qty,
+        fd.fulfld_qty,
+        fd.fulflmnt_dt,
+        fd.shpd_dt,
+        ol.created_ts,
+        ol.created_by,
+        ol.updated_ts,
+        ol.updated_by,
+        ol.is_base_shipping_charged,
+        ol.ord_note,
+        ol.ccy_cd,
+        ol.total_disc_on_item,
+        ol.total_disc,
+        ol.orig_unit_price,
+        ol.ord_shipping_amt,
+        ol.ord_shipping_tax_amt,
+        ol.ord_ln_sub_total,
+        ol.total_taxes,
+        ol.ord_ln_total,
+        ol.unit_price,
+        concat(fd.rel_id, fd.rel_ln_id) as consignment_id,
+        ol.product_type,
+        ol.qty,
+        ol.is_gift_card,
+        ol.is_pre_sale,
+        ol.physical_org_id,
+        fd.ship_from_loc_id,
+        ol.doc_type_id,
+        ol.confirmed_ts,
+        ol.captured_ts,
+        ol.etl_updt_ts,
+        ol.ship_to_addr_first_name,
+        ol.ship_to_addr_last_name,
+        ol.ship_to_addr_email,
+        ol.ship_to_addr_phone,
+        ol.ship_to_addr_addr1,
+        ol.ship_to_addr_addr2,
+        ol.ship_to_addr_city,
+        ol.ship_to_addr_country,
+        ol.ship_to_addr_state,
+        ol.ship_to_addr_postal_cd,
+        ol.cust_id,
+        ol.flx_id,
+        ol.ord_total,
+        ol.cart_shpmnt_method,
+        ol.shpmnt_method,
+        ol.ord_locale,
+        ol.itm_size,
+        fd.fulflmnt_dtl_id as entryId,
+        ol.pymt_status_id,
+        ol.is_backorderFlg,
+        ol.promised_dlvry_dt,
+        fd.is_rejected,
+        null as short_reason_id,
+        null as rejected_flg,
+        fd.created_ts as rel_created_ts
     from mao_ord_fulfillment_detail fd
         join fct_mao_ord_line ol on (fd.org_id = ol.org_id and fd.ord_id = ol.ord_id and fd.ord_ln_id = ol.ord_ln_id)
-		left anti join store_fulflmnts sf ON (fd.rel_id = sf.rel_id AND fd.rel_ln_id = sf.rel_ln_id)
+    WHERE fd.is_rejected = 1 and fd.status_id <= '3500' and ol.max_fulflmnt_status_id<'3500'
+),
+mao_consignments as (
+    select
+        'DCFulfillment' as fulflmnt_type,
+        fd.org_id,
+        fd.fulflmnt_dtl_pk,
+        fd.fulflmnt_dtl_id,
+        fd.ord_id,
+        fd.ord_ln_id,
+        fd.rel_id as fulflmnt_id,
+        fd.rel_ln_id as fulflmnt_ln_id,
+        fd.rel_id,
+        fd.rel_ln_id,
+        fd.shipment_id,
+        fd.item_id,
+        fd.pkg_id,
+        fd.pkg_dtl_id,
+        fd.inv_id,
+        fd.dlvry_method_id,
+        fd.dlvry_method_sub_type,
+        fd.ship_via_id,
+        fd.gift_card_no,
+        fd.gift_card_pin,
+        fd.gift_card_value,
+        fd.carrier_cd,
+        fd.tracking_num,
+        fd.serial_num,
+        fd.sgtin,
+        ol.channel,
+        ol.max_fulflmnt_status_id as fulflmnt_ln_status_id,
+        ol.max_fulflmnt_status_desc as fulflmnt_ln_status_desc,
+        ol.cnl_reason_id,
+        ol.cnl_reason_desc,
+        ol.unit_price as item_unit_price,
+        fd.ord_qty as odrd_qty,
+        null as picked_qty,
+        null as pked_qty,
+        null as shipped_qty,
+        fd.cnl_qty as cnlled_qty,
+        fd.fulfld_qty,
+        fd.fulflmnt_dt,
+        fd.shpd_dt,
+        ol.created_ts,
+        ol.created_by,
+        ol.updated_ts,
+        ol.updated_by,
+        ol.is_base_shipping_charged,
+        ol.ord_note,
+        ol.ccy_cd,
+        ol.total_disc_on_item,
+        ol.total_disc,
+        ol.orig_unit_price,
+        ol.ord_shipping_amt,
+        ol.ord_shipping_tax_amt,
+        ol.ord_ln_sub_total,
+        ol.total_taxes,
+        ol.ord_ln_total,
+        ol.unit_price,
+        concat(fd.rel_id, fd.rel_ln_id) as consignment_id,
+        ol.product_type,
+        ol.qty,
+        ol.is_gift_card,
+        ol.is_pre_sale,
+        ol.physical_org_id,
+        fd.ship_from_loc_id,
+        ol.doc_type_id,
+        ol.confirmed_ts,
+        ol.captured_ts,
+        ol.etl_updt_ts,
+        ol.ship_to_addr_first_name,
+        ol.ship_to_addr_last_name,
+        ol.ship_to_addr_email,
+        ol.ship_to_addr_phone,
+        ol.ship_to_addr_addr1,
+        ol.ship_to_addr_addr2,
+        ol.ship_to_addr_city,
+        ol.ship_to_addr_country,
+        ol.ship_to_addr_state,
+        ol.ship_to_addr_postal_cd,
+        ol.cust_id,
+        ol.flx_id,
+        ol.ord_total,
+        ol.cart_shpmnt_method,
+        ol.shpmnt_method,
+        ol.ord_locale,
+        ol.itm_size,
+        fd.fulflmnt_dtl_id as entryId,
+        ol.pymt_status_id,
+        ol.is_backorderFlg,
+        ol.promised_dlvry_dt,
+        fd.is_rejected,
+        null as short_reason_id,
+        null as rejected_flg,
+        fd.created_ts as rel_created_ts
+    from mao_ord_fulfillment_detail fd
+        join fct_mao_ord_line ol on (fd.org_id = ol.org_id and fd.ord_id = ol.ord_id and fd.ord_ln_id = ol.ord_ln_id)
+    WHERE 
+        NOT EXISTS (SELECT 'x' FROM store_fulflmnts sf WHERE fd.rel_id = sf.rel_id AND fd.rel_ln_id = sf.rel_ln_id)
+        AND NOT EXISTS (SELECT 'x' FROM mao_rejections r WHERE fd.org_id = r.org_id AND fd.ord_id = r.ord_id AND fd.ord_ln_id = r.ord_ln_id AND fd.rel_id = r.rel_id AND fd.rel_ln_id = r.rel_ln_id)
     union all
-    select 'StoreFulfillment' as fulflmnt_type, fd.org_id, fd.fulflmnt_dtl_pk, fd.fulflmnt_dtl_id, fd.ord_id, fd.ord_ln_id, fd.rel_id as fulflmnt_id, fd.rel_ln_id as fulflmnt_ln_id,
-        fd.rel_id, fd.rel_ln_id, fd.shipment_id, fd.item_id, fd.pkg_id, fd.pkg_dtl_id, fd.inv_id, fd.dlvry_method_id, fd.dlvry_method_sub_type, fd.ship_via_id, fd.gift_card_no,
-        fd.gift_card_pin, fd.gift_card_value, fd.carrier_cd, fd.tracking_num, fd.serial_num, fd.sgtin, fl.channel,
-        fl.fulflmnt_ln_status_id as fulflmnt_ln_status_id, fl.fulflmnt_ln_status_desc as fulflmnt_ln_status_desc, fl.cnl_reason_id, fl.cnl_reason_desc,
-        fl.item_unit_price, fl.odrd_qty, fl.picked_qty, fl.pked_qty, fl.shipped_qty, fl.cnlled_qty, fd.fulfld_qty,
-        fd.fulflmnt_dt, fd.shpd_dt, fl.created_ts, fl.created_by, fl.updated_ts, fl.updated_by, fl.is_base_shipping_charged, fl.ord_note, fl.ccy_cd,
-        fl.total_disc_on_item, fl.total_disc, fl.orig_unit_price, fl.ord_shipping_amt, fl.ord_shipping_tax_amt, fl.ord_ln_sub_total, fl.total_taxes,
-        fl.ord_ln_total, fl.unit_price, concat(fd.rel_id, fd.rel_ln_id) as consignment_id, fl.product_type, fl.qty, fl.is_gift_card, fl.is_pre_sale,
-        fl.physical_org_id, fd.ship_from_loc_id, fl.doc_type_id, fl.confirmed_ts, fl.captured_ts, fl.etl_updt_ts,
-        fl.ship_to_addr_first_name, fl.ship_to_addr_last_name, fl.ship_to_addr_email, fl.ship_to_addr_phone, fl.ship_to_addr_addr1, fl.ship_to_addr_phone,
-        fl.ship_to_addr_addr2, fl.ship_to_addr_city, fl.ship_to_addr_country, fl.ship_to_addr_state, fl.ship_to_addr_postal_cd, fl.ship_to_addr_email,
-        fl.cust_id, fl.flx_id, fl.ord_total, fl.cart_shpmnt_method, fl.shpmnt_method, fl.ord_locale, fl.ship_to_addr_postal_cd, fl.itm_size,
-        fd.fulflmnt_dtl_id as entryId, fl.pymt_status_id, fl.is_backorderFlg,fl.promised_dlvry_dt,fd.is_rejected,fl.short_reason_id,fl.rejected_flg,coalesce(fd.rel_created_ts,fd.created_ts) as rel_created_ts
+    select
+        'StoreFulfillment' as fulflmnt_type,
+        fd.org_id,
+        fd.fulflmnt_dtl_pk,
+        fd.fulflmnt_dtl_id,
+        fd.ord_id,
+        fd.ord_ln_id,
+        fd.rel_id as fulflmnt_id,
+        fd.rel_ln_id as fulflmnt_ln_id,
+        fd.rel_id,
+        fd.rel_ln_id,
+        fd.shipment_id,
+        fd.item_id,
+        fd.pkg_id,
+        fd.pkg_dtl_id,
+        fd.inv_id,
+        fd.dlvry_method_id,
+        fd.dlvry_method_sub_type,
+        fd.ship_via_id,
+        fd.gift_card_no,
+        fd.gift_card_pin,
+        fd.gift_card_value,
+        fd.carrier_cd,
+        fd.tracking_num,
+        fd.serial_num,
+        fd.sgtin,
+        fl.channel,
+        fl.fulflmnt_ln_status_id,
+        fl.fulflmnt_ln_status_desc,
+        fl.cnl_reason_id,
+        fl.cnl_reason_desc,
+        fl.item_unit_price,
+        fl.odrd_qty,
+        fl.picked_qty,
+        fl.pked_qty,
+        fl.shipped_qty,
+        fl.cnlled_qty,
+        fd.fulfld_qty,
+        fd.fulflmnt_dt,
+        fd.shpd_dt,
+        fl.created_ts,
+        fl.created_by,
+        fl.updated_ts,
+        fl.updated_by,
+        fl.is_base_shipping_charged,
+        fl.ord_note,
+        fl.ccy_cd,
+        fl.total_disc_on_item,
+        fl.total_disc,
+        fl.orig_unit_price,
+        fl.ord_shipping_amt,
+        fl.ord_shipping_tax_amt,
+        fl.ord_ln_sub_total,
+        fl.total_taxes,
+        fl.ord_ln_total,
+        fl.unit_price,
+        concat(fd.rel_id, fd.rel_ln_id) as consignment_id,
+        fl.product_type,
+        fl.qty,
+        fl.is_gift_card,
+        fl.is_pre_sale,
+        fl.physical_org_id,
+        fd.ship_from_loc_id,
+        fl.doc_type_id,
+        fl.confirmed_ts,
+        fl.captured_ts,
+        fl.etl_updt_ts,
+        fl.ship_to_addr_first_name,
+        fl.ship_to_addr_last_name,
+        fl.ship_to_addr_email,
+        fl.ship_to_addr_phone,
+        fl.ship_to_addr_addr1,
+        fl.ship_to_addr_addr2,
+        fl.ship_to_addr_city,
+        fl.ship_to_addr_country,
+        fl.ship_to_addr_state,
+        fl.ship_to_addr_postal_cd,
+        fl.cust_id,
+        fl.flx_id,
+        fl.ord_total,
+        fl.cart_shpmnt_method,
+        fl.shpmnt_method,
+        fl.ord_locale,
+        fl.itm_size,
+        fd.fulflmnt_dtl_id as entryId,
+        fl.pymt_status_id,
+        fl.is_backorderFlg,
+        fl.promised_dlvry_dt,
+        fd.is_rejected,
+        fl.short_reason_id,
+        fl.rejected_flg,
+        fd.created_ts as rel_created_ts
     from mao_ord_fulfillment_detail fd
         join fct_mao_ful_line fl on (fd.rel_id = fl.rel_id and fd.rel_ln_id = fl.rel_ln_id)
+    where NOT EXISTS (SELECT 'x' FROM mao_rejections r WHERE fd.org_id = r.org_id AND fd.ord_id = r.ord_id AND fd.ord_ln_id = r.ord_ln_id AND fd.rel_id = r.rel_id AND fd.rel_ln_id = r.rel_ln_id)
+    union all
+    select * from mao_rejections
 ),
 consignments_stg as (
     select c.*,
         CASE
+            WHEN c.fulflmnt_type = 'Rejections' THEN
+                CASE
+                    WHEN c.fulflmnt_ln_status_id BETWEEN 1000 AND 3000 THEN 1000
+                    ELSE UPPER(c.fulflmnt_ln_status_id)
+                END
             WHEN c.fulflmnt_type = 'DCFulfillment' THEN
                 CASE
-                    WHEN c.fulflmnt_ln_status_id BETWEEN 1000 AND 3000 THEN 1000  --'NEW_ORDER'
-                    WHEN c.fulflmnt_ln_status_id = 3500 THEN 1200  --'ACCEPTED'
-                    WHEN c.fulflmnt_ln_status_id = 3600 AND COALESCE(C.cnlled_qty,0)=0 THEN 1300  --'PICKED'
-                    WHEN c.fulflmnt_ln_status_id = 3600 AND COALESCE(C.cnlled_qty,0)!=0 THEN 1350  --'PARTIALLY_PICKED'
-                    WHEN c.fulflmnt_ln_status_id = 3700 THEN  1500  --'PACKED'
-                    WHEN c.fulflmnt_ln_status_id = 7000 AND COALESCE(C.cnlled_qty,0)=0 THEN 2000 --'FULFILLED'
-                    WHEN c.fulflmnt_ln_status_id = 7000 AND COALESCE(C.cnlled_qty,0)!=0 THEN 2050  --'PARTIALLY_FULFILLED'
-                    WHEN c.is_rejected = 1 AND c.fulflmnt_ln_status_id = 9000 THEN 2900  --'REJECTED'
-                    WHEN c.is_rejected = 0 AND c.fulflmnt_ln_status_id = 9000 THEN 2100  --'CANCELLED'
-                    ELSE upper(c.fulflmnt_ln_status_id)
+                    WHEN c.fulflmnt_ln_status_id BETWEEN 1000 AND 3000 THEN 1000
+                    WHEN c.fulflmnt_ln_status_id = 3500 THEN 1200
+                    WHEN c.fulflmnt_ln_status_id = 3600 AND COALESCE(c.cnlled_qty, 0) = 0 THEN 1300
+                    WHEN c.fulflmnt_ln_status_id = 3600 AND COALESCE(c.cnlled_qty, 0) != 0 THEN 1350
+                    WHEN c.fulflmnt_ln_status_id = 3700 THEN 1500
+                    WHEN c.fulflmnt_ln_status_id = 7000 AND COALESCE(c.cnlled_qty, 0) = 0 THEN 2000
+                    WHEN c.fulflmnt_ln_status_id = 7000 AND COALESCE(c.cnlled_qty, 0) != 0 THEN 2050
+                    WHEN c.fulflmnt_ln_status_id = 9000 THEN 2100
+                    ELSE UPPER(c.fulflmnt_ln_status_id)
                 END
             WHEN c.fulflmnt_type = 'StoreFulfillment' THEN
                 CASE
-                    WHEN c.fulflmnt_ln_status_id = 1000 THEN 1000  --'NEW_ORDER'
-                    WHEN c.fulflmnt_ln_status_id = 2000 THEN 1200  --'ACCEPTED'
-                    WHEN c.fulflmnt_ln_status_id = 3000 AND COALESCE(C.cnlled_qty,0)=0 THEN 1300  --'PICKED'
-                    WHEN c.fulflmnt_ln_status_id = 3000 AND COALESCE(C.cnlled_qty,0)!=0 THEN 1350  --'PARTIALLY_PICKED'
-                    WHEN c.fulflmnt_ln_status_id BETWEEN 3500 AND 4000 THEN 1500  --'PACKED'
-                    WHEN c.fulflmnt_ln_status_id = 5000 AND COALESCE(C.cnlled_qty,0)=0 THEN 2000  --'FULFILLED'
-                    WHEN c.fulflmnt_ln_status_id = 6000 THEN 2000 --'FULFILLED'
-                    WHEN c.fulflmnt_ln_status_id = 4500 THEN 2050 --'PARTIALLY_FULFILLED'
-                    WHEN c.fulflmnt_ln_status_id = 5000 AND COALESCE(C.cnlled_qty,0)!=0 THEN 2050  --'PARTIALLY_FULFILLED'
-                    WHEN (c.is_rejected = 1 or c.rejected_flg = 1) AND c.fulflmnt_ln_status_id = 9000 THEN 2900  --'REJECTED'
-                    WHEN NOT(c.is_rejected = 1 or c.rejected_flg = 1) AND c.fulflmnt_ln_status_id = 9000 THEN 2100  --'CANCELLED'
-                    ELSE upper(c.fulflmnt_ln_status_id)
+                    WHEN c.fulflmnt_ln_status_id = 1000 THEN 1000
+                    WHEN c.fulflmnt_ln_status_id = 2000 THEN 1200
+                    WHEN c.fulflmnt_ln_status_id = 3000 AND COALESCE(c.cnlled_qty, 0) = 0 THEN 1300
+                    WHEN c.fulflmnt_ln_status_id = 3000 AND COALESCE(c.cnlled_qty, 0) != 0 THEN 1350
+                    WHEN c.fulflmnt_ln_status_id BETWEEN 3500 AND 4000 THEN 1500
+                    WHEN c.fulflmnt_ln_status_id = 5000 AND COALESCE(c.cnlled_qty, 0) = 0 THEN 2000
+                    WHEN c.fulflmnt_ln_status_id = 6000 THEN 2000
+                    WHEN c.fulflmnt_ln_status_id = 4500 THEN 2050
+                    WHEN c.fulflmnt_ln_status_id = 5000 AND COALESCE(c.cnlled_qty, 0) != 0 THEN 2050
+                    WHEN c.fulflmnt_ln_status_id = 9000 THEN 2100
+                    ELSE UPPER(c.fulflmnt_ln_status_id)
                 END
-            ELSE upper(c.fulflmnt_ln_status_id)
+            ELSE UPPER(c.fulflmnt_ln_status_id)
         END AS StatusCode,
         CASE
+            WHEN c.fulflmnt_type = 'Rejections' THEN
+                CASE
+                    WHEN c.fulflmnt_ln_status_id BETWEEN 1000 AND 3000 THEN 'NEW_ORDER'
+                    ELSE UPPER(c.fulflmnt_ln_status_desc)
+                END
             WHEN c.fulflmnt_type = 'DCFulfillment' THEN
                 CASE
                     WHEN c.fulflmnt_ln_status_id BETWEEN 1000 AND 3000 THEN 'NEW_ORDER'
                     WHEN c.fulflmnt_ln_status_id = 3500 THEN 'ACCEPTED'
-                    WHEN c.fulflmnt_ln_status_id = 3600 AND COALESCE(C.cnlled_qty,0)=0 THEN 'PICKED'
-                    WHEN c.fulflmnt_ln_status_id = 3600 AND COALESCE(C.cnlled_qty,0)!=0 THEN 'PARTIALLY_PICKED'
+                    WHEN c.fulflmnt_ln_status_id = 3600 AND COALESCE(c.cnlled_qty, 0) = 0 THEN 'PICKED'
+                    WHEN c.fulflmnt_ln_status_id = 3600 AND COALESCE(c.cnlled_qty, 0) != 0 THEN 'PARTIALLY_PICKED'
                     WHEN c.fulflmnt_ln_status_id = 3700 THEN 'PACKED'
-                    WHEN c.fulflmnt_ln_status_id = 7000 AND COALESCE(C.cnlled_qty,0)=0 THEN 'FULFILLED'
-                    WHEN c.fulflmnt_ln_status_id = 7000 AND COALESCE(C.cnlled_qty,0)!=0 THEN 'PARTIALLY_FULFILLED'
-                    WHEN c.is_rejected = 1 AND c.fulflmnt_ln_status_id = 9000 THEN 'REJECTED'
-                    WHEN c.is_rejected = 0 AND c.fulflmnt_ln_status_id = 9000 THEN 'CANCELLED'
-                    ELSE upper(c.fulflmnt_ln_status_desc)
+                    WHEN c.fulflmnt_ln_status_id = 7000 AND COALESCE(c.cnlled_qty, 0) = 0 THEN 'FULFILLED'
+                    WHEN c.fulflmnt_ln_status_id = 7000 AND COALESCE(c.cnlled_qty, 0) != 0 THEN 'PARTIALLY_FULFILLED'
+                    WHEN c.fulflmnt_ln_status_id = 9000 THEN 'CANCELLED'
+                    ELSE UPPER(c.fulflmnt_ln_status_desc)
                 END
             WHEN c.fulflmnt_type = 'StoreFulfillment' THEN
                 CASE
                     WHEN c.fulflmnt_ln_status_id = 1000 THEN 'NEW_ORDER'
                     WHEN c.fulflmnt_ln_status_id = 2000 THEN 'ACCEPTED'
-                    WHEN c.fulflmnt_ln_status_id = 3000 AND COALESCE(C.cnlled_qty,0)=0 THEN 'PICKED'
-                    WHEN c.fulflmnt_ln_status_id = 3000 AND COALESCE(C.cnlled_qty,0)!=0 THEN 'PARTIALLY_PICKED'
+                    WHEN c.fulflmnt_ln_status_id = 3000 AND COALESCE(c.cnlled_qty, 0) = 0 THEN 'PICKED'
+                    WHEN c.fulflmnt_ln_status_id = 3000 AND COALESCE(c.cnlled_qty, 0) != 0 THEN 'PARTIALLY_PICKED'
                     WHEN c.fulflmnt_ln_status_id BETWEEN 3500 AND 4000 THEN 'PACKED'
-                    WHEN c.fulflmnt_ln_status_id = 5000 AND COALESCE(C.cnlled_qty,0)=0 THEN 'FULFILLED'
+                    WHEN c.fulflmnt_ln_status_id = 5000 AND COALESCE(c.cnlled_qty, 0) = 0 THEN 'FULFILLED'
                     WHEN c.fulflmnt_ln_status_id = 6000 THEN 'FULFILLED'
                     WHEN c.fulflmnt_ln_status_id = 4500 THEN 'PARTIALLY_FULFILLED'
-                    WHEN c.fulflmnt_ln_status_id = 5000 AND COALESCE(C.cnlled_qty,0)!=0 THEN 'PARTIALLY_FULFILLED'
-                    WHEN (c.is_rejected = 1 or c.rejected_flg = 1) AND c.fulflmnt_ln_status_id = 9000 THEN 'REJECTED'
-                    WHEN NOT(c.is_rejected = 1 or c.rejected_flg = 1) AND c.fulflmnt_ln_status_id = 9000 THEN 'CANCELLED'
-                    ELSE upper(c.fulflmnt_ln_status_desc)
+                    WHEN c.fulflmnt_ln_status_id = 5000 AND COALESCE(c.cnlled_qty, 0) != 0 THEN 'PARTIALLY_FULFILLED'
+                    WHEN c.fulflmnt_ln_status_id = 9000 THEN 'CANCELLED'
+                    ELSE UPPER(c.fulflmnt_ln_status_desc)
                 END
-            ELSE upper(c.fulflmnt_ln_status_desc)
+            ELSE UPPER(c.fulflmnt_ln_status_desc)
         END AS Status
-  from mao_consignments c
-  where c.fulflmnt_ln_status_id not in (8000,8500)
-  union all
-  select c.*,
-    CASE 
-      WHEN c.is_rejected = 1 then 2900  --'REJECTED'
-      WHEN c.rejected_flg = 1 then 2900  --'REJECTED'
-    END AS statusCode,
-    CASE 
-      WHEN c.is_rejected = 1 then 'REJECTED'
-      WHEN c.rejected_flg = 1 then 'REJECTED'
-    END AS status
-  from mao_consignments c
-  where (c.is_rejected = 1 or c.rejected_flg = 1)
-    and c.fulflmnt_ln_status_id != 9000
+    from mao_consignments c
+    where c.fulflmnt_ln_status_id not in (8000, 8500)
+    union all
+    select c.*,
+        2900 AS statusCode,
+        'REJECTED' AS status
+    from mao_consignments c
+    where c.fulflmnt_type = 'Rejections'
 ),
 consignments as (
-    select con.*, row_number() over (partition by con.org_id, con.ord_id, con.ord_ln_id, con.consignment_id, Status order by con.updated_ts desc) consignment_rnk
+    select con.*, row_number() over (partition by con.org_id, con.ord_id, con.ord_ln_id, con.consignment_id, con.status order by con.updated_ts desc) consignment_rnk
     from consignments_stg con
 ),
 consignments_main as (
@@ -289,5 +547,10 @@ from
     left join dim_location dim_loc on (lpad(dim_loc.loc_snum,5,0) = lpad(coalesce(con.ship_from_loc_id,con.physical_org_id),5,0))
     left join product_master pm ON ((con.is_gift_card!=1 and trim(con.item_id) = trim(pm.global_size_id) AND (CASE WHEN con.ORG_ID IN ('FL-CA','CH-CA') THEN '98' ELSE '81' END)=pm.banner_id))
     left join product_master_div pm_div ON (con.is_gift_card!=1 and trim(con.item_id) = trim(pm_div.global_size_id) AND con.ORG_ID = pm_div.org_desc)
-	left join ${dom_gold_db}.${dom_gold_schema}.lkp_cancel_code_reason_v cnl_reason on (coalesce(con.cnl_reason_id,con.short_reason_id) =cnl_reason.cancel_reason_id)
+	left join ${dom_gold_db}.${dom_gold_schema}.lkp_cancel_code_reason_v cnl_reason on (
+        CASE
+            WHEN con.cnl_reason_id IS NOT NULL THEN cast(con.cnl_reason_id as string) = cast(cnl_reason.cancel_reason_id as string)
+            ELSE con.short_reason_id = cast(cnl_reason.cancel_reason_id as int)
+        END
+    )
 );

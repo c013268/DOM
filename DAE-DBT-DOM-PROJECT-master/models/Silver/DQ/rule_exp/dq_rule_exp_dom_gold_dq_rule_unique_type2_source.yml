@@ -56,8 +56,8 @@ sources:
             full_tbl_name: "{{ env_var('DBT_GOLD_DATABASE') | as_text }}.{{ env_var('DBT_GOLD_SCHEMA') | as_text }}.fct_mao_ord_pymt_line_t"
             col_name: "composite_key"
             param_value:
-              p_column_name: ["org_id", "ord_id", "pymt_method_id", "pymt_txn_id", "pymt_txn_detail_id"]
-              p_key_column: ["org_id", "ord_id", "pymt_method_id", "pymt_txn_id", "pymt_txn_detail_id"]
+              p_column_name: ["org_id", "ord_id", "pymt_method_id", "pymt_txn_id", "pymt_txn_dtl_id"]
+              p_key_column: ["org_id", "ord_id", "pymt_method_id", "pymt_txn_id", "pymt_txn_dtl_id"]
               p_table_name: "{{ env_var('DBT_GOLD_DATABASE') | as_text }}.{{ env_var('DBT_GOLD_SCHEMA') | as_text }}.fct_mao_ord_pymt_line_t"
             exp_dt: "2024-07-01"
             severity_level: "HIGH"

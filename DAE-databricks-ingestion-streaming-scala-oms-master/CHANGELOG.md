@@ -3,6 +3,18 @@
 All notable changes are documented in this file. Release numbers follow [Semantic Versioning](http://semver.org)
 ## [Unreleased]
 
+## [4.17.0] - 2026-05-28
+### Updated
+- Consignments, oms orders exchnages rollout
+
+## [4.16.0] - 2026-05-19
+### Updated
+- Consignments, Returns, Refunds, Exchanges Payment Info Fixes
+- OBF & Consignments WH Location logic
+- Consignments - Remove Rejections, OBF - Rejections
+- Refunds - De-Dup on Return Orders
+- Returns - XstoreTransationID column Fix
+  
 ## [4.15.0] - 2026-05-14
 ### Updated
 - ATP code to use UTC timestamps for audit

@@ -4,7 +4,7 @@ WITH
 payment AS (
   select * from (SELECT *, ROW_NUMBER() OVER (
     PARTITION BY org_id, ord_id, pymt_method_id, pymt_txn_id
-    ORDER BY NVL(PYMT_TXN_DETAIL_ID, '') DESC
+    ORDER BY NVL(PYMT_TXN_DTL_ID, '') DESC
   ) AS pymt_rnk
   FROM ${dom_gold_db}.${dom_gold_schema}.FCT_MAO_ORD_PYMT_LINE_V where etl_updt_ts > '${lookback_date}')
   where pymt_rnk = 1
@@ -143,7 +143,7 @@ SELECT
   END                                                            AS paymentTransactions_transaction_paymentType,
   upper(pymt_line.pymt_txn_status_desc)                          AS paymentTransactions_transaction_status,
   CAST(NULL AS BOOLEAN)                                          AS authorizations_preSettled,
-  pymt_line.auth_original_order_id                               AS authorizations_originalOrderNumber,
+  pymt_line.ord_id                                               AS authorizations_originalOrderNumber,
   pymt_line.attrib_str_merch_id                                  AS attributes_storeMerchantId,
   pymt_line.attrib_str_terminal_id                               AS attributes_storeTerminalId,
   pymt_line.attrib_str_ord_req_id                                AS attributes_storeOrderRequestId,

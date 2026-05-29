@@ -47,128 +47,19 @@ CREATE OR REPLACE TEMP VIEW product_master_div AS
   where banner_id in ('03','16','18','76','77')
 );
 
-CREATE OR REPLACE TEMP VIEW payment_grouped AS
-(
-WITH payment AS (
-  SELECT *, ROW_NUMBER() OVER (
-    PARTITION BY org_id, ord_id, pymt_method_id, pymt_txn_id
-    ORDER BY NVL(PYMT_TXN_DETAIL_ID, '') DESC
-  ) AS rnk
-  FROM ${dom_gold_db}.${dom_gold_schema}.FCT_MAO_ORD_PYMT_LINE_V 
-),
-authorizations_agg AS (
-  SELECT
-    org_id,
-    ord_id,
-    COLLECT_LIST(
-      STRUCT(
-        CAST(pymt_method_amt AS STRING) AS amount,
-        CAST(auth_cd AS STRING) AS authCode,
-        CAST(txn_card_last4 AS STRING) AS cardLast4,
-        CAST(inv_id AS STRING) AS cegrRefId,
-        CAST(PYMT_TXN_ID AS STRING) AS paymentTransactionId,
-        CAST(NULL AS STRING) AS paymentTransactionSubType,
-        CAST(PYMT_TXN_TYPE AS STRING) AS paymentTransactionType,
-        CAST(case when pymt_type='Gift Card' then 'GIFTCARD' else upper(pymt_type) end AS STRING) AS paymentType,
-        CAST(PYMT_CARD_TYPE AS STRING) AS creditCardType,
-        CAST(coalesce(PYMT_TXN_DT,pymt_txn_req_dt) AS STRING) AS date,
-        CAST(NULL AS STRING) AS shippingTaxAmount,
-        CAST(NULL AS STRING) AS taxAmount,
-        STRUCT(
-          STRUCT(
-            CAST(pymt_txn_status_desc AS STRING) AS authResponse,
-            CAST(attrib_avs_code AS STRING) AS avsCode,
-            CAST(card_alias AS STRING) AS cardAlias,
-            CAST(pymt_grp_id AS STRING) AS cardBin,
-            CAST(attrib_card_last4 AS STRING) AS cardLast4,
-            CAST(card_token AS STRING) AS cardToken,
-            CAST(attrib_card_type_display AS STRING) AS cardType,
-            CAST(NULL AS STRING) AS confirmationCode,
-            CAST(attrib_cvv_response AS STRING) AS cvvResponse,
-            CAST(addr_email AS STRING) AS email,
-            CAST(attrib_card_expiry_dt AS STRING) AS expirationDate,
-            CAST(CASE WHEN pymt_type = 'Gift Card' THEN attrib_card_last4 END AS STRING) AS giftCardNumber,
-            CAST(CASE WHEN pymt_type = 'Gift Card' THEN SELLER_PROTECTION_STATUS END AS STRING) AS sellerProtection
-          ) AS attributes,
-          CAST(pymt_txn_req_amt AS STRING) AS authAmount,
-          CAST(auth_cd AS STRING) AS authCode,
-          CAST(NULL AS STRING) AS errorMessage,
-          CAST(NULL AS STRING) AS id,
-          CAST(ord_id AS STRING) AS originalOrderNumber,
-          CAST(pymt_type AS STRING) AS paymentType,
-          CAST(NULL AS STRING) AS preSettled,
-          CAST(coalesce(PYMT_TXN_DT,pymt_txn_req_dt) AS STRING) AS transactionDate,
-          CAST(pymt_txn_id AS STRING) AS transactionId
-        ) AS authorization,
-        CASE WHEN pymt_type = 'Credit Card' THEN
-          STRUCT(
-            STRUCT(
-              CAST(pymt_txn_req_amt AS STRING) AS authAmount,
-              CAST(auth_cd AS STRING) AS authCode,
-              CAST(pymt_txn_status_desc AS STRING) AS authResponse,
-              CAST(pymt_txn_req_dt AS STRING) AS authTime,
-              CAST(attrib_avs_code AS STRING) AS avsCode,
-              CAST(attrib_cvv_response AS STRING) AS cvvResponse,
-              CAST(ord_id AS STRING) AS originalOrderNumber,
-              CAST(NULL AS STRING) AS preSettled,
-              CAST(transaction_ref_id AS STRING) AS referenceNumber,
-              CAST(pymt_txn_id AS STRING) AS transactionId
-            ) AS authInfo,
-            CAST(card_alias AS STRING) AS cardAlias,
-            CAST(pymt_grp_id AS STRING) AS cardBin,
-            CAST(txn_card_last4 AS STRING) AS cardLast4,
-            CAST(card_token AS STRING) AS cardToken,
-            CAST(attrib_card_expiry_dt AS STRING) AS expirationDate,
-            CAST(attrib_card_type_display AS STRING) AS type
-          )
-        ELSE NULL END AS creditCard,
-        CASE WHEN pymt_type = 'Gift Card' THEN
-          STRUCT(
-            CAST(pymt_method_amt AS STRING) AS amount,
-            CAST(auth_cd AS STRING) AS authCode,
-            CAST(attrib_card_last4 AS STRING) AS giftCardNumber,
-            CAST(ord_id AS STRING) AS originalOrderNumber,
-            CAST(NULL AS STRING) AS preSettled,
-            CAST(coalesce(PYMT_TXN_DT,pymt_txn_req_dt) AS STRING) AS transactionDate,
-            CAST(pymt_txn_id AS STRING) AS transactionId
-          )
-        ELSE NULL END AS giftCard,
-        CASE WHEN pymt_type = 'PayPal' THEN
-          STRUCT(
-            CAST(pymt_method_amt AS STRING) AS amount,
-            STRUCT(
-              CAST(crnt_auth_amt AS STRING) AS authAmount,
-              CAST(auth_cd AS STRING) AS authCode,
-              CAST(NULL AS STRING) AS authResponse,
-              CAST(pymt_txn_req_dt AS STRING) AS authTime,
-              CAST(attrib_avs_code AS STRING) AS avsCode,
-              CAST(attrib_cvv_response AS STRING) AS cvvResponse,
-              CAST(ord_id AS STRING) AS originalOrderNumber,
-              CAST(NULL AS STRING) AS preSettled,
-              CAST(transaction_ref_id AS STRING) AS referenceNumber,
-              CAST(pymt_txn_id AS STRING) AS transactionId
-            ) AS authInfo,
-            CAST(addr_email AS STRING) AS paypalEmailId,
-            CAST(coalesce(PYMT_TXN_DT,pymt_txn_req_dt) AS STRING) AS transactionDate,
-            CAST(pymt_txn_id AS STRING) AS transactionId
-        )
-        ELSE NULL END AS paypal
-      )
-    ) AS Payments_Info
-  FROM payment
-  WHERE rnk = 1
-  GROUP BY org_id, ord_id
-)
-SELECT
-  org_id,
-  ord_id,
-  Payments_Info
-FROM authorizations_agg
-);
-
 CREATE OR REPLACE TEMP VIEW exchanges AS
 (
-WITH fct_mao_ord_line_stg AS (
+WITH base_ord_hdr AS (
+    SELECT *
+    FROM ${dom_gold_db}.${dom_gold_schema}.fct_mao_ord_hdr_v
+    WHERE doc_type_id = 'CustomerOrder'
+),
+base_ord_line_hist AS (
+    SELECT *
+    FROM ${dom_gold_db}.${dom_gold_schema}.fct_mao_ord_line_hist_v
+    WHERE max_fulflmnt_status_id IS NOT NULL
+),
+fct_mao_ord_line_stg AS (
   SELECT
     ord_line.*,
     CASE
@@ -193,9 +84,10 @@ WITH fct_mao_ord_line_stg AS (
     first_value(ord_line.ord_ln_sub_total) over (partition by ord_line.org_id, ord_line.ord_id, ord_line.ord_ln_id order by ord_line.max_fulflmnt_status_id asc, ord_line.updated_ts asc) as fv_ord_ln_sub_total,
     first_value(ord_line.cnlled_orig_ord_sales_tax_amt) over (partition by ord_line.org_id, ord_line.ord_id, ord_line.ord_ln_id order by ord_line.max_fulflmnt_status_id asc, ord_line.updated_ts asc) as fv_cnlled_ord_sales_tax_amt,
     first_value(ord_line.orig_ord_sales_tax_amt) over (partition by ord_line.org_id, ord_line.ord_id, ord_line.ord_ln_id order by ord_line.max_fulflmnt_status_id asc, ord_line.updated_ts asc) as fv_ord_sales_tax_amt,
-    first_value(ord_line.gift_card_value) over (partition by ord_line.org_id, ord_line.ord_id, ord_line.ord_ln_id order by ord_line.max_fulflmnt_status_id asc, ord_line.updated_ts asc) as fv_gift_card_value
-  FROM ${dom_gold_db}.${dom_gold_schema}.fct_mao_ord_line_hist_v ord_line
-  JOIN ${dom_gold_db}.${dom_gold_schema}.fct_mao_ord_hdr_v ord_hdr
+    first_value(ord_line.gift_card_value) over (partition by ord_line.org_id, ord_line.ord_id, ord_line.ord_ln_id order by ord_line.max_fulflmnt_status_id asc, ord_line.updated_ts asc) as fv_gift_card_value,
+    ROW_NUMBER() OVER (PARTITION BY ord_line.org_id, ord_line.ord_id, ord_line.ord_ln_id ORDER BY ord_line.max_fulflmnt_status_id ASC, ord_line.updated_ts ASC) AS fv_rnk
+  FROM base_ord_line_hist ord_line
+  JOIN base_ord_hdr ord_hdr
     ON ord_line.org_id = ord_hdr.org_id AND ord_line.ord_id = ord_hdr.ord_id
   WHERE ord_hdr.doc_type_id = 'CustomerOrder'
     AND ord_line.is_gift_card = 0
@@ -214,6 +106,155 @@ fct_mao_ord_line AS (
     FROM fct_mao_ord_line_stg ord_line
   )
   WHERE ord_ln_status_rnk = 1
+),
+fct_mao_ord_tax_agg as (
+	select org_id ol_org_id,ord_id as ol_ord_id, ord_ln_id as ol_ord_ln_id,
+		ABS(SUM(COALESCE(fv.fv_cnlled_ord_shipping_tax_amt, 0) + COALESCE(fv.fv_ord_shipping_tax_amt, 0))) AS shippingtaxamount,
+		ABS(SUM(COALESCE(fv.fv_cnlled_ord_sales_tax_amt, 0) + COALESCE(fv.fv_ord_sales_tax_amt, 0))) AS taxamount
+	from 
+		fct_mao_ord_line fv
+    where 
+        fv_rnk = 1
+	group by all
+),
+payment AS (
+    SELECT 
+        pymt.* EXCEPT(pymt_txn_amt),
+        CASE 
+            WHEN pymt.pymt_txn_cnt = 1 THEN COALESCE(pymt.inv_ln_total, pymt.pymt_txn_amt, 0)
+            ELSE COALESCE(pymt.pymt_txn_amt, 0)
+        END AS pymt_txn_amt
+    FROM (
+        SELECT
+            p.*,
+            ROW_NUMBER() OVER (
+                PARTITION BY p.org_id, p.ord_id, p.ord_ln_id, p.pymt_txn_id, p.pymt_txn_dtl_id, p.inv_id, p.inv_ln_id
+                ORDER BY p.inv_ln_updated_ts DESC, p.src_load_ts DESC
+            ) AS pymt_rnk,
+            cnt.pymt_txn_cnt
+        FROM ${dom_gold_db}.${dom_gold_schema}.FCT_MAO_ORD_PYMT_LINE_V p
+        LEFT JOIN (
+            SELECT
+                org_id, ord_id, ord_ln_id, inv_id, inv_ln_id,
+                COUNT(DISTINCT pymt_txn_id || '~' || COALESCE(pymt_txn_dtl_id, '')) AS pymt_txn_cnt
+            FROM ${dom_gold_db}.${dom_gold_schema}.FCT_MAO_ORD_PYMT_LINE_V
+            WHERE LOWER(pymt_txn_type) NOT IN ('authorization', 'authorization reversal','refund')
+            GROUP BY org_id, ord_id, ord_ln_id, inv_id, inv_ln_id
+        ) cnt
+            ON  p.org_id    = cnt.org_id
+            AND p.ord_id    = cnt.ord_id
+            AND p.ord_ln_id = cnt.ord_ln_id
+            AND p.inv_id    = cnt.inv_id
+            AND p.inv_ln_id = cnt.inv_ln_id
+        WHERE LOWER(p.pymt_txn_type) NOT IN ('authorization', 'authorization reversal','refund')
+    ) pymt
+    WHERE pymt.pymt_rnk = 1
+),
+payment_grouped AS (
+  SELECT
+    org_id,
+    ord_id,
+    ord_ln_id,
+    COLLECT_LIST(
+      STRUCT(
+        CAST(ABS(COALESCE(pymt_txn_amt,0)) AS STRING) AS amount,
+        CAST(auth_cd AS STRING) AS authCode,
+        CAST(txn_card_last4 AS STRING) AS cardLast4,
+        CAST(inv_id AS STRING) AS cegrRefId,
+        CAST(PYMT_TXN_ID AS STRING) AS paymentTransactionId,
+        CAST(NULL AS STRING) AS paymentTransactionSubType,
+        CAST(PYMT_TXN_TYPE AS STRING) AS paymentTransactionType,
+        CAST(CASE WHEN pymt_type = 'Gift Card' THEN 'GIFTCARD' WHEN pymt_type = 'Credit Card' THEN 'CREDITCARD' ELSE UPPER(pymt_type) END AS STRING) AS paymentType,
+        CAST(PYMT_CARD_TYPE AS STRING) AS creditCardType,
+        CAST(created_ts AS STRING) AS date,
+        --CAST(ccy_code AS STRING) as currencyIso,
+        CAST(shippingtaxamount AS STRING) AS shippingTaxAmount,
+        CAST(taxamount AS STRING) AS taxAmount,
+        -- authorization struct (with attributes nested)
+        STRUCT(
+          STRUCT(
+            CAST(pymt_txn_status_desc AS STRING) AS authResponse,
+            CAST(attrib_avs_code AS STRING) AS avsCode,
+            CAST(card_alias AS STRING) AS cardAlias,
+            CAST(pymt_grp_id AS STRING) AS cardBin,
+            CAST(attrib_card_last4 AS STRING) AS cardLast4,
+            CAST(card_token AS STRING) AS cardToken,
+            CAST(attrib_card_type_display AS STRING) AS cardType,
+            CAST(NULL AS STRING) AS confirmationCode,
+            CAST(attrib_cvv_response AS STRING) AS cvvResponse,
+            CAST(addr_email AS STRING) AS email,
+            CAST(attrib_card_expiry_dt AS STRING) AS expirationDate,
+            CAST(CASE WHEN pymt_type = 'Gift Card' THEN attrib_card_last4 END AS STRING) AS giftCardNumber,
+            CAST(CASE WHEN pymt_type = 'Gift Card' THEN SELLER_PROTECTION_STATUS END AS STRING) AS sellerProtection
+          ) AS attributes,
+          CAST(ABS(COALESCE(pymt_txn_req_amt,0)) AS STRING) AS authAmount,
+          CAST(auth_cd AS STRING) AS authCode,
+          CAST(NULL AS STRING) AS errorMessage,
+          CAST(NULL AS STRING) AS id,
+          CAST(ord_id AS STRING) AS originalOrderNumber,
+          CAST(pymt_type AS STRING) AS paymentType,
+          CAST(NULL AS STRING) AS preSettled,
+          CAST(coalesce(PYMT_TXN_DT,pymt_txn_req_dt,created_ts) AS STRING) AS transactionDate,
+          CAST(pymt_txn_id AS STRING) AS transactionId
+        ) AS authorization,
+        CASE WHEN pymt_type = 'Credit Card' THEN
+          STRUCT(
+            STRUCT(
+              CAST(ABS(COALESCE(pymt_txn_req_amt,0)) AS STRING) AS authAmount,
+              CAST(auth_cd AS STRING) AS authCode,
+              CAST(pymt_txn_status_desc AS STRING) AS authResponse,
+              CAST(COALESCE(pymt_txn_dt, pymt_txn_req_dt, created_ts) AS STRING) AS authTime,
+              CAST(attrib_avs_code AS STRING) AS avsCode,
+              CAST(attrib_cvv_response AS STRING) AS cvvResponse,
+              CAST(ord_id AS STRING) AS originalOrderNumber,
+              CAST(NULL AS STRING) AS preSettled,
+              CAST(transaction_ref_id AS STRING) AS referenceNumber,
+              CAST(pymt_txn_id AS STRING) AS transactionId
+            ) AS authInfo,
+            CAST(card_alias AS STRING) AS cardAlias,
+            CAST(pymt_grp_id AS STRING) AS cardBin,
+            CAST(txn_card_last4 AS STRING) AS cardLast4,
+            CAST(card_token AS STRING) AS cardToken,
+            CAST(attrib_card_expiry_dt AS STRING) AS expirationDate,
+            CAST(attrib_card_type_display AS STRING) AS type
+          )
+        ELSE NULL END AS creditCard,
+        CASE WHEN pymt_type = 'Gift Card' THEN
+          STRUCT(
+            CAST(ABS(COALESCE(pymt_txn_amt,0)) AS STRING) AS amount,
+            CAST(auth_cd AS STRING) AS authCode,
+            CAST(attrib_card_last4 AS STRING) AS giftCardNumber,
+            CAST(ord_id AS STRING) AS originalOrderNumber,
+            CAST(NULL AS STRING) AS preSettled,
+            CAST(coalesce(PYMT_TXN_DT,pymt_txn_req_dt, created_ts) AS STRING) AS transactionDate,
+            CAST(pymt_txn_id AS STRING) AS transactionId
+          )
+        ELSE NULL END AS giftCard,
+        CASE WHEN pymt_type = 'PayPal' THEN
+          STRUCT(
+            CAST(ABS(COALESCE(pymt_txn_amt,0)) AS STRING) AS amount,
+            STRUCT(
+              CAST(ABS(COALESCE(pymt_txn_req_amt,0)) AS STRING) AS authAmount,
+              CAST(auth_cd AS STRING) AS authCode,
+              CAST(pymt_txn_status_desc AS STRING) AS authResponse,
+              CAST(COALESCE(pymt_txn_dt, pymt_txn_req_dt, created_ts) AS STRING) AS authTime,
+              CAST(attrib_avs_code AS STRING) AS avsCode,
+              CAST(attrib_cvv_response AS STRING) AS cvvResponse,
+              CAST(ord_id AS STRING) AS originalOrderNumber,
+              CAST(NULL AS STRING) AS preSettled,
+              CAST(transaction_ref_id AS STRING) AS referenceNumber,
+              CAST(pymt_txn_id AS STRING) AS transactionId
+            ) AS authInfo,
+            CAST(addr_email AS STRING) AS paypalEmailId,
+            CAST(coalesce(PYMT_TXN_DT,pymt_txn_req_dt, created_ts) AS STRING) AS transactionDate,
+            CAST(pymt_txn_id AS STRING) AS transactionId
+        )
+        ELSE NULL END AS paypal
+      )
+    ) AS Payments_Info
+  FROM payment pymt left join fct_mao_ord_tax_agg ord on  (pymt.org_id=ord.ol_org_id and pymt.ord_id=ord.ol_ord_id and pymt.ord_ln_id=ord.ol_ord_ln_id)
+  WHERE pymt.pymt_rnk = 1
+  GROUP BY all
 )
 SELECT
   CAST(ord_line.PRNT_ORD_ID AS STRING)                         AS order_id,
@@ -421,8 +462,8 @@ SELECT
   CAST(DATE(coalesce(ord_hdr.confirmed_ts,ord_hdr.captured_ts)) AS DATE) AS orderdate,
   CAST('MAO' AS STRING)                                    AS ref_source
 FROM fct_mao_ord_line ord_line
-  JOIN ${dom_gold_db}.${dom_gold_schema}.fct_mao_ord_hdr_v ord_hdr ON (ord_line.org_id = ord_hdr.org_id and ord_line.ord_id = ord_hdr.ord_id)
-  LEFT JOIN payment_grouped pmt ON ord_line.ORD_ID = pmt.ord_id AND ord_line.ORG_ID = pmt.ORG_ID
+  JOIN base_ord_hdr ord_hdr ON (ord_line.org_id = ord_hdr.org_id and ord_line.ord_id = ord_hdr.ord_id)
+  LEFT JOIN payment_grouped pmt ON (ord_line.org_id = pmt.org_id and ord_line.ord_id = pmt.ord_id and ord_line.ord_ln_id = pmt.ord_ln_id)
   LEFT JOIN ${dom_gold_db}.${dom_gold_schema}.DIM_MAO_EMPLOYEE_V emp ON ord_line.created_by = emp.user_id
   LEFT JOIN product_master pm ON ((ord_line.is_gift_card!=1 and trim(ord_line.item_id) = trim(pm.global_size_id) AND (CASE WHEN ord_line.ORG_ID IN ('FL-CA','CH-CA') THEN '98' ELSE '81' END)=pm.banner_id))
   LEFT JOIN product_master_div pm_div ON (ord_line.is_gift_card!=1 and trim(ord_line.item_id) = trim(pm_div.global_size_id) AND ord_line.ORG_ID = pm_div.org_desc)
